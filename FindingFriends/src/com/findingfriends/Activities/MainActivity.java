@@ -8,23 +8,33 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.ViewConfiguration;
 
-import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.example.findingfriends.R;
+import com.findingfriends.fragments.RegisterFragment;
+import com.findingfriends.fragments.SplashFragment;
 import com.findingfriends.services.AddressSyncService;
+import com.findingfriends.utils.FindingFriendsPreferences;
 
-public class MainActivity extends SherlockActivity {
+public class MainActivity extends SherlockFragmentActivity {
+	private RegisterFragment mRegisterFragment;
+	private FindingFriendsPreferences mPrefs;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		getSupportActionBar().hide();
 		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.KITKAT) {
 			getViewConfiguration();
 		}
+		mPrefs = new FindingFriendsPreferences(MainActivity.this);
 		startService(new Intent(this, AddressSyncService.class));
+		mRegisterFragment = new RegisterFragment();
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.main_activity, new SplashFragment()).commit();
 	}
 
 	/**
@@ -73,6 +83,23 @@ public class MainActivity extends SherlockActivity {
 			break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	public boolean isUserLoggedIn() {
+		return mPrefs.isUserLoggedIn();
+
+	}
+
+	public void gotoMainScreen() {
+
+	}
+
+	public void gotoRegisterView() {
+		getSupportFragmentManager()
+				.beginTransaction()
+				.setCustomAnimations(R.anim.slide_in_left,
+						R.anim.slide_out_right)
+				.replace(R.id.main_activity, mRegisterFragment).commit();
 	}
 
 }

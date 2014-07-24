@@ -37,4 +37,11 @@ public class FindingFriendsPreferences {
 		return mSharedPreferences.getString(PHONE_NUMBER, null);
 	}
 
+	public boolean isUserLoggedIn() {
+		if (getUserID() != null)
+			return true;
+		else
+			return false;
+	}
+
 }
