@@ -30,6 +30,9 @@ public class AddressSyncService extends Service {
 		mDbDigger=new ContactDbHelper(getApplicationContext());
 		updateDb();
 		//new ContactSyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		
+		//TODO to be shifted the following line of code to onPostMethod of async task
+		stopSelf();
 	}
 
 	private void updateDb() {
