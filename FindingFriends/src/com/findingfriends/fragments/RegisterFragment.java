@@ -21,8 +21,8 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.example.findingfriends.R;
-import com.findingfriemds.api.FindingFriendsApi;
 import com.findingfriends.Activities.MainActivity;
+import com.findingfriends.api.FindingFriendsApi;
 import com.findingfriends.api.models.RegisterRequest;
 import com.findingfriends.api.models.RegisterResponse;
 import com.findingfriends.helpers.PhoneNumberHelper;

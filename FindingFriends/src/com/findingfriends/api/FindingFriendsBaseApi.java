@@ -1,4 +1,4 @@
-package com.findingfriemds.api;
+package com.findingfriends.api;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
