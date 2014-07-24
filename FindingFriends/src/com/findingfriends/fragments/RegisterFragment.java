@@ -1,6 +1,7 @@
 package com.findingfriends.fragments;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
@@ -12,12 +13,14 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.example.findingfriends.R;
 import com.findingfriends.Activities.MainActivity;
+import com.findingfriends.helpers.PhoneNumberHelper;
+import com.findingfriends.utils.DeviceUtils;
 
 public class RegisterFragment extends SherlockFragment implements
 		OnClickListener {
@@ -25,6 +28,7 @@ public class RegisterFragment extends SherlockFragment implements
 	private EditText etName;
 	private EditText etPhoneNumber;
 	private Button btnSubmit;
+	private ProgressDialog mDialog;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,8 +76,56 @@ public class RegisterFragment extends SherlockFragment implements
 	public void onSubmit() {
 		String name = etName.getText().toString();
 		String phone = etPhoneNumber.getText().toString();
+		mDialog = ProgressDialog.show(mActivity, "Processing",
+				"Verifying input");
 		if (!name.isEmpty() && !phone.isEmpty()) {
-			// TODO call async class for submit activity
+
+			Runnable runnable = new Runnable() {
+				@Override
+				public void run() {
+					String inputNumber = etPhoneNumber.getText().toString();
+					if (!inputNumber.isEmpty()) {
+						PhoneNumberHelper pnHelper = new PhoneNumberHelper();
+						final String phoneNumber = pnHelper
+								.getPhoneNumberIfValid(inputNumber, DeviceUtils
+										.getCountryIso(getSherlockActivity()));
+						if (phoneNumber != null) {
+							mActivity.runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									etPhoneNumber.setText(phoneNumber);
+									mDialog.dismiss();
+									// TODO call async class for submit activity
+								}
+							});
+						} else {
+							mActivity.runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									Toast.makeText(mActivity,
+											"Invalid phone number.",
+											Toast.LENGTH_SHORT).show();
+									if (mDialog.isShowing())
+										mDialog.cancel();
+								}
+							});
+
+						}
+					} else {
+						mActivity.runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								Toast.makeText(mActivity,
+										"Phone number empty.",
+										Toast.LENGTH_SHORT).show();
+								if (mDialog.isShowing())
+									mDialog.cancel();
+							}
+						});
+					}
+				}
+			};
+			new Thread(runnable).start();
 
 		} else if (name.isEmpty()) {
 			Toast.makeText(getSherlockActivity(), "Please enter your name.",
