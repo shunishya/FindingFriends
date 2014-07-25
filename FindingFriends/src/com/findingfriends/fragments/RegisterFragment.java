@@ -1,7 +1,10 @@
 package com.findingfriends.fragments;
 
+import java.util.concurrent.ThreadPoolExecutor;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
@@ -19,8 +22,11 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.example.findingfriends.R;
 import com.findingfriends.Activities.MainActivity;
+import com.findingfriends.api.FindingFriendsApi;
+import com.findingfriends.api.models.RegisterRequest;
+import com.findingfriends.api.models.RegisterResponse;
 import com.findingfriends.helpers.PhoneNumberHelper;
-import com.findingfriends.utils.DeviceUtils;
+import com.findingfriends.utils.JsonUtil;
 
 public class RegisterFragment extends SherlockFragment implements
 		OnClickListener {
@@ -86,9 +92,11 @@ public class RegisterFragment extends SherlockFragment implements
 					String inputNumber = etPhoneNumber.getText().toString();
 					if (!inputNumber.isEmpty()) {
 						PhoneNumberHelper pnHelper = new PhoneNumberHelper();
+						// final String phoneNumber = pnHelper
+						// .getPhoneNumberIfValid(inputNumber, DeviceUtils
+						// .getCountryIso(getSherlockActivity()));
 						final String phoneNumber = pnHelper
-								.getPhoneNumberIfValid(inputNumber, DeviceUtils
-										.getCountryIso(getSherlockActivity()));
+								.getPhoneNumberIfValid(inputNumber, "NP");
 						if (phoneNumber != null) {
 							mActivity.runOnUiThread(new Runnable() {
 								@Override
@@ -96,6 +104,8 @@ public class RegisterFragment extends SherlockFragment implements
 									etPhoneNumber.setText(phoneNumber);
 									mDialog.dismiss();
 									// TODO call async class for submit activity
+									new RegisterUser()
+											.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 								}
 							});
 						} else {
@@ -140,6 +150,56 @@ public class RegisterFragment extends SherlockFragment implements
 	@Override
 	public void onClick(View v) {
 		onSubmit();
+	}
+
+	public class RegisterUser extends AsyncTask<Void, String, Object> {
+		String results;
+		String request;
+		private ProgressDialog progressDia;
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			progressDia = new ProgressDialog(getSherlockActivity());
+			progressDia.setTitle("Processing");
+			progressDia.setMessage("Sending your request....");
+			progressDia.show();
+		}
+
+		@Override
+		protected Object doInBackground(Void... params) {
+			FindingFriendsApi api = new FindingFriendsApi(getSherlockActivity());
+			RegisterRequest req = new RegisterRequest();
+			req.setPhoneNumber(etPhoneNumber.getText().toString());
+			req.setUserName(etName.getText().toString());
+			req.setGps_lat(10.3673763748848);
+			req.setGps_long(85.101010019);
+			request = JsonUtil.writeValue(req);
+			return api.sendRegisterRequest(req);
+		}
+
+		@Override
+		protected void onPostExecute(Object result) {
+			super.onPostExecute(result);
+			if (progressDia.isShowing())
+				progressDia.dismiss();
+			if (result instanceof RegisterResponse) {
+				RegisterResponse response = (RegisterResponse) result;
+				if (!response.isError()) {
+					Toast.makeText(getSherlockActivity(), "Register Success",
+							Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(getSherlockActivity(), "Error",
+							Toast.LENGTH_SHORT).show();
+				}
+
+			} else {
+				Toast.makeText(getSherlockActivity(), "Error",
+						Toast.LENGTH_SHORT).show();
+			}
+
+		}
+
 	}
 
 }

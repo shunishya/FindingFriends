@@ -17,7 +17,6 @@ import com.findingfriends.db.model.ContactDb;
 import com.findingfriends.dbhelpers.ContactDbHelper;
 import com.findingfriends.helpers.PhoneNumberHelper;
 import com.findingfriends.models.ContactModel;
-import com.findingfriends.utils.DeviceUtils;
 
 public class AddressSyncService extends Service {
 	private ContactDbHelper mDbDigger;
@@ -27,7 +26,8 @@ public class AddressSyncService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		if(defaultCountryCode==null)
-			defaultCountryCode=DeviceUtils.getCountryIso(getApplicationContext());
+			//defaultCountryCode=DeviceUtils.getCountryIso(getApplicationContext());
+			defaultCountryCode="NP";
 		mDbDigger=new ContactDbHelper(getApplicationContext());
 		updateDb();
 		//new ContactSyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
