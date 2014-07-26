@@ -36,7 +36,9 @@ public class PhoneNumberHelper {
 			PhoneNumber phoneNumber = mPhoneUtil.parse(phoneNumberString,
 					countryCode);
 			if (mPhoneUtil.isValidNumber(phoneNumber)) {
-				return String.valueOf(phoneNumber.getNationalNumber());
+				return getContactNumberCountry(phoneNumberString, countryCode)
+						.getPhonenumber();
+				// return String.valueOf(phoneNumber.getNationalNumber());
 			}
 		} catch (NumberParseException e) {
 			// return false;
@@ -54,10 +56,11 @@ public class PhoneNumberHelper {
 					countryString);
 			if (mPhoneUtil.isValidNumber(phoneNumber)) {
 				if (mPhoneUtil.getNumberType(phoneNumber).equals(
-						PhoneNumberUtil.PhoneNumberType.MOBILE))
+						PhoneNumberUtil.PhoneNumberType.MOBILE)) {
 					contact.setPhonenumber(mPhoneUtil
 							.getNationalSignificantNumber(phoneNumber));
-				return contact;
+					return contact;
+				}
 			}
 		} catch (NumberParseException e) {
 

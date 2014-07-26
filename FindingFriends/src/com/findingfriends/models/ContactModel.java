@@ -1,9 +1,10 @@
 package com.findingfriends.models;
 
 public class ContactModel {
-	String phonenumber;
-	String user_id;
-
+	private String phonenumber;
+	private String user_id;
+	private String name;
+	
 	public String getPhonenumber() {
 		return phonenumber;
 	}
@@ -19,6 +20,14 @@ public class ContactModel {
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
 
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

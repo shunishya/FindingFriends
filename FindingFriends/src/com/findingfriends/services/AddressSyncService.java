@@ -12,12 +12,18 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.provider.ContactsContract;
+import android.widget.Toast;
 
+import com.findingfriends.api.FindingFriendsApi;
+import com.findingfriends.api.FindingFriendsException;
+import com.findingfriends.api.models.ContactSyncRequest;
+import com.findingfriends.api.models.SyncContactResponse;
 import com.findingfriends.db.model.ContactDb;
 import com.findingfriends.dbhelpers.ContactDbHelper;
 import com.findingfriends.helpers.PhoneNumberHelper;
 import com.findingfriends.models.ContactModel;
 import com.findingfriends.utils.DeviceUtils;
+import com.findingfriends.utils.FindingFriendsPreferences;
 
 public class AddressSyncService extends Service {
 	private ContactDbHelper mDbDigger;
@@ -31,12 +37,11 @@ public class AddressSyncService extends Service {
 					.getCountryIso(getApplicationContext());
 		mDbDigger = new ContactDbHelper(getApplicationContext());
 		updateDb();
-		// new
-		// ContactSyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		new ContactSyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
 		// TODO to be shifted the following line of code to onPostMethod of
 		// async task
-		stopSelf();
+		
 	}
 
 	private void updateDb() {
@@ -136,18 +141,41 @@ public class AddressSyncService extends Service {
 	 * 
 	 */
 	private class ContactSyncTask extends AsyncTask<Void, Void, Object> {
+		FindingFriendsApi api = new FindingFriendsApi(getApplicationContext());
+		FindingFriendsPreferences mPrefs = new FindingFriendsPreferences(
+				getApplicationContext());
 
 		@Override
 		protected Object doInBackground(Void... params) {
+			ContactSyncRequest syncRequest = new ContactSyncRequest();
 			List<ContactModel> contactsToBeAdd = mDbDigger.getNonAppUsers();
 			List<String> contactsTobeDelete = mDbDigger.getDeletedContactUId();
-			return null;
+			syncRequest.setContactsTobeAdd(contactsToBeAdd);
+			syncRequest.setContactsToBeDeleted(contactsTobeDelete);
+			syncRequest.setUser_id(mPrefs.getUserID());
+			try {
+				return api.contactSync(syncRequest);
+			} catch (FindingFriendsException e) {
+				e.printStackTrace();
+				return e;
+			}
 
 		}
 
 		@Override
 		protected void onPostExecute(Object result) {
 			super.onPostExecute(result);
+			if (result instanceof SyncContactResponse) {
+				SyncContactResponse res = (SyncContactResponse) result;
+				int count = mDbDigger.updateDbFromWebService(res.getAppUsers());
+				Toast.makeText(getApplicationContext(),
+						"Updates Contacts: " + count, Toast.LENGTH_SHORT)
+						.show();
+			} else if (result instanceof FindingFriendsException) {
+				Toast.makeText(getApplicationContext(), "Error",
+						Toast.LENGTH_SHORT).show();
+			}
+			stopSelf();
 
 		}
 	}

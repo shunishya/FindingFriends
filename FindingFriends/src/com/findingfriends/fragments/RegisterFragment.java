@@ -2,6 +2,7 @@ package com.findingfriends.fragments;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,7 +26,9 @@ import com.findingfriends.api.FindingFriendsException;
 import com.findingfriends.api.models.RegisterRequest;
 import com.findingfriends.api.models.RegisterResponse;
 import com.findingfriends.helpers.PhoneNumberHelper;
+import com.findingfriends.services.AddressSyncService;
 import com.findingfriends.utils.DeviceUtils;
+import com.findingfriends.utils.FindingFriendsPreferences;
 import com.findingfriends.utils.JsonUtil;
 
 public class RegisterFragment extends SherlockFragment implements
@@ -92,10 +95,10 @@ public class RegisterFragment extends SherlockFragment implements
 					String inputNumber = etPhoneNumber.getText().toString();
 					if (!inputNumber.isEmpty()) {
 						PhoneNumberHelper pnHelper = new PhoneNumberHelper();
-						 final String phoneNumber = pnHelper
-						 .getPhoneNumberIfValid(inputNumber, DeviceUtils
-						 .getCountryIso(getSherlockActivity()));
-						
+						final String phoneNumber = pnHelper
+								.getPhoneNumberIfValid(inputNumber, DeviceUtils
+										.getCountryIso(getSherlockActivity()));
+
 						if (phoneNumber != null) {
 							mActivity.runOnUiThread(new Runnable() {
 								@Override
@@ -155,6 +158,8 @@ public class RegisterFragment extends SherlockFragment implements
 		String results;
 		String request;
 		private ProgressDialog progressDia;
+		FindingFriendsPreferences mPrefs = new FindingFriendsPreferences(
+				getSherlockActivity());
 
 		@Override
 		protected void onPreExecute() {
@@ -190,14 +195,16 @@ public class RegisterFragment extends SherlockFragment implements
 			if (result instanceof RegisterResponse) {
 				RegisterResponse response = (RegisterResponse) result;
 				if (!response.isError()) {
+					mPrefs.setUserID(response.getUser_id());
 					Toast.makeText(getSherlockActivity(), "Register Success",
 							Toast.LENGTH_SHORT).show();
+					getSherlockActivity().startService(new Intent(getSherlockActivity(), AddressSyncService.class));
 				} else {
 					Toast.makeText(getSherlockActivity(), "Error",
 							Toast.LENGTH_SHORT).show();
 				}
 
-			} else if(result instanceof FindingFriendsException){
+			} else if (result instanceof FindingFriendsException) {
 				Toast.makeText(getSherlockActivity(), "Exception",
 						Toast.LENGTH_SHORT).show();
 			}

@@ -15,11 +15,12 @@ import com.findingfriends.utils.JsonUtil;
 
 public class FindingFriendsBaseApi {
 	HttpClient client = new DefaultHttpClient();
-	String url = "http://192.168.1.106:8080/Finding_Friends_Server/webresources/register";
+	String register_url = "http://192.168.1.106:8080/Finding_Friends_Server/webresources/register";
+	String sync_contact_url="http://192.168.1.106:8080/Finding_Friends_Server/webresources/synccontact";
 
 	public String getData() throws FindingFriendsException {
 		// Prepare a request object
-		HttpGet httpget = new HttpGet(url);
+		HttpGet httpget = new HttpGet(register_url);
 		InputStream instream;
 
 		// Execute the request
@@ -59,7 +60,7 @@ public class FindingFriendsBaseApi {
 
 	}
 
-	public InputStream postData(String data) throws FindingFriendsException {
+	public InputStream postData(String data,String url) throws FindingFriendsException {
 		// Prepare a request object
 		HttpPost httpPost = new HttpPost(url);
 		InputStream instream;
