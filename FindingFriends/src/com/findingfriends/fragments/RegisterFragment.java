@@ -92,11 +92,11 @@ public class RegisterFragment extends SherlockFragment implements
 					String inputNumber = etPhoneNumber.getText().toString();
 					if (!inputNumber.isEmpty()) {
 						PhoneNumberHelper pnHelper = new PhoneNumberHelper();
-						// final String phoneNumber = pnHelper
-						// .getPhoneNumberIfValid(inputNumber, DeviceUtils
-						// .getCountryIso(getSherlockActivity()));
-						final String phoneNumber = pnHelper
-								.getPhoneNumberIfValid(inputNumber, "NP");
+						 final String phoneNumber = pnHelper
+						 .getPhoneNumberIfValid(inputNumber, DeviceUtils
+						 .getCountryIso(getSherlockActivity()));
+//						final String phoneNumber = pnHelper
+//								.getPhoneNumberIfValid(inputNumber, "NP");
 						if (phoneNumber != null) {
 							mActivity.runOnUiThread(new Runnable() {
 								@Override
