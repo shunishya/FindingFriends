@@ -1,7 +1,5 @@
 package com.findingfriends.fragments;
 
-import java.util.concurrent.ThreadPoolExecutor;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -23,9 +21,11 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.example.findingfriends.R;
 import com.findingfriends.Activities.MainActivity;
 import com.findingfriends.api.FindingFriendsApi;
+import com.findingfriends.api.FindingFriendsException;
 import com.findingfriends.api.models.RegisterRequest;
 import com.findingfriends.api.models.RegisterResponse;
 import com.findingfriends.helpers.PhoneNumberHelper;
+import com.findingfriends.utils.DeviceUtils;
 import com.findingfriends.utils.JsonUtil;
 
 public class RegisterFragment extends SherlockFragment implements
@@ -92,11 +92,10 @@ public class RegisterFragment extends SherlockFragment implements
 					String inputNumber = etPhoneNumber.getText().toString();
 					if (!inputNumber.isEmpty()) {
 						PhoneNumberHelper pnHelper = new PhoneNumberHelper();
-						// final String phoneNumber = pnHelper
-						// .getPhoneNumberIfValid(inputNumber, DeviceUtils
-						// .getCountryIso(getSherlockActivity()));
-						final String phoneNumber = pnHelper
-								.getPhoneNumberIfValid(inputNumber, "NP");
+						 final String phoneNumber = pnHelper
+						 .getPhoneNumberIfValid(inputNumber, DeviceUtils
+						 .getCountryIso(getSherlockActivity()));
+						
 						if (phoneNumber != null) {
 							mActivity.runOnUiThread(new Runnable() {
 								@Override
@@ -175,7 +174,12 @@ public class RegisterFragment extends SherlockFragment implements
 			req.setGps_lat(10.3673763748848);
 			req.setGps_long(85.101010019);
 			request = JsonUtil.writeValue(req);
-			return api.sendRegisterRequest(req);
+			try {
+				return api.sendRegisterRequest(req);
+			} catch (FindingFriendsException e) {
+				e.printStackTrace();
+				return e;
+			}
 		}
 
 		@Override
@@ -193,8 +197,8 @@ public class RegisterFragment extends SherlockFragment implements
 							Toast.LENGTH_SHORT).show();
 				}
 
-			} else {
-				Toast.makeText(getSherlockActivity(), "Error",
+			} else if(result instanceof FindingFriendsException){
+				Toast.makeText(getSherlockActivity(), "Exception",
 						Toast.LENGTH_SHORT).show();
 			}
 

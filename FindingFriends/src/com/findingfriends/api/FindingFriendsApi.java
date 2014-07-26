@@ -16,12 +16,17 @@ public class FindingFriendsApi extends FindingFriendsBaseApi {
 		this.mContext = context;
 	}
 
-	public RegisterResponse sendRegisterRequest(RegisterRequest request) {
+	public RegisterResponse sendRegisterRequest(RegisterRequest request)
+			throws FindingFriendsException {
 		RegisterResponse response = new RegisterResponse();
 		InputStream res = postData(JsonUtil.writeValue(request));
 		if (res != null) {
 			response = (RegisterResponse) JsonUtil.readJson(res,
 					RegisterResponse.class);
+			if (response.isError()) {
+				throw new FindingFriendsException("ILoopException:"
+						+ response.getMessage());
+			}
 		} else {
 			response.setError(true);
 		}

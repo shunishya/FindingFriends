@@ -17,6 +17,7 @@ import com.findingfriends.db.model.ContactDb;
 import com.findingfriends.dbhelpers.ContactDbHelper;
 import com.findingfriends.helpers.PhoneNumberHelper;
 import com.findingfriends.models.ContactModel;
+import com.findingfriends.utils.DeviceUtils;
 
 public class AddressSyncService extends Service {
 	private ContactDbHelper mDbDigger;
@@ -25,14 +26,16 @@ public class AddressSyncService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		if(defaultCountryCode==null)
-			//defaultCountryCode=DeviceUtils.getCountryIso(getApplicationContext());
-			defaultCountryCode="NP";
-		mDbDigger=new ContactDbHelper(getApplicationContext());
+		if (defaultCountryCode == null)
+			defaultCountryCode = DeviceUtils
+					.getCountryIso(getApplicationContext());
+		mDbDigger = new ContactDbHelper(getApplicationContext());
 		updateDb();
-		//new ContactSyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-		
-		//TODO to be shifted the following line of code to onPostMethod of async task
+		// new
+		// ContactSyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+		// TODO to be shifted the following line of code to onPostMethod of
+		// async task
 		stopSelf();
 	}
 
@@ -136,9 +139,8 @@ public class AddressSyncService extends Service {
 
 		@Override
 		protected Object doInBackground(Void... params) {
-			List<ContactModel> mNonAppUsers = mDbDigger
-					.getNonAppUsers();
-			List<String> deletedContacts = mDbDigger.getDeletedContactUId();
+			List<ContactModel> contactsToBeAdd = mDbDigger.getNonAppUsers();
+			List<String> contactsTobeDelete = mDbDigger.getDeletedContactUId();
 			return null;
 
 		}
