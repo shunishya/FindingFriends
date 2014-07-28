@@ -86,12 +86,12 @@ public class MainActivity extends SherlockFragmentActivity {
 	}
 
 	public boolean isUserLoggedIn() {
-		//return mPrefs.isUserLoggedIn();
-		return false;
+		return mPrefs.isUserLoggedIn();
+		//return false;
 	}
 
 	public void gotoMainScreen() {
-
+		startActivity(new Intent(this,MapActivity.class));
 	}
 
 	public void gotoRegisterView() {

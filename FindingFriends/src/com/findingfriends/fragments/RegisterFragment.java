@@ -177,6 +177,7 @@ public class RegisterFragment extends SherlockFragment implements
 
 		@Override
 		protected Object doInBackground(Void... params) {
+			
 			FindingFriendsApi api = new FindingFriendsApi(getSherlockActivity());
 			RegisterRequest req = new RegisterRequest();
 			req.setPhoneNumber(etPhoneNumber.getText().toString());
@@ -205,6 +206,7 @@ public class RegisterFragment extends SherlockFragment implements
 					Toast.makeText(getSherlockActivity(), "Register Success",
 							Toast.LENGTH_SHORT).show();
 					getSherlockActivity().startService(new Intent(getSherlockActivity(), AddressSyncService.class));
+					mActivity.gotoMainScreen();
 				} else {
 					Toast.makeText(getSherlockActivity(), "Error",
 							Toast.LENGTH_SHORT).show();

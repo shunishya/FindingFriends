@@ -18,8 +18,8 @@ public class FindingFriendsBaseApi {
 //	String register_url = "http://192.168.1.106:8080/Finding_Friends_Server/webresources/register";
 //	String sync_contact_url="http://192.168.1.106:8080/Finding_Friends_Server/webresources/synccontact";
 //	
-	String register_url = "http://192.168.0.106:8080/Finding_Friends_Server/webresources/register";
-	String sync_contact_url="http://192.168.0.106:8080/Finding_Friends_Server/webresources/synccontact";
+	String register_url = "http://192.168.1.107:8080/Finding_Friends_Server/webresources/register";
+	String sync_contact_url="http://192.168.1.107:8080/Finding_Friends_Server/webresources/synccontact";
 
 	public String getData() throws FindingFriendsException {
 		// Prepare a request object

@@ -15,11 +15,11 @@ public final class R {
 		public static final int activity_vertical_margin = 0x7f090001;
 	}
 	public static final class drawable {
-		public static final int ic_action_dbinspector_settings = 0x7f020088;
-		public static final int ic_launcher_dbinspector = 0x7f02008a;
+		public static final int ic_action_dbinspector_settings = 0x7f02008a;
+		public static final int ic_launcher_dbinspector = 0x7f02008c;
 	}
 	public static final class id {
-		public static final int dbinspector_action_settings = 0x7f070042;
+		public static final int dbinspector_action_settings = 0x7f070046;
 		public static final int dbinspector_button_next = 0x7f07003b;
 		public static final int dbinspector_button_previous = 0x7f070039;
 		public static final int dbinspector_container = 0x7f070037;

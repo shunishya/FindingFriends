@@ -811,10 +811,10 @@ containing a value of this type.
         public static final int abs__bright_foreground_disabled_holo_light=0x7f06000f;
         public static final int abs__bright_foreground_holo_dark=0x7f06000c;
         public static final int abs__bright_foreground_holo_light=0x7f06000d;
-        public static final int abs__primary_text_disable_only_holo_dark=0x7f060010;
-        public static final int abs__primary_text_disable_only_holo_light=0x7f060011;
-        public static final int abs__primary_text_holo_dark=0x7f060012;
-        public static final int abs__primary_text_holo_light=0x7f060013;
+        public static final int abs__primary_text_disable_only_holo_dark=0x7f060011;
+        public static final int abs__primary_text_disable_only_holo_light=0x7f060012;
+        public static final int abs__primary_text_holo_dark=0x7f060013;
+        public static final int abs__primary_text_holo_light=0x7f060014;
         public static final int common_action_bar_splitter=0x7f060009;
         /**  Sign-in Button Colors 
          */
@@ -827,8 +827,9 @@ containing a value of this type.
         public static final int common_signin_btn_light_text_disabled=0x7f060006;
         public static final int common_signin_btn_light_text_focused=0x7f060007;
         public static final int common_signin_btn_light_text_pressed=0x7f060005;
-        public static final int common_signin_btn_text_dark=0x7f060014;
-        public static final int common_signin_btn_text_light=0x7f060015;
+        public static final int common_signin_btn_text_dark=0x7f060015;
+        public static final int common_signin_btn_text_light=0x7f060016;
+        public static final int light_theme_color=0x7f060010;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -1045,33 +1046,36 @@ containing a value of this type.
         public static final int abs__textfield_searchview_right_holo_dark=0x7f02006d;
         public static final int abs__textfield_searchview_right_holo_light=0x7f02006e;
         public static final int abs__toast_frame=0x7f02006f;
-        public static final int common_signin_btn_icon_dark=0x7f020070;
-        public static final int common_signin_btn_icon_disabled_dark=0x7f020071;
-        public static final int common_signin_btn_icon_disabled_focus_dark=0x7f020072;
-        public static final int common_signin_btn_icon_disabled_focus_light=0x7f020073;
-        public static final int common_signin_btn_icon_disabled_light=0x7f020074;
-        public static final int common_signin_btn_icon_focus_dark=0x7f020075;
-        public static final int common_signin_btn_icon_focus_light=0x7f020076;
-        public static final int common_signin_btn_icon_light=0x7f020077;
-        public static final int common_signin_btn_icon_normal_dark=0x7f020078;
-        public static final int common_signin_btn_icon_normal_light=0x7f020079;
-        public static final int common_signin_btn_icon_pressed_dark=0x7f02007a;
-        public static final int common_signin_btn_icon_pressed_light=0x7f02007b;
-        public static final int common_signin_btn_text_dark=0x7f02007c;
-        public static final int common_signin_btn_text_disabled_dark=0x7f02007d;
-        public static final int common_signin_btn_text_disabled_focus_dark=0x7f02007e;
-        public static final int common_signin_btn_text_disabled_focus_light=0x7f02007f;
-        public static final int common_signin_btn_text_disabled_light=0x7f020080;
-        public static final int common_signin_btn_text_focus_dark=0x7f020081;
-        public static final int common_signin_btn_text_focus_light=0x7f020082;
-        public static final int common_signin_btn_text_light=0x7f020083;
-        public static final int common_signin_btn_text_normal_dark=0x7f020084;
-        public static final int common_signin_btn_text_normal_light=0x7f020085;
-        public static final int common_signin_btn_text_pressed_dark=0x7f020086;
-        public static final int common_signin_btn_text_pressed_light=0x7f020087;
-        public static final int ic_action_dbinspector_settings=0x7f020088;
-        public static final int ic_launcher=0x7f020089;
-        public static final int ic_launcher_dbinspector=0x7f02008a;
+        public static final int background_gradient_color=0x7f020070;
+        public static final int common_signin_btn_icon_dark=0x7f020071;
+        public static final int common_signin_btn_icon_disabled_dark=0x7f020072;
+        public static final int common_signin_btn_icon_disabled_focus_dark=0x7f020073;
+        public static final int common_signin_btn_icon_disabled_focus_light=0x7f020074;
+        public static final int common_signin_btn_icon_disabled_light=0x7f020075;
+        public static final int common_signin_btn_icon_focus_dark=0x7f020076;
+        public static final int common_signin_btn_icon_focus_light=0x7f020077;
+        public static final int common_signin_btn_icon_light=0x7f020078;
+        public static final int common_signin_btn_icon_normal_dark=0x7f020079;
+        public static final int common_signin_btn_icon_normal_light=0x7f02007a;
+        public static final int common_signin_btn_icon_pressed_dark=0x7f02007b;
+        public static final int common_signin_btn_icon_pressed_light=0x7f02007c;
+        public static final int common_signin_btn_text_dark=0x7f02007d;
+        public static final int common_signin_btn_text_disabled_dark=0x7f02007e;
+        public static final int common_signin_btn_text_disabled_focus_dark=0x7f02007f;
+        public static final int common_signin_btn_text_disabled_focus_light=0x7f020080;
+        public static final int common_signin_btn_text_disabled_light=0x7f020081;
+        public static final int common_signin_btn_text_focus_dark=0x7f020082;
+        public static final int common_signin_btn_text_focus_light=0x7f020083;
+        public static final int common_signin_btn_text_light=0x7f020084;
+        public static final int common_signin_btn_text_normal_dark=0x7f020085;
+        public static final int common_signin_btn_text_normal_light=0x7f020086;
+        public static final int common_signin_btn_text_pressed_dark=0x7f020087;
+        public static final int common_signin_btn_text_pressed_light=0x7f020088;
+        public static final int edit_text_bg=0x7f020089;
+        public static final int ic_action_dbinspector_settings=0x7f02008a;
+        public static final int ic_launcher=0x7f02008b;
+        public static final int ic_launcher_dbinspector=0x7f02008c;
+        public static final int icon=0x7f02008d;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f070024;
@@ -1113,8 +1117,10 @@ containing a value of this type.
         public static final int abs__textButton=0x7f070017;
         public static final int abs__title=0x7f07001f;
         public static final int abs__up=0x7f07000f;
+        public static final int btnAway=0x7f070045;
+        public static final int btnNavigate=0x7f070044;
         public static final int btnSubmit=0x7f070041;
-        public static final int dbinspector_action_settings=0x7f070042;
+        public static final int dbinspector_action_settings=0x7f070046;
         public static final int dbinspector_button_next=0x7f07003b;
         public static final int dbinspector_button_previous=0x7f070039;
         public static final int dbinspector_container=0x7f070037;
@@ -1130,12 +1136,14 @@ containing a value of this type.
         public static final int homeAsUp=0x7f07000a;
         public static final int hybrid=0x7f070004;
         public static final int listMode=0x7f070006;
+        public static final int llButtons=0x7f070043;
+        public static final int lvNearestPeople=0x7f070042;
         public static final int main_activity=0x7f070036;
         public static final int none=0x7f070000;
         public static final int normal=0x7f070001;
         public static final int satellite=0x7f070002;
         public static final int showCustom=0x7f07000c;
-        public static final int showDb=0x7f070043;
+        public static final int showDb=0x7f070047;
         public static final int showHome=0x7f070009;
         public static final int showTitle=0x7f07000b;
         public static final int tabMode=0x7f070007;
@@ -1173,8 +1181,9 @@ containing a value of this type.
         public static final int dbinspector_fragment_table=0x7f030017;
         public static final int fragment_register=0x7f030018;
         public static final int fragment_splash=0x7f030019;
-        public static final int sherlock_spinner_dropdown_item=0x7f03001a;
-        public static final int sherlock_spinner_item=0x7f03001b;
+        public static final int layout_map_activity=0x7f03001a;
+        public static final int sherlock_spinner_dropdown_item=0x7f03001b;
+        public static final int sherlock_spinner_item=0x7f03001c;
     }
     public static final class menu {
         public static final int dbinspector_fragment_table=0x7f0e0000;

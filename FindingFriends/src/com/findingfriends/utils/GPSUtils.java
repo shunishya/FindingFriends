@@ -32,7 +32,7 @@ public class GPSUtils {
 	LocationListener mlocListener;
 	static LatLng POS_LAT_LNG;
 	Criteria criteria;
-	
+
 	public GPSUtils(Context context) {
 		this.mContext = context;
 		turnGPSOn();
@@ -41,13 +41,21 @@ public class GPSUtils {
 		mlocListener = new MyLocationListener();
 		criteria = new Criteria();
 		best = mlocManager.getBestProvider(criteria, true);
-		if(mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-			mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
-			location = mlocManager.getLastKnownLocation(best);
+		if (mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+					0, mlocListener);
+			location = mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 			mlocListener.onLocationChanged(location);
-			
-		}else if(mlocManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
-			mlocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
+
+		} else if (mlocManager
+				.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+			mlocManager.requestLocationUpdates(
+					LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
+			location = mlocManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+			mlocListener.onLocationChanged(location);
+		}else{
+			mlocManager.requestLocationUpdates(
+					LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
 			location = mlocManager.getLastKnownLocation(best);
 			mlocListener.onLocationChanged(location);
 		}
