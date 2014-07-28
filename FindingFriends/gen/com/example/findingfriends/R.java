@@ -913,10 +913,12 @@ containing a value of this type.
         public static final int abs__textfield_searchview_right_holo_dark=0x7f02006d;
         public static final int abs__textfield_searchview_right_holo_light=0x7f02006e;
         public static final int abs__toast_frame=0x7f02006f;
-        public static final int ic_action_dbinspector_settings=0x7f020070;
-        public static final int ic_launcher=0x7f020071;
-        public static final int ic_launcher_dbinspector=0x7f020072;
-        public static final int icon=0x7f020073;
+        public static final int background_gradient_color=0x7f020070;
+        public static final int edit_text_bg=0x7f020071;
+        public static final int ic_action_dbinspector_settings=0x7f020072;
+        public static final int ic_launcher=0x7f020073;
+        public static final int ic_launcher_dbinspector=0x7f020074;
+        public static final int icon=0x7f020075;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f090020;

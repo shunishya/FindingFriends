@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center" >
+    android:gravity="center" 
+    android:background="@drawable/background_gradient_color">
      <EditText 
         android:id="@+id/etName"
         android:layout_width="match_parent"
@@ -10,6 +11,8 @@
         android:hint="@string/enter_your_name"
         android:imeOptions="actionNext"
         android:layout_margin="10dp"
+        android:padding="10dp"
+        android:background="@drawable/edit_text_bg"
         android:inputType="textCapSentences"/>
     <EditText 
         android:id="@+id/etPhoneNumber"
@@ -17,8 +20,10 @@
         android:layout_height="wrap_content"
         android:hint="@string/enter_your_phone_number"
         android:inputType="phone"
+        android:padding="10dp"
         android:layout_margin="10dp"
         android:imeOptions="actionDone"
+         android:background="@drawable/edit_text_bg"
         android:layout_below="@+id/etName"/>
     <Button 
         android:id="@+id/btnSubmit"

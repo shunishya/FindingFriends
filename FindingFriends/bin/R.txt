@@ -244,10 +244,12 @@ int drawable abs__textfield_searchview_holo_light 0x7f02006c
 int drawable abs__textfield_searchview_right_holo_dark 0x7f02006d
 int drawable abs__textfield_searchview_right_holo_light 0x7f02006e
 int drawable abs__toast_frame 0x7f02006f
-int drawable ic_action_dbinspector_settings 0x7f020070
-int drawable ic_launcher 0x7f020071
-int drawable ic_launcher_dbinspector 0x7f020072
-int drawable icon 0x7f020073
+int drawable background_gradient_color 0x7f020070
+int drawable edit_text_bg 0x7f020071
+int drawable ic_action_dbinspector_settings 0x7f020072
+int drawable ic_launcher 0x7f020073
+int drawable ic_launcher_dbinspector 0x7f020074
+int drawable icon 0x7f020075
 int id abs__action_bar 0x7f090020
 int id abs__action_bar_container 0x7f09001f
 int id abs__action_bar_subtitle 0x7f090011

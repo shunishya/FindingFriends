@@ -15,8 +15,8 @@ public final class R {
 		public static final int activity_vertical_margin = 0x7f060001;
 	}
 	public static final class drawable {
-		public static final int ic_action_dbinspector_settings = 0x7f020070;
-		public static final int ic_launcher_dbinspector = 0x7f020072;
+		public static final int ic_action_dbinspector_settings = 0x7f020072;
+		public static final int ic_launcher_dbinspector = 0x7f020074;
 	}
 	public static final class id {
 		public static final int dbinspector_action_settings = 0x7f09003e;
