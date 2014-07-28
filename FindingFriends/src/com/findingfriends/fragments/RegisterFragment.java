@@ -3,6 +3,7 @@ package com.findingfriends.fragments;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,6 +30,7 @@ import com.findingfriends.helpers.PhoneNumberHelper;
 import com.findingfriends.services.AddressSyncService;
 import com.findingfriends.utils.DeviceUtils;
 import com.findingfriends.utils.FindingFriendsPreferences;
+import com.findingfriends.utils.GPSUtils;
 import com.findingfriends.utils.JsonUtil;
 
 public class RegisterFragment extends SherlockFragment implements
@@ -38,6 +40,7 @@ public class RegisterFragment extends SherlockFragment implements
 	private EditText etPhoneNumber;
 	private Button btnSubmit;
 	private ProgressDialog mDialog;
+	private GPSUtils gpsUtils;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,6 +51,7 @@ public class RegisterFragment extends SherlockFragment implements
 		etName = (EditText) rootView.findViewById(R.id.etName);
 		etPhoneNumber = (EditText) rootView.findViewById(R.id.etPhoneNumber);
 		btnSubmit = (Button) rootView.findViewById(R.id.btnSubmit);
+		gpsUtils=new GPSUtils(getSherlockActivity());
 		etPhoneNumber.setOnEditorActionListener(new OnEditorActionListener() {
 
 			@Override
@@ -158,6 +162,7 @@ public class RegisterFragment extends SherlockFragment implements
 		String results;
 		String request;
 		private ProgressDialog progressDia;
+		private Location loc;
 		FindingFriendsPreferences mPrefs = new FindingFriendsPreferences(
 				getSherlockActivity());
 
@@ -176,8 +181,9 @@ public class RegisterFragment extends SherlockFragment implements
 			RegisterRequest req = new RegisterRequest();
 			req.setPhoneNumber(etPhoneNumber.getText().toString());
 			req.setUserName(etName.getText().toString());
-			req.setGps_lat(10.3673763748848);
-			req.setGps_long(85.101010019);
+			loc=gpsUtils.getLocation();
+			req.setGps_lat(loc.getLatitude());
+			req.setGps_long(loc.getLongitude());
 			request = JsonUtil.writeValue(req);
 			try {
 				return api.sendRegisterRequest(req);

@@ -18,6 +18,8 @@ public class SyncContactResponse {
 
 	private List<ContactModel> appUsers;
 
+	private String message;
+
 	public List<ContactModel> getAppUsers() {
 		return appUsers;
 	}
@@ -32,6 +34,14 @@ public class SyncContactResponse {
 
 	public void setError(boolean error) {
 		this.error = error;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 }

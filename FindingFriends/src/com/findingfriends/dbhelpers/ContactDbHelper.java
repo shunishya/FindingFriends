@@ -75,6 +75,7 @@ public class ContactDbHelper {
 					.isNull(ContactDb.FIELD_USER_ID).query()) {
 				ContactModel model = new ContactModel();
 				model.setPhonenumber(contact.getPhone());
+				model.setName(contact.getName());
 				nonIloopContacts.add(model);
 			}
 		} catch (SQLException e) {
