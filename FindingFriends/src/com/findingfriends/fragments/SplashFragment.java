@@ -1,6 +1,7 @@
 package com.findingfriends.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.example.findingfriends.R;
 import com.findingfriends.Activities.MainActivity;
+import com.findingfriends.services.AddressSyncService;
 
 public class SplashFragment extends SherlockFragment {
 	private MainActivity mActivity;
@@ -36,7 +38,9 @@ public class SplashFragment extends SherlockFragment {
 		final Runnable r = new Runnable() {
 			public void run() {
 				if (mActivity.isUserLoggedIn()) {
+					getSherlockActivity().startService(new Intent(getSherlockActivity(), AddressSyncService.class));
 					mActivity.gotoMainScreen();
+					
 				} else{
 					mActivity.gotoRegisterView();
 				}

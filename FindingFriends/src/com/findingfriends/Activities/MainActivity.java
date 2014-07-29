@@ -31,7 +31,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			getViewConfiguration();
 		}
 		mPrefs = new FindingFriendsPreferences(MainActivity.this);
-		startService(new Intent(this, AddressSyncService.class));
+		
 		mRegisterFragment = new RegisterFragment();
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.main_activity, new SplashFragment()).commit();
@@ -87,11 +87,11 @@ public class MainActivity extends SherlockFragmentActivity {
 
 	public boolean isUserLoggedIn() {
 		return mPrefs.isUserLoggedIn();
-
+		//return false;
 	}
 
 	public void gotoMainScreen() {
-
+		startActivity(new Intent(this,MapActivity.class));
 	}
 
 	public void gotoRegisterView() {
