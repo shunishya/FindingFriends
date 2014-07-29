@@ -846,10 +846,10 @@ containing a value of this type.
         public static final int abs__bright_foreground_disabled_holo_light=0x7f0b0005;
         public static final int abs__bright_foreground_holo_dark=0x7f0b0002;
         public static final int abs__bright_foreground_holo_light=0x7f0b0003;
-        public static final int abs__primary_text_disable_only_holo_dark=0x7f0b0011;
-        public static final int abs__primary_text_disable_only_holo_light=0x7f0b0012;
-        public static final int abs__primary_text_holo_dark=0x7f0b0013;
-        public static final int abs__primary_text_holo_light=0x7f0b0014;
+        public static final int abs__primary_text_disable_only_holo_dark=0x7f0b0012;
+        public static final int abs__primary_text_disable_only_holo_light=0x7f0b0013;
+        public static final int abs__primary_text_holo_dark=0x7f0b0014;
+        public static final int abs__primary_text_holo_light=0x7f0b0015;
         public static final int common_action_bar_splitter=0x7f0b000f;
         /**  Sign-in Button Colors 
          */
@@ -862,9 +862,10 @@ containing a value of this type.
         public static final int common_signin_btn_light_text_disabled=0x7f0b000c;
         public static final int common_signin_btn_light_text_focused=0x7f0b000d;
         public static final int common_signin_btn_light_text_pressed=0x7f0b000b;
-        public static final int common_signin_btn_text_dark=0x7f0b0015;
-        public static final int common_signin_btn_text_light=0x7f0b0016;
+        public static final int common_signin_btn_text_dark=0x7f0b0016;
+        public static final int common_signin_btn_text_light=0x7f0b0017;
         public static final int light_theme_color=0x7f0b0010;
+        public static final int light_theme_color_opacity=0x7f0b0011;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -1156,10 +1157,16 @@ containing a value of this type.
         public static final int abs__textButton=0x7f090017;
         public static final int abs__title=0x7f09001f;
         public static final int abs__up=0x7f09000b;
-        public static final int btnAway=0x7f090045;
-        public static final int btnNavigate=0x7f090044;
+        public static final int btnAway=0x7f090047;
+        public static final int btnCall=0x7f09004e;
+        public static final int btnCycle=0x7f09004a;
+        public static final int btnDrive=0x7f090049;
+        public static final int btnMsg=0x7f09004f;
+        public static final int btnNavigate=0x7f090046;
         public static final int btnSubmit=0x7f090041;
-        public static final int dbinspector_action_settings=0x7f090046;
+        public static final int btnWalk=0x7f090048;
+        public static final int chkSelected=0x7f09004c;
+        public static final int dbinspector_action_settings=0x7f090050;
         public static final int dbinspector_button_next=0x7f09003b;
         public static final int dbinspector_button_previous=0x7f090039;
         public static final int dbinspector_container=0x7f090037;
@@ -1175,18 +1182,22 @@ containing a value of this type.
         public static final int homeAsUp=0x7f090006;
         public static final int hybrid=0x7f090013;
         public static final int listMode=0x7f090002;
-        public static final int llButtons=0x7f090043;
-        public static final int lvNearestPeople=0x7f090042;
+        public static final int llButtons=0x7f090045;
+        public static final int llMap=0x7f090042;
+        public static final int lvNearestPeople=0x7f090044;
         public static final int main_activity=0x7f090036;
+        public static final int mapView=0x7f09004b;
         public static final int none=0x7f090010;
         public static final int normal=0x7f090001;
         public static final int satellite=0x7f090011;
         public static final int showCustom=0x7f090008;
-        public static final int showDb=0x7f090047;
+        public static final int showDb=0x7f090051;
         public static final int showHome=0x7f090005;
         public static final int showTitle=0x7f090007;
         public static final int tabMode=0x7f090003;
         public static final int terrain=0x7f090012;
+        public static final int tvInfo=0x7f090043;
+        public static final int tvPeople=0x7f09004d;
         public static final int useLogo=0x7f090004;
         public static final int wrap_content=0x7f090000;
     }
@@ -1222,8 +1233,10 @@ containing a value of this type.
         public static final int fragment_register=0x7f030018;
         public static final int fragment_splash=0x7f030019;
         public static final int layout_map_activity=0x7f03001a;
-        public static final int sherlock_spinner_dropdown_item=0x7f03001b;
-        public static final int sherlock_spinner_item=0x7f03001c;
+        public static final int layout_navigate=0x7f03001b;
+        public static final int nearest_people_row=0x7f03001c;
+        public static final int sherlock_spinner_dropdown_item=0x7f03001d;
+        public static final int sherlock_spinner_item=0x7f03001e;
     }
     public static final class menu {
         public static final int dbinspector_fragment_table=0x7f0e0000;

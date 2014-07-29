@@ -92,6 +92,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
 	public void gotoMainScreen() {
 		startActivity(new Intent(this,MapActivity.class));
+		finish();
 	}
 
 	public void gotoRegisterView() {
