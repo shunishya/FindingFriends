@@ -92,10 +92,10 @@ public class RegisterFragment extends SherlockFragment implements
 					String inputNumber = etPhoneNumber.getText().toString();
 					if (!inputNumber.isEmpty()) {
 						PhoneNumberHelper pnHelper = new PhoneNumberHelper();
-						 final String phoneNumber = pnHelper
-						 .getPhoneNumberIfValid(inputNumber, DeviceUtils
-						 .getCountryIso(getSherlockActivity()));
-						
+						final String phoneNumber = pnHelper
+								.getPhoneNumberIfValid(inputNumber, DeviceUtils
+										.getCountryIso(getSherlockActivity()));
+
 						if (phoneNumber != null) {
 							mActivity.runOnUiThread(new Runnable() {
 								@Override
@@ -137,10 +137,12 @@ public class RegisterFragment extends SherlockFragment implements
 			new Thread(runnable).start();
 
 		} else if (name.isEmpty()) {
+			mDialog.cancel();
 			Toast.makeText(getSherlockActivity(), "Please enter your name.",
 					Toast.LENGTH_SHORT).show();
 
 		} else {
+			mDialog.cancel();
 			Toast.makeText(getSherlockActivity(), "Please enter your phone.",
 					Toast.LENGTH_SHORT).show();
 		}
@@ -197,7 +199,7 @@ public class RegisterFragment extends SherlockFragment implements
 							Toast.LENGTH_SHORT).show();
 				}
 
-			} else if(result instanceof FindingFriendsException){
+			} else if (result instanceof FindingFriendsException) {
 				Toast.makeText(getSherlockActivity(), "Exception",
 						Toast.LENGTH_SHORT).show();
 			}
