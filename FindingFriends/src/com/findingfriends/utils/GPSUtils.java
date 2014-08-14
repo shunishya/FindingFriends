@@ -55,7 +55,7 @@ public class GPSUtils {
 			mlocListener.onLocationChanged(location);
 
 		} else {
-			location = getLocation();
+			location = getMyLocation();
 
 		}
 		// turnGPSOff();
@@ -136,7 +136,7 @@ public class GPSUtils {
 		}
 	}
 
-	public Location getLocation() {
+	public Location getMyLocation() {
 		return location;
 	}
 
