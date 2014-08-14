@@ -1,4 +1,4 @@
-package com.findingfriends.Activities;
+package com.findingfriends.activities;
 
 import android.os.Bundle;
 

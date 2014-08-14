@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <com.findingfriends.ui.MaxHeightScrollView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/expandableScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fadingEdge="none" >
+
+            <com.findingfriends.ui.RecipientView
+                android:id="@+id/etWithSelections"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:isScrollContainer="true" >
+            </com.findingfriends.ui.RecipientView>
+        </com.findingfriends.ui.MaxHeightScrollView>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/etSearchContacts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:hint="Serach Contacts" />
+
+    <ListView
+        android:id="@+id/lvSearchContacts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
+
+</LinearLayout>

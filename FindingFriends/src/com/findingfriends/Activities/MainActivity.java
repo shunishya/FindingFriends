@@ -1,4 +1,4 @@
-package com.findingfriends.Activities;
+package com.findingfriends.activities;
 
 import im.dino.dbinspector.activities.DbInspectorActivity;
 
@@ -31,7 +31,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			getViewConfiguration();
 		}
 		mPrefs = new FindingFriendsPreferences(MainActivity.this);
-		
+
 		mRegisterFragment = new RegisterFragment();
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.main_activity, new SplashFragment()).commit();
@@ -57,41 +57,13 @@ public class MainActivity extends SherlockFragmentActivity {
 		}
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater menuInflater = getSupportMenuInflater();
-		menuInflater.inflate(R.menu.main, menu);
-
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	/**
-	 * respective screen is shown according to the item selected from the menu
-	 * 
-	 * @param item
-	 *            MenuItem which is selected by the user from menu.
-	 * */
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.showDb:
-			startActivity(new Intent(MainActivity.this,
-					DbInspectorActivity.class));
-			break;
-		default:
-			break;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
 	public boolean isUserLoggedIn() {
 		return mPrefs.isUserLoggedIn();
-		//return false;
+		// return false;
 	}
 
 	public void gotoMainScreen() {
-		startActivity(new Intent(this,MapActivity.class));
+		startActivity(new Intent(this, MapActivity.class));
 		finish();
 	}
 
