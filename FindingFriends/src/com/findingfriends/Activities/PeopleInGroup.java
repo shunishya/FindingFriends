@@ -146,10 +146,12 @@ public class PeopleInGroup extends SherlockActivity implements
 				contact_on_list.setSelected(false);
 				filterSelectedContacts(mEtWithSelection.getTextOnEditText());
 				mEtWithSelection.removeContact(mContact);
+				mSearchContactAdapter.notifyDataSetChanged();
+				invalidateOptionsMenu();
 				return;
 			}
 		}
-		invalidateOptionsMenu();
+
 	}
 
 	/**
