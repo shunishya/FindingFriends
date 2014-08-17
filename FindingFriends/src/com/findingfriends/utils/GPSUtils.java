@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Criteria;
@@ -154,8 +156,8 @@ public class GPSUtils {
 					.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
 			if (!isGPSEnabled && !isNetworkEnabled) {
-				// no network provider is enabled // The minimum time between
-				// updates in milliseconds
+				if (location == null)
+					showSettingsAlert(LocationManager.NETWORK_PROVIDER);
 			} else {
 				// First get location from Network Provider
 				if (isGPSEnabled) {
@@ -195,6 +197,33 @@ public class GPSUtils {
 			e.printStackTrace();
 		}
 		return location;
+	}
+
+	public void showSettingsAlert(String provider) {
+		AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
+
+		alertDialog.setTitle(provider + " SETTINGS");
+
+		alertDialog.setMessage(provider
+				+ " is not enabled! Want to go to settings menu?");
+
+		alertDialog.setPositiveButton("Settings",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						Intent intent = new Intent(
+								Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+						mContext.startActivity(intent);
+					}
+				});
+
+		alertDialog.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+				});
+
+		alertDialog.show();
 	}
 
 }

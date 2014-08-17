@@ -25,7 +25,8 @@ public class FindingFriendsApi extends FindingFriendsBaseApi {
 	public RegisterResponse sendRegisterRequest(RegisterRequest request)
 			throws FindingFriendsException {
 		RegisterResponse response = new RegisterResponse();
-		InputStream res = postData(JsonUtil.writeValue(request), REGISTER_URL);
+		String data=JsonUtil.writeValue(request);
+		InputStream res = postData(data, REGISTER_URL);
 		if (res != null) {
 			response = (RegisterResponse) JsonUtil.readJson(res,
 					RegisterResponse.class);
@@ -42,8 +43,8 @@ public class FindingFriendsApi extends FindingFriendsBaseApi {
 	public SyncContactResponse contactSync(ContactSyncRequest syncRequest)
 			throws FindingFriendsException {
 		SyncContactResponse contactSyncResponse = new SyncContactResponse();
-		InputStream res = postData(JsonUtil.writeValue(syncRequest),
-				SYNC_CONTACT_URL);
+		String data = JsonUtil.writeValue(syncRequest);
+		InputStream res = postData(data, SYNC_CONTACT_URL);
 		if (res != null) {
 			contactSyncResponse = (SyncContactResponse) JsonUtil.readJson(res,
 					SyncContactResponse.class);
@@ -58,7 +59,8 @@ public class FindingFriendsApi extends FindingFriendsBaseApi {
 	public NearestFriendResponse getNearestFriends(NearestFriendRequest request)
 			throws FindingFriendsException {
 		NearestFriendResponse nearestFriendResponse = new NearestFriendResponse();
-		InputStream res = postData(JsonUtil.writeValue(request),
+		String data=JsonUtil.writeValue(request);
+		InputStream res = postData(data,
 				NEAREST_FRIEND_REQUEST_URL);
 		if (res != null) {
 			nearestFriendResponse = (NearestFriendResponse) JsonUtil.readJson(
@@ -74,7 +76,8 @@ public class FindingFriendsApi extends FindingFriendsBaseApi {
 	public GroupOfFriendsResponse findGroupOFFriends(
 			GroupOfFriendRequest request) throws FindingFriendsException {
 		GroupOfFriendsResponse findGroupOFFriendResponse = new GroupOfFriendsResponse();
-		InputStream res = postData(JsonUtil.writeValue(request),
+	String data=JsonUtil.writeValue(request);
+		InputStream res = postData(data,
 				FIND_GROUP_OF_FRIEND_REQUEST_URL);
 		if (res != null) {
 			findGroupOFFriendResponse = (GroupOfFriendsResponse) JsonUtil
