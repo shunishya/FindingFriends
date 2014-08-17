@@ -12,14 +12,15 @@ import android.widget.TextView;
 
 import com.example.findingfriends.R;
 import com.findingfriends.models.ContactModel;
+import com.findingfriends.models.UserWithDistance;
 
-public class NearestPeopleAdapter extends ArrayAdapter<ContactModel> {
+public class NearestPeopleAdapter extends ArrayAdapter<UserWithDistance> {
 	private Context mContext;
 	private LayoutInflater mInflater;
 	private ViewHolder holder = null;
-	private ArrayList<ContactModel> contactList = new ArrayList<ContactModel>();
+	private ArrayList<UserWithDistance> contactList = new ArrayList<UserWithDistance>();
 
-	public NearestPeopleAdapter(Context context, ArrayList<ContactModel> objects) {
+	public NearestPeopleAdapter(Context context, ArrayList<UserWithDistance> objects) {
 		super(context, R.layout.nearest_people_row, R.id.tvPeople, objects);
 		this.mContext = context;
 		this.mInflater = LayoutInflater.from(context);
@@ -33,14 +34,14 @@ public class NearestPeopleAdapter extends ArrayAdapter<ContactModel> {
 	}
 
 	@Override
-	public ContactModel getItem(int position) {
+	public UserWithDistance getItem(int position) {
 		// TODO Auto-generated method stub
 		return contactList.get(position);
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ContactModel contact = getItem(position);
+		UserWithDistance contact = getItem(position);
 		holder = new ViewHolder();
 		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.nearest_people_row, null,
@@ -53,7 +54,7 @@ public class NearestPeopleAdapter extends ArrayAdapter<ContactModel> {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		holder.tvPeople.setText(contact.getName());
+		holder.tvPeople.setText(contact.getUser().getUserName());
 		return convertView;
 	}
 

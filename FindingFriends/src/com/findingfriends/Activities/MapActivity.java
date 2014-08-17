@@ -57,8 +57,7 @@ public class MapActivity extends SherlockActivity implements OnClickListener {
 		lvNearestPeople = (ListView) findViewById(R.id.lvNearestPeople);
 		btnNavigate = (Button) findViewById(R.id.btnNavigate);
 		btnAway = (Button) findViewById(R.id.btnAway);
-		mAdapetr = new NearestPeopleAdapter(this, DummyContacts.getContacts());
-		lvNearestPeople.setAdapter(mAdapetr);
+
 		btnNavigate.setOnClickListener(this);
 		btnAway.setOnClickListener(this);
 		mPrefs = new FindingFriendsPreferences(this);
@@ -86,7 +85,7 @@ public class MapActivity extends SherlockActivity implements OnClickListener {
 				.target(new LatLng(myLocation.getLatitude(), myLocation
 						.getLongitude())).zoom(17).bearing(90).tilt(0).build();
 		map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-		
+
 		gpsUtils.turnGPSOff();
 
 	}
@@ -196,6 +195,9 @@ public class MapActivity extends SherlockActivity implements OnClickListener {
 			if (result instanceof NearestFriendResponse) {
 				NearestFriendResponse response = (NearestFriendResponse) result;
 				pinToMap(response.getNearestPeople());
+				mAdapetr = new NearestPeopleAdapter(MapActivity.this,
+						response.getNearestPeople());
+				lvNearestPeople.setAdapter(mAdapetr);
 			} else if (result instanceof FindingFriendsException) {
 				FindingFriendsException error = (FindingFriendsException) result;
 				Toast.makeText(MapActivity.this, error.toString(),
