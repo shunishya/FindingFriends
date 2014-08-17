@@ -15,15 +15,22 @@ import com.findingfriends.utils.JsonUtil;
 
 public class FindingFriendsBaseApi {
 	HttpClient client = new DefaultHttpClient();
-//	String register_url = "http://192.168.1.106:8080/Finding_Friends_Server/webresources/register";
-//	String sync_contact_url="http://192.168.1.106:8080/Finding_Friends_Server/webresources/synccontact";
-//	
-	String register_url = "http://192.168.1.107:8080/Finding_Friends_Server/webresources/register";
-	String sync_contact_url="http://192.168.1.107:8080/Finding_Friends_Server/webresources/synccontact";
+	// String register_url =
+	// "http://192.168.1.106:8080/Finding_Friends_Server/webresources/register";
+	// String
+	// sync_contact_url="http://192.168.1.106:8080/Finding_Friends_Server/webresources/synccontact";
+	//
+	public static String BASE_URL = "http://192.168.1.107:8080/Finding_Friends_Server/webresources/";
+	public static String REGISTER_URL = BASE_URL + "register";
+	public static String SYNC_CONTACT_URL = BASE_URL + "synccontact";
+	public static String NEAREST_FRIEND_REQUEST_URL = BASE_URL
+			+ "nearestfriends";
+	public static String FIND_GROUP_OF_FRIEND_REQUEST_URL = BASE_URL
+			+ "nearestfriends/findgroupoffriends";
 
 	public String getData() throws FindingFriendsException {
 		// Prepare a request object
-		HttpGet httpget = new HttpGet(register_url);
+		HttpGet httpget = new HttpGet(REGISTER_URL);
 		InputStream instream;
 
 		// Execute the request
@@ -63,7 +70,8 @@ public class FindingFriendsBaseApi {
 
 	}
 
-	public InputStream postData(String data,String url) throws FindingFriendsException {
+	public InputStream postData(String data, String url)
+			throws FindingFriendsException {
 		// Prepare a request object
 		HttpPost httpPost = new HttpPost(url);
 		InputStream instream;

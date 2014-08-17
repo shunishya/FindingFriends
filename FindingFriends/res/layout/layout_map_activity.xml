@@ -3,62 +3,69 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-  <!--    <fragment
+
+    <fragment
         android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_above="@+id/lvNearestPeople"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        class="com.google.android.gms.maps.MapFragment"
-         />-->
-         <LinearLayout
-             android:id="@+id/llMap"
-             android:layout_width="match_parent"
-             android:layout_height="200dp"
-             android:orientation="horizontal">
-             <TextView 
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:text="Here lies map view"/>
-         </LinearLayout>
-         <TextView 
-             android:id="@+id/tvInfo"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:text="Your nearest friends are:"
-             android:background="@color/light_theme_color"
-             android:layout_below="@+id/llMap"/>
-    <ListView 
+        class="com.google.android.gms.maps.MapFragment" />
+
+    <LinearLayout
+        android:id="@+id/llMap"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Here lies map view" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llMap"
+        android:background="@color/light_theme_color"
+        android:text="Your nearest friends are:" />
+
+    <ListView
         android:id="@+id/lvNearestPeople"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/tvInfo"></ListView>
-  <LinearLayout 
+        android:layout_below="@+id/tvInfo" >
+    </ListView>
+
+    <LinearLayout
         android:id="@+id/llButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:background="@color/light_theme_color">
-        <Button 
+        android:background="@color/light_theme_color"
+        android:orientation="horizontal" >
+
+        <Button
             android:id="@+id/btnNavigate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Navigate"
-            android:background="@android:color/transparent"/>
-        <TextView 
+            android:background="@android:color/transparent"
+            android:text="Navigate" />
+
+        <TextView
             android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"/>
-        <Button 
+            android:background="@android:color/white" />
+
+        <Button
             android:id="@+id/btnAway"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Away from group?"
-             android:background="@android:color/transparent"/>
-            
+            android:background="@android:color/transparent"
+            android:text="Away from group?" />
     </LinearLayout>
-    
 
 </RelativeLayout>

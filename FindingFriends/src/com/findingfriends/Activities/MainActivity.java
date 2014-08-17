@@ -1,7 +1,5 @@
 package com.findingfriends.activities;
 
-import im.dino.dbinspector.activities.DbInspectorActivity;
-
 import java.lang.reflect.Field;
 
 import android.content.Intent;
@@ -9,13 +7,9 @@ import android.os.Bundle;
 import android.view.ViewConfiguration;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.example.findingfriends.R;
 import com.findingfriends.fragments.RegisterFragment;
 import com.findingfriends.fragments.SplashFragment;
-import com.findingfriends.services.AddressSyncService;
 import com.findingfriends.utils.FindingFriendsPreferences;
 
 public class MainActivity extends SherlockFragmentActivity {

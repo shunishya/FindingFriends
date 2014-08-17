@@ -19,7 +19,7 @@ public final class R {
 		public static final int ic_launcher_dbinspector = 0x7f02008e;
 	}
 	public static final class id {
-		public static final int dbinspector_action_settings = 0x7f090059;
+		public static final int dbinspector_action_settings = 0x7f09005b;
 		public static final int dbinspector_button_next = 0x7f09003e;
 		public static final int dbinspector_button_previous = 0x7f09003c;
 		public static final int dbinspector_container = 0x7f09003a;
@@ -30,8 +30,8 @@ public final class R {
 		public static final int dbinspector_text_current_page = 0x7f09003d;
 	}
 	public static final class layout {
-		public static final int dbinspector_activity = 0x7f030016;
-		public static final int dbinspector_fragment_table = 0x7f030017;
+		public static final int dbinspector_activity = 0x7f030017;
+		public static final int dbinspector_fragment_table = 0x7f030018;
 	}
 	public static final class menu {
 		public static final int dbinspector_fragment_table = 0x7f0e0000;
