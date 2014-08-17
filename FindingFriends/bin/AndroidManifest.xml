@@ -3,8 +3,8 @@
     package="com.example.findingfriends"
     android:versionCode="1"
     android:versionName="1.0" >
-	
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -30,8 +30,8 @@
         </service>
 
         <activity
-            android:name="com.findingfriends.Activities.MainActivity"
-            android:label="@string/app_name">
+            android:name="com.findingfriends.activities.MainActivity"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,13 +43,17 @@
             android:label="Example DbInspector" >
         </activity>
         <activity
-            android:name="com.findingfriends.Activities.MapActivity"
-            android:label="@string/app_name">
-            </activity>
-            <activity
-            android:name="com.findingfriends.Activities.NavigateActivity"
-            android:label="@string/app_name">
-            </activity>
+            android:name="com.findingfriends.activities.MapActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.findingfriends.activities.NavigateActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.findingfriends.activities.PeopleInGroup"
+            android:label="@string/app_name" >
+        </activity>
     </application>
 
 </manifest>
