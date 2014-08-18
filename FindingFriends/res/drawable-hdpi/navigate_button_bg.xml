@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:background="@color/common_signin_btn_light_text_pressed" android:state_checked="true"/>
+    <item android:background="@android:color/transparent" android:state_checked="false"/>
+
+</selector>

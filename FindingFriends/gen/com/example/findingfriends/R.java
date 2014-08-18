@@ -1133,8 +1133,9 @@ containing a value of this type.
         public static final int ic_plusone_tall_off_client=0x7f020094;
         public static final int icon=0x7f020095;
         public static final int msg=0x7f020096;
-        public static final int navigation_refresh=0x7f020097;
-        public static final int rotate_refresh=0x7f020098;
+        public static final int navigate_button_bg=0x7f020097;
+        public static final int navigation_refresh=0x7f020098;
+        public static final int rotate_refresh=0x7f020099;
     }
     public static final class id {
         public static final int Navigationmap=0x7f070050;

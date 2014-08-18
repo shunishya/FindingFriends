@@ -315,8 +315,9 @@ int drawable ic_plusone_standard_off_client 0x7f020093
 int drawable ic_plusone_tall_off_client 0x7f020094
 int drawable icon 0x7f020095
 int drawable msg 0x7f020096
-int drawable navigation_refresh 0x7f020097
-int drawable rotate_refresh 0x7f020098
+int drawable navigate_button_bg 0x7f020097
+int drawable navigation_refresh 0x7f020098
+int drawable rotate_refresh 0x7f020099
 int id Navigationmap 0x7f070050
 int id abs__action_bar 0x7f070027
 int id abs__action_bar_container 0x7f070026

@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
+            android:button="@drawable/navigate_button_bg"
             android:text="Walk" />
 
         <TextView
@@ -29,6 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
+            android:button="@drawable/navigate_button_bg"
             android:text="Drive" />
 
         <TextView
@@ -42,6 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
+            android:button="@drawable/navigate_button_bg"
             android:text="Cycle" />
     </LinearLayout>
 
