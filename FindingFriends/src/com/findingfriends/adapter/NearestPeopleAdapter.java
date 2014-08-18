@@ -71,20 +71,22 @@ public class NearestPeopleAdapter extends ArrayAdapter<UserWithDistance>
 			holder = (ViewHolder) convertView.getTag();
 		}
 		Location location = new Location("Address");
+		holder.tvPeople.setText(contact.getUser().getUserName());
 		location.setLatitude(contact.getUser().getGps_lat());
 		location.setLongitude(contact.getUser().getGps_long());
 		long diff = System.currentTimeMillis() - contact.getUser().getTime();
 		if (diff / 1000 < 60) {
-			holder.tvPeople.setText("At" + contact.getUser().getUserName()
+			holder.tvAddress.setText("At" + GPSUtils.getAddress(location)
 					+ " " + "(" + diff + "seconds ago)");
 		} else if (diff / 60000 < 60) {
-			holder.tvPeople.setText("At" + contact.getUser().getUserName()
-					+ " " + "(" + diff / 60000 + "minutes ago)");
+			double min=diff/60000;
+			holder.tvAddress.setText("At" + GPSUtils.getAddress(location)
+					+ " " + "(" + min + "minutes ago)");
 		} else {
-			holder.tvPeople.setText("At" + contact.getUser().getUserName()
-					+ " " + "(" + diff / 3600000 + "hours ago)");
+			double hrs=diff/(1000*60*60);
+			holder.tvAddress.setText("At" + GPSUtils.getAddress(location)
+					+ " " + "(" + hrs + "hours ago)");
 		}
-		holder.tvAddress.setText(GPSUtils.getAddress(location));
 		holder.btnNavigate.setOnClickListener(this);
 		holder.btnCall.setOnClickListener(this);
 		holder.btnMsg.setOnClickListener(this);

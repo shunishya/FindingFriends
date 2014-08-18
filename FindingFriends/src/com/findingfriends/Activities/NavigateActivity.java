@@ -74,13 +74,13 @@ public class NavigateActivity extends SherlockActivity implements
 
 		gpsUtils = new GPSUtils(this);
 
-		myLocation = gpsUtils.getLocationFromProvider();
+		myLocation = gpsUtils.getLocation();
 		if (friend == null) {
-			LatLng KIEL = new LatLng(myLocation.getLatitude(),
+			LatLng MYLOCATION = new LatLng(myLocation.getLatitude(),
 					myLocation.getLongitude());
 			Marker kiel = map
 					.addMarker(new MarkerOptions()
-							.position(KIEL)
+							.position(MYLOCATION)
 							.title("You")
 							.snippet("Your Location")
 							.icon(BitmapDescriptorFactory
@@ -99,6 +99,11 @@ public class NavigateActivity extends SherlockActivity implements
 			navigate(GoogleDirection.MODE_DRIVING);
 		}
 	}
+	@Override
+	protected void onPause() {
+		super.onPause();
+		gd.cancelAnimated();
+	}
 
 	@Override
 	public void onClick(View v) {
@@ -108,9 +113,11 @@ public class NavigateActivity extends SherlockActivity implements
 			navigate(GoogleDirection.MODE_WALKING);
 			break;
 		case R.id.btnDrive:
+			map.clear();
 			navigate(GoogleDirection.MODE_DRIVING);
 			break;
 		case R.id.btnCycle:
+			map.clear();
 			navigate(GoogleDirection.MODE_BICYCLING);
 			break;
 
@@ -148,7 +155,7 @@ public class NavigateActivity extends SherlockActivity implements
 				map.addMarker(new MarkerOptions()
 						.position(start)
 						.icon(BitmapDescriptorFactory
-								.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+								.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
 
 				map.addMarker(new MarkerOptions()
 						.position(end)

@@ -8,6 +8,7 @@ import android.content.Context;
 
 import com.findingfriends.db.model.ContactDb;
 import com.findingfriends.models.ContactModel;
+import com.findingfriends.utils.ContactListSelectableItem;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
@@ -115,8 +116,11 @@ public class ContactDbHelper {
 	public void newUsers(List<ContactModel> contacts) {
 		for (ContactModel resultContacts : contacts) {
 			try {
-				ContactDb contact = mContactsDao.queryBuilder().where()
-						.eq(ContactDb.FIELD_PHONE, resultContacts.getPhonenumber())
+				ContactDb contact = mContactsDao
+						.queryBuilder()
+						.where()
+						.eq(ContactDb.FIELD_PHONE,
+								resultContacts.getPhonenumber())
 						.queryForFirst();
 				if (contact != null) {
 					contact.setUserId(resultContacts.getUser_id());
@@ -127,7 +131,6 @@ public class ContactDbHelper {
 			}
 		}
 	}
-
 
 	public int updateDbFromWebService(List<ContactModel> contacts) {
 		int updateCount = 0;
@@ -249,15 +252,19 @@ public class ContactDbHelper {
 		}
 	}
 
-	/*public List<ContactListSelectableItem> getSelectableIloopContacts() {
+	public List<ContactListSelectableItem> getSelectableIloopContacts() {
 		try {
 			List<ContactListSelectableItem> selectableContacts = new ArrayList<ContactListSelectableItem>();
 			List<ContactDb> mContactsOnImn = mContactsDao.queryBuilder()
 					.orderBy(ContactDb.FIELD_NAME, true).where()
 					.isNotNull(ContactDb.FIELD_USER_ID).query();
 			for (ContactDb contact : mContactsOnImn) {
+				ContactModel contactModel = new ContactModel();
 				ContactListSelectableItem mSelectableContact = new ContactListSelectableItem();
-				mSelectableContact.setContact(contact);
+				contactModel.setName(contact.getName());
+				contactModel.setPhonenumber(contact.getPhone());
+				contactModel.setUser_id(contact.getUserId());
+				mSelectableContact.setContact(contactModel);
 				selectableContacts.add(mSelectableContact);
 			}
 			return selectableContacts;
@@ -265,7 +272,7 @@ public class ContactDbHelper {
 			e.printStackTrace();
 			return null;
 		}
-	}*/
+	}
 
 	public List<ContactDb> getCleanContacts(boolean orderByName) {
 		try {

@@ -110,7 +110,14 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 			}
 			break;
 		case R.id.btnAway:
-			startActivity(new Intent(MapActivity.this, PeopleInGroup.class));
+			Intent findGroupOfPeopleIntent = new Intent(MapActivity.this,
+					PeopleInGroup.class);
+			findGroupOfPeopleIntent.putExtra(PeopleInGroup.LATITUDE,
+					myLocation.getLatitude());
+			findGroupOfPeopleIntent.putExtra(PeopleInGroup.LONGITUDE,
+					myLocation.getLongitude());
+
+			startActivity(findGroupOfPeopleIntent);
 			break;
 
 		default:

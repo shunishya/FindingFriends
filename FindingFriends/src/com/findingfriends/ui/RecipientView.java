@@ -145,8 +145,8 @@ public class RecipientView extends ViewGroup {
 		Set<Map.Entry<ContactModel, View>> entry = mContactChildPosition.entrySet();
 		for (Map.Entry<ContactModel, View> mapEntry : entry) {
 			// TODO remove comment from codes below
-			// selectedContact.add(mapEntry.getKey().getUserId());
-			selectedContact.add(mapEntry.getKey().getName());
+			selectedContact.add(mapEntry.getKey().getUser_id());
+			//selectedContact.add(mapEntry.getKey().getName());
 		}
 		return selectedContact;
 	}
