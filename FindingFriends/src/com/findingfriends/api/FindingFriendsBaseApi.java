@@ -15,11 +15,8 @@ import com.findingfriends.utils.JsonUtil;
 
 public class FindingFriendsBaseApi {
 	HttpClient client = new DefaultHttpClient();
-	// String register_url =
-	// "http://192.168.1.106:8080/Finding_Friends_Server/webresources/register";
-	// String
-	// sync_contact_url="http://192.168.1.106:8080/Finding_Friends_Server/webresources/synccontact";
-	//
+	//public static String BASE_URL = "http://10.0.2.14:8080/Finding_Friends_Server/webresources/";
+	
 	public static String BASE_URL = "http://192.168.1.107:8080/Finding_Friends_Server/webresources/";
 	public static String REGISTER_URL = BASE_URL + "register";
 	public static String SYNC_CONTACT_URL = BASE_URL + "synccontact";

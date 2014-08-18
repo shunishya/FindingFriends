@@ -57,11 +57,29 @@
             class="com.google.android.gms.maps.MapFragment" />
 
         <TextView
+            android:id="@+id/tvDistance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:text="Distance:" />
+
+        <Button
+            android:id="@+id/btnAnimate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/tvDistance"
+            android:background="@android:color/transparent"
+            android:text="Animate" />
+
+        <TextView
+            android:id="@+id/textProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:text="0 / 0" />
     </RelativeLayout>
 
 </LinearLayout>

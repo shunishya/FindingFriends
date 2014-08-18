@@ -24,10 +24,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
 public class GPSUtils {
-	Context mContext;
+	static Context mContext;
 	Location location;
 	Marker kiel;
-	private List<Address> addresses;
+	private static List<Address> addresses;
 	private String best;
 	String provider;
 	LocationManager mlocManager;
@@ -57,7 +57,7 @@ public class GPSUtils {
 			mlocListener.onLocationChanged(location);
 
 		} else {
-			location = getMyLocation();
+			location = getLocationFromProvider();
 
 		}
 		// turnGPSOff();
@@ -138,7 +138,7 @@ public class GPSUtils {
 		}
 	}
 
-	public Location getMyLocation() {
+	public Location getLocation() {
 		return location;
 	}
 
@@ -226,4 +226,23 @@ public class GPSUtils {
 		alertDialog.show();
 	}
 
+	public static String getAddress(Location location) {
+		Geocoder gcd = new Geocoder(mContext.getApplicationContext(),
+				Locale.getDefault());
+		if (location != null) {
+			try {
+				addresses = gcd.getFromLocation(location.getLatitude(),
+						location.getLongitude(), 1);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String text = (addresses != null) ? "City : "
+					+ addresses.get(0).getSubLocality() + "\n Country : "
+					+ addresses.get(0).getCountryName() : "Unknown Location";
+			return text;
+		}
+		return null;
+
+	}
 }

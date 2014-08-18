@@ -62,7 +62,7 @@ public class DeviceUtils {
 		 else {
 			country = Locale.getDefault().getCountry();
 			//return country;
-			return "Np"; //Need to comment out and uncomment the above line of code
+			return "NP"; //Need to comment out and uncomment the above line of code
 		}
 		}
 		return null;

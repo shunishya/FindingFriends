@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
@@ -24,10 +25,11 @@ import com.findingfriends.api.FindingFriendsApi;
 import com.findingfriends.api.FindingFriendsException;
 import com.findingfriends.api.models.NearestFriendRequest;
 import com.findingfriends.api.models.NearestFriendResponse;
-import com.findingfriends.dummyvalue.DummyContacts;
+import com.findingfriends.interfaces.AdapterToActivity;
 import com.findingfriends.models.UserWithDistance;
 import com.findingfriends.utils.FindingFriendsPreferences;
 import com.findingfriends.utils.GPSUtils;
+import com.findingfriends.utils.JsonUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -37,12 +39,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapActivity extends SherlockActivity implements OnClickListener {
+public class MapActivity extends SherlockActivity implements OnClickListener,
+		AdapterToActivity {
 	private GoogleMap map;
 	private ListView lvNearestPeople;
-	private Button btnNavigate, btnAway;
+	private Button btnAway;
+	private Button btnFullMap;
 	private NearestPeopleAdapter mAdapetr;
 	private GPSUtils gpsUtils;
+	private TextView tvInfo;
 	private NearestFriendRequest request;
 	private FindingFriendsPreferences mPrefs;
 	public MenuItem refreshItem = null;
@@ -55,15 +60,15 @@ public class MapActivity extends SherlockActivity implements OnClickListener {
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
 				.getMap();
 		lvNearestPeople = (ListView) findViewById(R.id.lvNearestPeople);
-		btnNavigate = (Button) findViewById(R.id.btnNavigate);
+		tvInfo = (TextView) findViewById(R.id.tvInfo);
 		btnAway = (Button) findViewById(R.id.btnAway);
-
-		btnNavigate.setOnClickListener(this);
+		btnFullMap = (Button) findViewById(R.id.btnViewFullMap);
 		btnAway.setOnClickListener(this);
+		btnFullMap.setOnClickListener(this);
 		mPrefs = new FindingFriendsPreferences(this);
 
 		gpsUtils = new GPSUtils(this);
-		myLocation = gpsUtils.getLocationFromProvider();
+		myLocation = gpsUtils.getLocation();
 
 		map.setMyLocationEnabled(true);
 		map.getUiSettings().setZoomControlsEnabled(true);
@@ -93,8 +98,16 @@ public class MapActivity extends SherlockActivity implements OnClickListener {
 	@Override
 	public void onClick(View view) {
 		switch (view.getId()) {
-		case R.id.btnNavigate:
-			startActivity(new Intent(MapActivity.this, NavigateActivity.class));
+		case R.id.btnViewFullMap:
+			if (tvInfo.getVisibility() == View.VISIBLE) {
+				tvInfo.setVisibility(View.GONE);
+				lvNearestPeople.setVisibility(View.GONE);
+				btnFullMap.setText("View List");
+			} else {
+				tvInfo.setVisibility(View.VISIBLE);
+				lvNearestPeople.setVisibility(View.VISIBLE);
+				btnFullMap.setText("Full map");
+			}
 			break;
 		case R.id.btnAway:
 			startActivity(new Intent(MapActivity.this, PeopleInGroup.class));
@@ -138,10 +151,10 @@ public class MapActivity extends SherlockActivity implements OnClickListener {
 
 	public void pinToMap(ArrayList<UserWithDistance> users) {
 		for (UserWithDistance nearestUser : users) {
-			LatLng KIEL = new LatLng(nearestUser.getUser().getGps_lat(),
+			LatLng FRIEND = new LatLng(nearestUser.getUser().getGps_lat(),
 					nearestUser.getUser().getGps_long());
-			Marker kiel = map.addMarker(new MarkerOptions()
-					.position(KIEL)
+			Marker friends = map.addMarker(new MarkerOptions()
+					.position(FRIEND)
 					.title(nearestUser.getUser().getUserName())
 					.snippet(
 							nearestUser.getUser().getUserName() + "'s"
@@ -196,7 +209,7 @@ public class MapActivity extends SherlockActivity implements OnClickListener {
 				NearestFriendResponse response = (NearestFriendResponse) result;
 				pinToMap(response.getNearestPeople());
 				mAdapetr = new NearestPeopleAdapter(MapActivity.this,
-						response.getNearestPeople());
+						response.getNearestPeople(), MapActivity.this);
 				lvNearestPeople.setAdapter(mAdapetr);
 			} else if (result instanceof FindingFriendsException) {
 				FindingFriendsException error = (FindingFriendsException) result;
@@ -210,6 +223,24 @@ public class MapActivity extends SherlockActivity implements OnClickListener {
 			super.onPreExecute();
 			runRefresh();
 		}
+	}
+
+	@Override
+	public void navigate(UserWithDistance user) {
+		Intent intent = new Intent(this, NavigateActivity.class);
+		intent.putExtra(NavigateActivity.USER_INFO, JsonUtil.writeValue(user));
+		startActivity(intent);
+
+	}
+
+	@Override
+	public void makeACall(String phoneNumber) {
+
+	}
+
+	@Override
+	public void sendMsg(String phoneNumber) {
+
 	}
 
 }

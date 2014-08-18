@@ -48,12 +48,12 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/btnNavigate"
+            android:id="@+id/btnViewFullMap"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:text="Navigate" />
+            android:text="Full Map" />
 
         <TextView
             android:layout_width="1dp"
