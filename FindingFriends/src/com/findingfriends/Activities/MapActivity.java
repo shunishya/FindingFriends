@@ -68,7 +68,8 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 		mPrefs = new FindingFriendsPreferences(this);
 
 		gpsUtils = new GPSUtils(this);
-		myLocation = gpsUtils.getLocation();
+		
+		myLocation = gpsUtils.getLocationFromProvider();
 
 		map.setMyLocationEnabled(true);
 		map.getUiSettings().setZoomControlsEnabled(true);
@@ -93,6 +94,10 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 
 		gpsUtils.turnGPSOff();
 
+	}
+	@Override
+	protected void onResume() {
+		super.onResume();
 	}
 
 	@Override

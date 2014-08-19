@@ -184,7 +184,7 @@ public class RegisterFragment extends SherlockFragment implements
 			RegisterRequest req = new RegisterRequest();
 			req.setPhoneNumber(etPhoneNumber.getText().toString());
 			req.setUserName(etName.getText().toString());
-			loc=gpsUtils.getLocation();
+			loc=gpsUtils.getLocationFromProvider();
 			req.setGps_lat(loc.getLatitude());
 			req.setGps_long(loc.getLongitude());
 			request = JsonUtil.writeValue(req);
