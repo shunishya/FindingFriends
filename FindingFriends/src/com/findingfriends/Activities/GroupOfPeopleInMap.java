@@ -48,7 +48,7 @@ public class GroupOfPeopleInMap extends SherlockActivity {
 		map.getUiSettings().setTiltGesturesEnabled(false);
 		map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-		myLocation = gpsUtils.getLocation();
+		myLocation = gpsUtils.getLocationFromProvider();
 		LatLng MYLOCATION = new LatLng(myLocation.getLatitude(),
 				myLocation.getLongitude());
 		Marker kiel = map.addMarker(new MarkerOptions()

@@ -2,6 +2,7 @@ package com.findingfriends.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -12,15 +13,17 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.example.findingfriends.R;
 import com.findingfriends.activities.MainActivity;
 import com.findingfriends.services.AddressSyncService;
+import com.findingfriends.utils.GPSUtils;
 
 public class SplashFragment extends SherlockFragment {
 	private MainActivity mActivity;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
 		View rootView = inflater.inflate(R.layout.fragment_splash, container,
-				false);	
+				false);
 		getSherlockActivity().getSupportActionBar().hide();
 		return rootView;
 	}
@@ -34,19 +37,40 @@ public class SplashFragment extends SherlockFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		final GPSUtils gpsUtils = new GPSUtils(getSherlockActivity());
+		if (!gpsUtils.isProviderEnable()) {
+			gpsUtils.showSettingsAlert(LocationManager.GPS_PROVIDER);
+		}else{
 		Handler handler = new Handler();
 		final Runnable r = new Runnable() {
 			public void run() {
+
 				if (mActivity.isUserLoggedIn()) {
-					getSherlockActivity().startService(new Intent(getSherlockActivity(), AddressSyncService.class));
+					getSherlockActivity().startService(
+							new Intent(getSherlockActivity(),
+									AddressSyncService.class));
 					mActivity.gotoMainScreen();
-					
-				} else{
+
+				} else {
 					mActivity.gotoRegisterView();
 				}
 			}
 		};
 		handler.postDelayed(r, 2000);
+		}
+	}
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (mActivity.isUserLoggedIn()) {
+			getSherlockActivity().startService(
+					new Intent(getSherlockActivity(),
+							AddressSyncService.class));
+			mActivity.gotoMainScreen();
+
+		} else {
+			mActivity.gotoRegisterView();
+		}
 	}
 
 }

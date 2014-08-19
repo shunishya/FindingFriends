@@ -37,14 +37,12 @@ public class GPSUtils {
 	private LocationManager locationManager;
 	private boolean isGPSEnabled;
 	private boolean isNetworkEnabled;
-	private double latitude;
-	private double longitude;
 	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 10 meters
 	private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
 
 	public GPSUtils(Context context) {
-		this.mContext = context;
-		turnGPSOn();
+		GPSUtils.mContext = context;
+		// turnGPSOn();
 		mlocManager = (LocationManager) mContext
 				.getSystemService(Context.LOCATION_SERVICE);
 		mlocListener = new MyLocationListener();
@@ -63,11 +61,8 @@ public class GPSUtils {
 		// turnGPSOff();
 	}
 
+	@SuppressWarnings("deprecation")
 	public void turnGPSOn() {
-		Intent intent = new Intent("android.location.GPS_ENABLED_CHANGE");
-		intent.putExtra("enabled", true);
-		mContext.sendBroadcast(intent);
-
 		provider = Settings.Secure.getString(mContext.getContentResolver(),
 				Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
 		if (!provider.contains("gps")) {
@@ -81,17 +76,25 @@ public class GPSUtils {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public void turnGPSOff() {
-		String provider = Settings.Secure.getString(
-				mContext.getContentResolver(),
-				Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-		if (provider.contains("gps")) { // if gps is enabled
-			final Intent poke = new Intent();
-			poke.setClassName("com.android.settings",
-					"com.android.settings.widget.SettingsAppWidgetProvider");
-			poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
-			poke.setData(Uri.parse("3"));
-			mContext.sendBroadcast(poke);
+		if (android.os.Build.VERSION.SDK_INT > 11) {
+			final Intent intent = new Intent(
+					"android.location.GPS_ENABLED_CHANGE");
+			intent.putExtra("enabled", false);
+			mContext.sendBroadcast(intent);
+		} else {
+			String provider = Settings.Secure.getString(
+					mContext.getContentResolver(),
+					Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+			if (provider.contains("gps")) { // if gps is enabled
+				final Intent poke = new Intent();
+				poke.setClassName("com.android.settings",
+						"com.android.settings.widget.SettingsAppWidgetProvider");
+				poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
+				poke.setData(Uri.parse("3"));
+				mContext.sendBroadcast(poke);
+			}
 		}
 	}
 
@@ -145,7 +148,7 @@ public class GPSUtils {
 	public Location getLocationFromProvider() {
 		try {
 			locationManager = (LocationManager) mContext
-					.getSystemService(mContext.LOCATION_SERVICE);
+					.getSystemService(Context.LOCATION_SERVICE);
 
 			// getting GPS status
 			isGPSEnabled = locationManager
@@ -156,37 +159,35 @@ public class GPSUtils {
 					.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
 			if (!isGPSEnabled && !isNetworkEnabled) {
-				if (location == null)
-					showSettingsAlert(LocationManager.NETWORK_PROVIDER);
+
 			} else {
 				// First get location from Network Provider
-				if (isGPSEnabled) {
+				if (isNetworkEnabled) {
 					locationManager.requestLocationUpdates(
-							LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES,
+							LocationManager.NETWORK_PROVIDER,
+							MIN_TIME_BW_UPDATES,
 							MIN_DISTANCE_CHANGE_FOR_UPDATES, mlocListener);
 					if (locationManager != null) {
 						location = locationManager
-								.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+								.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 						if (location != null) {
-							latitude = location.getLatitude();
-							longitude = location.getLongitude();
+
 						}
 					}
 				}
 				// if GPS Enabled get lat/long using GPS Services
-				if (isNetworkEnabled) {
+				if (isGPSEnabled) {
 					if (location == null) {
 						locationManager.requestLocationUpdates(
-								LocationManager.NETWORK_PROVIDER,
+								LocationManager.GPS_PROVIDER,
 								MIN_TIME_BW_UPDATES,
 								MIN_DISTANCE_CHANGE_FOR_UPDATES, mlocListener);
 						Log.d("Network", "Network");
 						if (locationManager != null) {
 							location = locationManager
-									.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+									.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 							if (location != null) {
-								latitude = location.getLatitude();
-								longitude = location.getLongitude();
+
 							}
 						}
 					}
@@ -224,6 +225,26 @@ public class GPSUtils {
 				});
 
 		alertDialog.show();
+	}
+
+	
+	public boolean isProviderEnable() {
+		locationManager = (LocationManager) mContext
+				.getSystemService(Context.LOCATION_SERVICE);
+
+		// getting GPS status
+		isGPSEnabled = locationManager
+				.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+		// getting network status
+		isNetworkEnabled = locationManager
+				.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+		if (!isGPSEnabled && !isNetworkEnabled) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	public static String getAddress(Location location) {

@@ -1,5 +1,7 @@
 package com.findingfriends.activities;
 
+import java.text.DecimalFormat;
+
 import org.w3c.dom.Document;
 
 import android.graphics.Color;
@@ -74,7 +76,7 @@ public class NavigateActivity extends SherlockActivity implements
 
 		gpsUtils = new GPSUtils(this);
 
-		myLocation = gpsUtils.getLocation();
+		myLocation = gpsUtils.getLocationFromProvider();
 		if (friend == null) {
 			LatLng MYLOCATION = new LatLng(myLocation.getLatitude(),
 					myLocation.getLongitude());
@@ -93,12 +95,15 @@ public class NavigateActivity extends SherlockActivity implements
 			map.animateCamera(CameraUpdateFactory
 					.newCameraPosition(cameraPosition));
 		} else {
+			DecimalFormat df = new DecimalFormat("#.##");
+			tvDistance.setText(" "+df.format(friend.getDist()) + "m");
 			myFriend = new Location("Friend");
 			myFriend.setLatitude(friend.getUser().getGps_lat());
 			myFriend.setLongitude(friend.getUser().getGps_long());
 			navigate(GoogleDirection.MODE_DRIVING);
 		}
 	}
+
 	@Override
 	protected void onPause() {
 		super.onPause();
