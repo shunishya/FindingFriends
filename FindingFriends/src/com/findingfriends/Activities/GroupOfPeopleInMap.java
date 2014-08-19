@@ -2,8 +2,15 @@ package com.findingfriends.activities;
 
 import java.util.ArrayList;
 
+import org.w3c.dom.Document;
+
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.View;
+import app.akexorcist.gdaplibrary.GoogleDirection;
+import app.akexorcist.gdaplibrary.GoogleDirection.OnAnimateListener;
+import app.akexorcist.gdaplibrary.GoogleDirection.OnDirectionResponseListener;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.example.findingfriends.R;
@@ -28,6 +35,8 @@ public class GroupOfPeopleInMap extends SherlockActivity {
 	private Location myLocation;
 	private GPSUtils gpsUtils;
 	private GroupOfFriendsResponse groupInfo;
+	private GoogleDirection gd;
+	private Document mDoc;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +77,9 @@ public class GroupOfPeopleInMap extends SherlockActivity {
 
 	public void pinToMap(ArrayList<UserWithDistance> users) {
 		for (UserWithDistance nearestUser : users) {
+			Location f = new Location("Friends");
+			f.setLatitude(nearestUser.getUser().getGps_lat());
+			f.setLongitude(nearestUser.getUser().getGps_long());
 			LatLng FRIEND = new LatLng(nearestUser.getUser().getGps_lat(),
 					nearestUser.getUser().getGps_long());
 			Marker friends = map.addMarker(new MarkerOptions()
@@ -78,6 +90,38 @@ public class GroupOfPeopleInMap extends SherlockActivity {
 									+ "Location")
 					.icon(BitmapDescriptorFactory
 							.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+			navigate(f);
 		}
+	}
+
+	public void navigate(Location myFriend) {
+		final LatLng start = new LatLng(myLocation.getLatitude(),
+				myLocation.getLongitude());
+		final LatLng end = new LatLng(myFriend.getLatitude(),
+				myFriend.getLongitude());
+
+		map.animateCamera(CameraUpdateFactory.newLatLngZoom(start, 15));
+
+		gd = new GoogleDirection(this);
+		gd.setLogging(true);
+		gd.request(start, end, GoogleDirection.MODE_DRIVING);
+		gd.setOnDirectionResponseListener(new OnDirectionResponseListener() {
+			public void onResponse(String status, Document doc,
+					GoogleDirection gd) {
+				mDoc = doc;
+				map.addPolyline(gd.getPolyline(doc, 3, Color.RED));
+				map.addMarker(new MarkerOptions()
+						.position(start)
+						.icon(BitmapDescriptorFactory
+								.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+
+				map.addMarker(new MarkerOptions()
+						.position(end)
+						.icon(BitmapDescriptorFactory
+								.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+
+			}
+		});
+
 	}
 }

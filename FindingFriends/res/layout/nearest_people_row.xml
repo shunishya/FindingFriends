@@ -26,25 +26,31 @@
         </TextView>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnNavigate"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@android:drawable/ic_menu_directions" />
+        android:orientation="horizontal" >
 
-    <Button
-        android:id="@+id/btnCall"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/call" />
+        <Button
+            android:id="@+id/btnNavigate"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/ic_menu_directions" />
 
-    <Button
-        android:id="@+id/btnMsg"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/msg" />
+        <Button
+            android:id="@+id/btnCall"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/call" />
+
+        <Button
+            android:id="@+id/btnMsg"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/msg" />
+    </LinearLayout>
 
 </LinearLayout>

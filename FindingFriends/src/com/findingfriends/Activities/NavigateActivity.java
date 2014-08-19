@@ -96,7 +96,7 @@ public class NavigateActivity extends SherlockActivity implements
 					.newCameraPosition(cameraPosition));
 		} else {
 			DecimalFormat df = new DecimalFormat("#.##");
-			tvDistance.setText(" "+df.format(friend.getDist()) + "m");
+			tvDistance.setText(" "+df.format(friend.getDist()) + " m");
 			myFriend = new Location("Friend");
 			myFriend.setLatitude(friend.getUser().getGps_lat());
 			myFriend.setLongitude(friend.getUser().getGps_long());
