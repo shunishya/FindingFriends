@@ -253,10 +253,14 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 
 	@Override
 	public void makeACall(String phoneNumber) {
-
+		Intent callIntent = new Intent(Intent.ACTION_DIAL);
+		callIntent.setData(Uri.parse("tel:" + Uri.encode(phoneNumber)));
+		callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(callIntent);
 	}
 
-	@SuppressLint("NewApi") @Override
+	@SuppressLint("NewApi")
+	@Override
 	public void sendMsg(String phoneNumber) {
 		Intent intent;
 		String text = "Im here";

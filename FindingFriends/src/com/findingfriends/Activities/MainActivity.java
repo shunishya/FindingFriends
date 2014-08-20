@@ -57,7 +57,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	}
 
 	public void gotoMainScreen() {
-		//FindingFriends.startService(getApplicationContext());
+		FindingFriends.startService(getApplicationContext());
 		startActivity(new Intent(this, MapActivity.class));
 		finish();
 	}
