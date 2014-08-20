@@ -7,6 +7,7 @@ import org.w3c.dom.Document;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -53,6 +54,8 @@ public class NavigateActivity extends SherlockActivity implements
 				R.id.Navigationmap)).getMap();
 
 		String userInfo = getIntent().getStringExtra(USER_INFO);
+		
+		Log.e("User info::>>>>>",userInfo);
 		friend = (UserWithDistance) JsonUtil.readJsonString(userInfo,
 				UserWithDistance.class);
 
@@ -159,11 +162,13 @@ public class NavigateActivity extends SherlockActivity implements
 				map.addPolyline(gd.getPolyline(doc, 3, Color.RED));
 				map.addMarker(new MarkerOptions()
 						.position(start)
+						.title("You")
 						.icon(BitmapDescriptorFactory
 								.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
 
 				map.addMarker(new MarkerOptions()
 						.position(end)
+						.title(friend.getUser().getUserName())
 						.icon(BitmapDescriptorFactory
 								.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 

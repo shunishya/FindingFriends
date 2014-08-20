@@ -3,7 +3,6 @@ package com.findingfriends.adapter;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.content.Intent;
 import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.findingfriends.R;
-import com.findingfriends.activities.NavigateActivity;
 import com.findingfriends.interfaces.AdapterToActivity;
 import com.findingfriends.models.UserWithDistance;
 import com.findingfriends.utils.GPSUtils;
