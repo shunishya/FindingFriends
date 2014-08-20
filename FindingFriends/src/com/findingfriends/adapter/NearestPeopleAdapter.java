@@ -69,6 +69,9 @@ public class NearestPeopleAdapter extends ArrayAdapter<UserWithDistance>
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
+			holder.btnCall.setTag(position);
+			holder.btnMsg.setTag(position);
+			holder.btnNavigate.setTag(position);
 		}
 		Location location = new Location("Address");
 		holder.tvPeople.setText(contact.getUser().getUserName());

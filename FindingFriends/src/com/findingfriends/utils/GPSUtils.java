@@ -63,6 +63,7 @@ public class GPSUtils {
 
 	@SuppressWarnings("deprecation")
 	public void turnGPSOn() {
+
 		provider = Settings.Secure.getString(mContext.getContentResolver(),
 				Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
 		if (!provider.contains("gps")) {
@@ -74,6 +75,7 @@ public class GPSUtils {
 			poke.setData(Uri.parse("3"));
 			mContext.sendBroadcast(poke);
 		}
+
 	}
 
 	@SuppressWarnings("deprecation")
@@ -113,14 +115,17 @@ public class GPSUtils {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				String text = (addresses != null) ? "City : "
-						+ addresses.get(0).getSubLocality() + "\n Country : "
-						+ addresses.get(0).getCountryName()
-						: "Unknown Location";
+				if (!addresses.isEmpty()) {
+					String text = (addresses != null) ? "City : "
+							+ addresses.get(0).getSubLocality()
+							+ "\n Country : "
+							+ addresses.get(0).getCountryName()
+							: "Unknown Location";
 
-				String locationValue = "My current location is: " + text;
-				POS_LAT_LNG = new LatLng(location.getLatitude(),
-						location.getLongitude());
+					String locationValue = "My current location is: " + text;
+					POS_LAT_LNG = new LatLng(location.getLatitude(),
+							location.getLongitude());
+				}
 
 			}
 		}
@@ -227,7 +232,6 @@ public class GPSUtils {
 		alertDialog.show();
 	}
 
-	
 	public boolean isProviderEnable() {
 		locationManager = (LocationManager) mContext
 				.getSystemService(Context.LOCATION_SERVICE);

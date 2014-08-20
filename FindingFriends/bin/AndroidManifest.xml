@@ -35,6 +35,8 @@
 
         <service android:name="com.findingfriends.services.AddressSyncService" >
         </service>
+        <service android:name="com.findingfriends.services.GPSTracker" >
+        </service>
 
         <activity
             android:name="com.findingfriends.activities.MainActivity"
