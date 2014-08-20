@@ -24,6 +24,8 @@ public class FindingFriendsBaseApi {
 			+ "nearestfriends";
 	public static String FIND_GROUP_OF_FRIEND_REQUEST_URL = BASE_URL
 			+ "nearestfriends/findgroupoffriends";
+	public static String UPDATE_INFO = BASE_URL
+			+ "update";
 
 	public String getData() throws FindingFriendsException {
 		// Prepare a request object

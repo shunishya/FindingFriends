@@ -114,7 +114,7 @@ public class GPSUtils {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
+				}if(addresses!=null){
 				if (!addresses.isEmpty()) {
 					String text = (addresses != null) ? "City : "
 							+ addresses.get(0).getSubLocality()
@@ -127,6 +127,7 @@ public class GPSUtils {
 							location.getLongitude());
 				}
 
+			}
 			}
 		}
 
