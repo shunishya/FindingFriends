@@ -4,10 +4,14 @@ import im.dino.dbinspector.activities.DbInspectorActivity;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.location.Location;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Telephony;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -45,7 +49,8 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 	private ListView lvNearestPeople;
 	private Button btnAway;
 	private Button btnFullMap;
-	private NearestPeopleAdapter mAdapetr;
+	private NearestPeopleAdapter mAdapter;
+
 	private GPSUtils gpsUtils;
 	private TextView tvInfo;
 	private NearestFriendRequest request;
@@ -68,7 +73,7 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 		mPrefs = new FindingFriendsPreferences(this);
 
 		gpsUtils = new GPSUtils(this);
-		
+
 		myLocation = gpsUtils.getLocationFromProvider();
 
 		map.setMyLocationEnabled(true);
@@ -95,6 +100,7 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 		gpsUtils.turnGPSOff();
 
 	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -220,9 +226,9 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 			if (result instanceof NearestFriendResponse) {
 				NearestFriendResponse response = (NearestFriendResponse) result;
 				pinToMap(response.getNearestPeople());
-				mAdapetr = new NearestPeopleAdapter(MapActivity.this,
+				mAdapter = new NearestPeopleAdapter(MapActivity.this,
 						response.getNearestPeople(), MapActivity.this);
-				lvNearestPeople.setAdapter(mAdapetr);
+				lvNearestPeople.setAdapter(mAdapter);
 			} else if (result instanceof FindingFriendsException) {
 				FindingFriendsException error = (FindingFriendsException) result;
 				Toast.makeText(MapActivity.this, error.toString(),
@@ -247,12 +253,43 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 
 	@Override
 	public void makeACall(String phoneNumber) {
-
+		Intent callIntent = new Intent(Intent.ACTION_DIAL);
+		callIntent.setData(Uri.parse("tel:" + Uri.encode(phoneNumber)));
+		callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(callIntent);
 	}
 
+	@SuppressLint("NewApi")
 	@Override
 	public void sendMsg(String phoneNumber) {
+		Intent intent;
+		String text = "Im here";
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) // Android 4.4
+																	// and up
+		{
+			String defaultSmsPackageName = Telephony.Sms
+					.getDefaultSmsPackage(this);
+
+			intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:"
+					+ Uri.encode(phoneNumber)));
+			intent.putExtra("sms_body", text);
+
+			if (defaultSmsPackageName != null) // Can be null in case that there
+												// is no default, then the user
+												// would be able to choose any
+												// app that supports this
+												// intent.
+			{
+				intent.setPackage(defaultSmsPackageName);
+			}
+			startActivity(intent);
+		} else {
+			intent = new Intent(Intent.ACTION_VIEW);
+			intent.setType("vnd.android-dir/mms-sms");
+			intent.putExtra("address", phoneNumber);
+			intent.putExtra("sms_body", "Im here.");
+			startActivity(intent);
+		}
 
 	}
-
 }

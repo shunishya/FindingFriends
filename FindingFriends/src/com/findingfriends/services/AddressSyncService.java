@@ -39,9 +39,6 @@ public class AddressSyncService extends Service {
 		updateDb();
 		new ContactSyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
-		// TODO to be shifted the following line of code to onPostMethod of
-		// async task
-		
 	}
 
 	private void updateDb() {
@@ -167,15 +164,15 @@ public class AddressSyncService extends Service {
 			super.onPostExecute(result);
 			if (result instanceof SyncContactResponse) {
 				SyncContactResponse res = (SyncContactResponse) result;
-				if(res.isError()){
+				if (res.isError()) {
+					Toast.makeText(getApplicationContext(), res.getMessage(),
+							Toast.LENGTH_SHORT).show();
+				} else {
+					int count = mDbDigger.updateDbFromWebService(res
+							.getAppUsers());
 					Toast.makeText(getApplicationContext(),
-							res.getMessage(), Toast.LENGTH_SHORT)
+							"Updates Contacts: " + count, Toast.LENGTH_SHORT)
 							.show();
-				}else{
-				int count = mDbDigger.updateDbFromWebService(res.getAppUsers());
-				Toast.makeText(getApplicationContext(),
-						"Updates Contacts: " + count, Toast.LENGTH_SHORT)
-						.show();
 				}
 			} else if (result instanceof FindingFriendsException) {
 				Toast.makeText(getApplicationContext(), "Error",

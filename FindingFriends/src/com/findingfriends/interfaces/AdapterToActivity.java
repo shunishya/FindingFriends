@@ -8,4 +8,5 @@ public interface AdapterToActivity {
 	public void makeACall(String phoneNumber);
 
 	public void sendMsg(String phoneNumber);
+
 }
