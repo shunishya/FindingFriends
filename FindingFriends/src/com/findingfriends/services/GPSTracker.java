@@ -60,6 +60,11 @@ public class GPSTracker extends Service {
 	public IBinder onBind(Intent arg0) {
 		return null;
 	}
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		Log.e("GPS Service:>>>", "Service is stopped");
+	}
 
 	public class UpdateMyLocation extends
 			AsyncTask<UpdateLocation, Void, Object> {
@@ -91,6 +96,7 @@ public class GPSTracker extends Service {
 				Toast.makeText(getApplicationContext(), error.toString(),
 						Toast.LENGTH_SHORT).show();
 			}
+			stopSelf();
 		}
 
 	}
