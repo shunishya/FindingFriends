@@ -85,7 +85,7 @@ public class NearestPeopleAdapter extends ArrayAdapter<UserWithDistance>
 					+ " " + "(" + min + "minutes ago)");
 		} else {
 			double hrs=diff/(1000*60*60);
-			holder.tvAddress.setText("At" + GPSUtils.getAddress(location)
+			holder.tvAddress.setText("At " + GPSUtils.getAddress(location)
 					+ " " + "(" + hrs + "hours ago)");
 		}
 		holder.btnNavigate.setOnClickListener(this);
