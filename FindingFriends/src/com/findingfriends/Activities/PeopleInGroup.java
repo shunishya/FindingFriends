@@ -229,6 +229,7 @@ public class PeopleInGroup extends SherlockActivity implements
 				intent.putExtra(GroupOfPeopleInMap.GROUP_OF_PEOPLE_INFO,
 						JsonUtil.writeValue(response));
 				startActivity(intent);
+				finish();
 
 			} else if (result instanceof FindingFriendsException) {
 				FindingFriendsException error = (FindingFriendsException) result;
