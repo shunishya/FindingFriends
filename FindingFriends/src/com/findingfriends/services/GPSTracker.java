@@ -29,43 +29,41 @@ public class GPSTracker extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		Log.e("GPS Service:>>>", "startService called.");
 		handler = new Handler(Looper.getMainLooper());
 		gpsUtils = new GPSUtils(getApplicationContext());
 		mPrefs = new FindingFriendsPreferences(getApplicationContext());
-		handler.postDelayed(new Runnable() {
 
-			@Override
-			public void run() {
-				Log.e("GPS Service:>>>", "runnable called.");
-				UpdateLocation request = new UpdateLocation();
-				request.setUser_id(mPrefs.getUserID());
-				if (gpsUtils.isProviderEnable()) {
-					Log.e("GPS Service:>>>", "Provider called.");
-					location = gpsUtils.getLocationFromProvider();
-					Log.e("GPS Service:>>>", location + "");
-					request.setGps_lat(location.getLatitude());
-					request.setGps_long(location.getLongitude());
-					new UpdateMyLocation().execute(request);
-				} else {
-					gpsUtils.showSettingsAlert("GPS");
-					if (gpsUtils.isProviderEnable()) {
-						Log.e("GPS Service:>>>", "Provider1 called.");
-						location = gpsUtils.getLocationFromProvider();
-						request.setGps_lat(location.getLatitude());
-						request.setGps_long(location.getLongitude());
-						new UpdateMyLocation().execute(request);
-					}
-				}
-				handler.post(this);
-
+		UpdateLocation request = new UpdateLocation();
+		request.setUser_id(mPrefs.getUserID());
+		if (gpsUtils.isProviderEnable()) {
+			Log.e("GPS Service:>>>", "Provider called.");
+			location = gpsUtils.getLocationFromProvider();
+			Log.e("GPS Service:>>>", location + "");
+			request.setGps_lat(location.getLatitude());
+			request.setGps_long(location.getLongitude());
+			new UpdateMyLocation().execute(request);
+		} else {
+			gpsUtils.showSettingsAlert("GPS");
+			if (gpsUtils.isProviderEnable()) {
+				Log.e("GPS Service:>>>", "Provider1 called.");
+				location = gpsUtils.getLocationFromProvider();
+				request.setGps_lat(location.getLatitude());
+				request.setGps_long(location.getLongitude());
+				new UpdateMyLocation().execute(request);
 			}
-		}, 1800000);
+		}
 
 	}
 
 	@Override
 	public IBinder onBind(Intent arg0) {
 		return null;
+	}
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		Log.e("GPS Service:>>>", "Service is stopped");
 	}
 
 	public class UpdateMyLocation extends
@@ -98,6 +96,7 @@ public class GPSTracker extends Service {
 				Toast.makeText(getApplicationContext(), error.toString(),
 						Toast.LENGTH_SHORT).show();
 			}
+			stopSelf();
 		}
 
 	}
