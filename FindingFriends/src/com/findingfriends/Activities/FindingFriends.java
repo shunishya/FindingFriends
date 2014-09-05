@@ -36,7 +36,7 @@ public class FindingFriends extends Application {
 			
 					AlarmManager alarm = (AlarmManager) context
 					.getSystemService(Context.ALARM_SERVICE);
-			// for 30 mint 30*60*1000
+			// for 30 min 30*60*1000
 			alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
 					30*60*1000, pendingIntent);
 

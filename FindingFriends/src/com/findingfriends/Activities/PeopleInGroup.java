@@ -67,7 +67,7 @@ public class PeopleInGroup extends SherlockActivity implements
 		mPrefs = new FindingFriendsPreferences(this);
 
 		lvSearchContacts = (ListView) findViewById(R.id.lvSearchContacts);
-		contactsArray.addAll(contactDbHelper.getSelectableIloopContacts());
+		contactsArray.addAll(contactDbHelper.getSelectableContacts());
 		secondaryContactsArray.addAll(contactsArray);
 		mSearchContactAdapter = new SearchContactsAdapter(this, contactsArray,
 				this);

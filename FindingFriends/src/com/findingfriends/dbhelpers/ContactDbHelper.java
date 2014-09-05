@@ -100,8 +100,8 @@ public class ContactDbHelper {
 	}
 
 	public void updateContacts(List<ContactDb> contactsToUpdate) {
-		for (ContactDb imnContact : contactsToUpdate) {
-			updateContact(imnContact);
+		for (ContactDb mContact : contactsToUpdate) {
+			updateContact(mContact);
 		}
 	}
 
@@ -156,8 +156,8 @@ public class ContactDbHelper {
 
 	public void initDbWithItems(List<ContactDb> contactsToInsert) {
 		try {
-			for (ContactDb imnContact : contactsToInsert) {
-				mContactsDao.create(imnContact);
+			for (ContactDb mContact : contactsToInsert) {
+				mContactsDao.create(mContact);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -166,9 +166,9 @@ public class ContactDbHelper {
 
 	public void theseContactsAreNotSynced(List<ContactDb> unSyncedContact) {
 		try {
-			for (ContactDb imnContact : unSyncedContact) {
-				imnContact.setUpdated(false);
-				mContactsDao.createOrUpdate(imnContact);
+			for (ContactDb contact : unSyncedContact) {
+				contact.setUpdated(false);
+				mContactsDao.createOrUpdate(contact);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -176,8 +176,8 @@ public class ContactDbHelper {
 	}
 
 	public void addNewContacts(List<ContactDb> newContact) {
-		for (ContactDb imnContact : newContact) {
-			createContact(imnContact);
+		for (ContactDb contact : newContact) {
+			createContact(contact);
 		}
 	}
 
@@ -252,13 +252,13 @@ public class ContactDbHelper {
 		}
 	}
 
-	public List<ContactListSelectableItem> getSelectableIloopContacts() {
+	public List<ContactListSelectableItem> getSelectableContacts() {
 		try {
 			List<ContactListSelectableItem> selectableContacts = new ArrayList<ContactListSelectableItem>();
-			List<ContactDb> mContactsOnImn = mContactsDao.queryBuilder()
+			List<ContactDb> mContactsOnApp = mContactsDao.queryBuilder()
 					.orderBy(ContactDb.FIELD_NAME, true).where()
 					.isNotNull(ContactDb.FIELD_USER_ID).query();
-			for (ContactDb contact : mContactsOnImn) {
+			for (ContactDb contact : mContactsOnApp) {
 				ContactModel contactModel = new ContactModel();
 				ContactListSelectableItem mSelectableContact = new ContactListSelectableItem();
 				contactModel.setName(contact.getName());
@@ -277,7 +277,7 @@ public class ContactDbHelper {
 	public List<ContactDb> getCleanContacts(boolean orderByName) {
 		try {
 			if (orderByName)
-				return mContactsDao.queryBuilder().orderBy("name", true)
+				return mContactsDao.queryBuilder().orderBy(ContactDb.FIELD_NAME, true)
 						.where().eq(ContactDb.FIELD_DELETED, false).query();
 			else
 				return mContactsDao.queryForEq(ContactDb.FIELD_DELETED, false);
