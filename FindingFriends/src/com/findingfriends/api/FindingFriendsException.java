@@ -1,12 +1,5 @@
 package com.findingfriends.api;
 
-/**
- * Exception with custom messages for different types of exception handling
- * within the ILoop Messaging App
- * 
- * @author tektak
- * 
- */
 
 public class FindingFriendsException extends Exception {
 	private static final long serialVersionUID = 1L;

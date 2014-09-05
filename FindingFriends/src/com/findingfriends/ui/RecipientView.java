@@ -35,7 +35,6 @@ import com.findingfriends.models.ContactModel;
  * parent container width ,inserts to new row otherwise
  * </p>
  * 
- * @author TekTak Mob
  */
 @RemoteViews.RemoteView
 public class RecipientView extends ViewGroup {
