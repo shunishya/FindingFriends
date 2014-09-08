@@ -131,12 +131,7 @@ public class AddressSyncService extends Service {
 		}
 	}
 
-	/**
-	 * Asynctask for contact sync
-	 * 
-	 * @author tektak
-	 * 
-	 */
+
 	private class ContactSyncTask extends AsyncTask<Void, Void, Object> {
 		FindingFriendsApi api = new FindingFriendsApi(getApplicationContext());
 		FindingFriendsPreferences mPrefs = new FindingFriendsPreferences(

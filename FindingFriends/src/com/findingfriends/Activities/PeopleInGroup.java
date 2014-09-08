@@ -179,7 +179,7 @@ public class PeopleInGroup extends SherlockActivity implements
 	}
 
 	/**
-	 * filter the ILoop Contacts according to the text input by the user
+	 * filter the Contacts according to the text input by the user
 	 * 
 	 * @param textToFilter
 	 *            accepts the input given by the user in

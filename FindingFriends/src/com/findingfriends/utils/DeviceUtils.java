@@ -6,13 +6,7 @@ import android.content.Context;
 import android.provider.Settings.Secure;
 import android.telephony.TelephonyManager;
 
-/**
- * Utility class for accessing various device features such as device id,
- * telephone number etc.
- * 
- * @author tektak
- * 
- */
+
 public class DeviceUtils {
 
 	/**
