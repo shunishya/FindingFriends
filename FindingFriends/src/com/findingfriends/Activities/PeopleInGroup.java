@@ -32,7 +32,6 @@ import com.findingfriends.ui.RecipientView;
 import com.findingfriends.utils.ContactListSelectableItem;
 import com.findingfriends.utils.FindingFriendsPreferences;
 import com.findingfriends.utils.JsonUtil;
-import com.findingfriends.utils.GPSUtils.MyLocationListener;
 
 public class PeopleInGroup extends SherlockActivity implements
 		ContactAttachDetachListner, TextWatcher {

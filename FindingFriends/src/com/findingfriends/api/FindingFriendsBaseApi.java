@@ -17,7 +17,8 @@ public class FindingFriendsBaseApi {
 	HttpClient client = new DefaultHttpClient();
 	//public static String BASE_URL = "http://10.0.2.14:8080/Finding_Friends_Server/webresources/";
 	
-	public static String BASE_URL = "http://192.168.1.107:8080/Finding_Friends_Server/webresources/";
+	//public static String BASE_URL = "http://192.168.1.107:8080/Finding_Friends_Server/webresources/";
+	public static String BASE_URL = "http://finding-friendsandfamily.rhcloud.com/Finding_Friends_Server/webresources/";
 	public static String REGISTER_URL = BASE_URL + "register";
 	public static String SYNC_CONTACT_URL = BASE_URL + "synccontact";
 	public static String NEAREST_FRIEND_REQUEST_URL = BASE_URL
