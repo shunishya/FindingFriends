@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Telephony;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,6 +35,7 @@ import com.findingfriends.models.UserWithDistance;
 import com.findingfriends.utils.FindingFriendsPreferences;
 import com.findingfriends.utils.GPSUtils;
 import com.findingfriends.utils.JsonUtil;
+import com.google.android.gms.drive.internal.ay;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -82,7 +84,16 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 		map.getUiSettings().setRotateGesturesEnabled(false);
 		map.getUiSettings().setTiltGesturesEnabled(false);
 		map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+		if (myLocation != null) {
+			pointMylocation();
+		} else {
+			new GetMyLocation()
+					.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		}
 
+	}
+
+	public void pointMylocation() {
 		LatLng KIEL = new LatLng(myLocation.getLatitude(),
 				myLocation.getLongitude());
 		Marker kiel = map.addMarker(new MarkerOptions()
@@ -98,7 +109,6 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 		map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
 		gpsUtils.turnGPSOff();
-
 	}
 
 	@Override
@@ -184,12 +194,15 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 
 	protected void setRefreshItem(MenuItem item) {
 		refreshItem = item;
-		request = new NearestFriendRequest();
-		request.setLat(myLocation.getLatitude());
-		request.setLog(myLocation.getLongitude());
-		request.setUser_id(mPrefs.getUserID());
-		new GetNearestFriends().executeOnExecutor(
-				AsyncTask.THREAD_POOL_EXECUTOR, request);
+
+		if (myLocation != null) {
+			request = new NearestFriendRequest();
+			request.setLat(myLocation.getLatitude());
+			request.setLog(myLocation.getLongitude());
+			request.setUser_id(mPrefs.getUserID());
+			new GetNearestFriends().executeOnExecutor(
+					AsyncTask.THREAD_POOL_EXECUTOR, request);
+		}
 	}
 
 	protected void stopRefresh() {
@@ -289,6 +302,36 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 			intent.putExtra("address", phoneNumber);
 			intent.putExtra("sms_body", "Im here.");
 			startActivity(intent);
+		}
+
+	}
+
+	public class GetMyLocation extends AsyncTask<Void, Void, Object> {
+
+		@Override
+		protected Object doInBackground(Void... arg0) {
+
+			return gpsUtils.getLocationFromProvider();
+		}
+
+		@Override
+		protected void onPostExecute(Object result) {
+			super.onPostExecute(result);
+			if (result instanceof Location) {
+				myLocation = (Location) result;
+				if (myLocation == null) {
+					new GetMyLocation()
+							.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+				} else {
+					pointMylocation();
+					request = new NearestFriendRequest();
+					request.setLat(myLocation.getLatitude());
+					request.setLog(myLocation.getLongitude());
+					request.setUser_id(mPrefs.getUserID());
+					new GetNearestFriends().executeOnExecutor(
+							AsyncTask.THREAD_POOL_EXECUTOR, request);
+				}
+			}
 		}
 
 	}

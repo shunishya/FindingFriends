@@ -105,30 +105,7 @@ public class GPSUtils {
 
 		@Override
 		public void onLocationChanged(Location location) {
-			Geocoder gcd = new Geocoder(mContext.getApplicationContext(),
-					Locale.getDefault());
-			if (location != null) {
-				try {
-					addresses = gcd.getFromLocation(location.getLatitude(),
-							location.getLongitude(), 1);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}if(addresses!=null){
-				if (!addresses.isEmpty()) {
-					String text = (addresses != null) ? "City : "
-							+ addresses.get(0).getSubLocality()
-							+ "\n Country : "
-							+ addresses.get(0).getCountryName()
-							: "Unknown Location";
-
-					String locationValue = "My current location is: " + text;
-					POS_LAT_LNG = new LatLng(location.getLatitude(),
-							location.getLongitude());
-				}
-
-			}
-			}
+			
 		}
 
 		@Override

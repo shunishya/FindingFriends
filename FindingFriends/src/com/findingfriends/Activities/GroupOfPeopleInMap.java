@@ -7,9 +7,7 @@ import org.w3c.dom.Document;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
-import android.view.View;
 import app.akexorcist.gdaplibrary.GoogleDirection;
-import app.akexorcist.gdaplibrary.GoogleDirection.OnAnimateListener;
 import app.akexorcist.gdaplibrary.GoogleDirection.OnDirectionResponseListener;
 
 import com.actionbarsherlock.app.SherlockActivity;

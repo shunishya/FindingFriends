@@ -15,18 +15,19 @@ import com.findingfriends.utils.JsonUtil;
 
 public class FindingFriendsBaseApi {
 	HttpClient client = new DefaultHttpClient();
-	//public static String BASE_URL = "http://10.0.2.14:8080/Finding_Friends_Server/webresources/";
-	
-	//public static String BASE_URL = "http://192.168.1.107:8080/Finding_Friends_Server/webresources/";
-	public static String BASE_URL = "http://finding-friendsandfamily.rhcloud.com/Finding_Friends_Server/webresources/";
+	// public static String BASE_URL =
+	// "http://10.0.2.14:8080/Finding_Friends_Server/webresources/";
+
+	// public static String BASE_URL =
+	// "http://192.168.1.107:8080/Finding_Friends_Server/webresources/";
+	public static String BASE_URL = "http://finding-friendsandfamily.rhcloud.com/webresources/";
 	public static String REGISTER_URL = BASE_URL + "register";
 	public static String SYNC_CONTACT_URL = BASE_URL + "synccontact";
 	public static String NEAREST_FRIEND_REQUEST_URL = BASE_URL
 			+ "nearestfriends";
 	public static String FIND_GROUP_OF_FRIEND_REQUEST_URL = BASE_URL
 			+ "nearestfriends/findgroupoffriends";
-	public static String UPDATE_INFO = BASE_URL
-			+ "update";
+	public static String UPDATE_INFO = BASE_URL + "update";
 
 	public String getData() throws FindingFriendsException {
 		// Prepare a request object

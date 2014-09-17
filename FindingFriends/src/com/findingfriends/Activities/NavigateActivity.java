@@ -99,10 +99,11 @@ public class NavigateActivity extends SherlockActivity implements
 					.newCameraPosition(cameraPosition));
 		} else {
 			DecimalFormat df = new DecimalFormat("#.##");
-			tvDistance.setText(" "+df.format(friend.getDist()) + " m");
+			tvDistance.setText(tvDistance.getText()+" "+df.format(friend.getDist()) + " m");
 			myFriend = new Location("Friend");
 			myFriend.setLatitude(friend.getUser().getGps_lat());
 			myFriend.setLongitude(friend.getUser().getGps_long());
+			btnDrive.setTextColor(getResources().getColor(R.color.red));
 			navigate(GoogleDirection.MODE_DRIVING);
 		}
 	}
@@ -118,14 +119,23 @@ public class NavigateActivity extends SherlockActivity implements
 		switch (v.getId()) {
 		case R.id.btnWalk:
 			map.clear();
+			btnWalk.setTextColor(getResources().getColor(R.color.red));
+			btnDrive.setTextColor(getResources().getColor(android.R.color.black));
+			btnCycle.setTextColor(getResources().getColor(android.R.color.black));
 			navigate(GoogleDirection.MODE_WALKING);
 			break;
 		case R.id.btnDrive:
 			map.clear();
+			btnWalk.setTextColor(getResources().getColor(android.R.color.black));
+			btnDrive.setTextColor(getResources().getColor(R.color.red));
+			btnCycle.setTextColor(getResources().getColor(android.R.color.black));
 			navigate(GoogleDirection.MODE_DRIVING);
 			break;
 		case R.id.btnCycle:
 			map.clear();
+			btnWalk.setTextColor(getResources().getColor(android.R.color.black));
+			btnDrive.setTextColor(getResources().getColor(android.R.color.black));
+			btnCycle.setTextColor(getResources().getColor(R.color.red));
 			navigate(GoogleDirection.MODE_BICYCLING);
 			break;
 

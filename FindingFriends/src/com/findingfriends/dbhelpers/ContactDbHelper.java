@@ -27,9 +27,9 @@ public class ContactDbHelper {
 
 	public void theseDataAreDirty(List<ContactDb> contactOnApp) {
 		try {
-			for (ContactDb imnContact : contactOnApp) {
-				imnContact.setDeleted(true);
-				mContactsDao.update(imnContact);
+			for (ContactDb findingFriendsContact : contactOnApp) {
+				findingFriendsContact.setDeleted(true);
+				mContactsDao.update(findingFriendsContact);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -47,10 +47,10 @@ public class ContactDbHelper {
 
 	public int notifyUpdated() {
 		int updateCount = 0;
-		for (ContactDb imnContact : getUnUpdatedContacts()) {
-			imnContact.setUpdated(true);
+		for (ContactDb findingFriendsContact : getUnUpdatedContacts()) {
+			findingFriendsContact.setUpdated(true);
 			try {
-				mContactsDao.update(imnContact);
+				mContactsDao.update(findingFriendsContact);
 				updateCount++;
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -70,19 +70,19 @@ public class ContactDbHelper {
 	}
 
 	public List<ContactModel> getNonAppUsers() {
-		List<ContactModel> nonIloopContacts = new ArrayList<ContactModel>();
+		List<ContactModel> nonAppContacts = new ArrayList<ContactModel>();
 		try {
 			for (ContactDb contact : mContactsDao.queryBuilder().where()
 					.isNull(ContactDb.FIELD_USER_ID).query()) {
 				ContactModel model = new ContactModel();
 				model.setPhonenumber(contact.getPhone());
 				model.setName(contact.getName());
-				nonIloopContacts.add(model);
+				nonAppContacts.add(model);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return nonIloopContacts;
+		return nonAppContacts;
 	}
 
 	public List<String> getDeletedContactUId() {
@@ -100,8 +100,8 @@ public class ContactDbHelper {
 	}
 
 	public void updateContacts(List<ContactDb> contactsToUpdate) {
-		for (ContactDb mContact : contactsToUpdate) {
-			updateContact(mContact);
+		for (ContactDb findingFriendsContact : contactsToUpdate) {
+			updateContact(findingFriendsContact);
 		}
 	}
 
@@ -156,8 +156,8 @@ public class ContactDbHelper {
 
 	public void initDbWithItems(List<ContactDb> contactsToInsert) {
 		try {
-			for (ContactDb mContact : contactsToInsert) {
-				mContactsDao.create(mContact);
+			for (ContactDb findingFriendsContact : contactsToInsert) {
+				mContactsDao.create(findingFriendsContact);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -166,9 +166,9 @@ public class ContactDbHelper {
 
 	public void theseContactsAreNotSynced(List<ContactDb> unSyncedContact) {
 		try {
-			for (ContactDb contact : unSyncedContact) {
-				contact.setUpdated(false);
-				mContactsDao.createOrUpdate(contact);
+			for (ContactDb findingFriendsContact : unSyncedContact) {
+				findingFriendsContact.setUpdated(false);
+				mContactsDao.createOrUpdate(findingFriendsContact);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -176,8 +176,8 @@ public class ContactDbHelper {
 	}
 
 	public void addNewContacts(List<ContactDb> newContact) {
-		for (ContactDb contact : newContact) {
-			createContact(contact);
+		for (ContactDb findingFriendsContact : newContact) {
+			createContact(findingFriendsContact);
 		}
 	}
 
@@ -243,22 +243,22 @@ public class ContactDbHelper {
 
 	public void setDataUpdated(List<ContactDb> contactsSynced) {
 		try {
-			for (ContactDb imnContact : contactsSynced) {
-				imnContact.setUpdated(true);
-				mContactsDao.update(imnContact);
+			for (ContactDb findingFriendsContact : contactsSynced) {
+				findingFriendsContact.setUpdated(true);
+				mContactsDao.update(findingFriendsContact);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public List<ContactListSelectableItem> getSelectableContacts() {
+	public List<ContactListSelectableItem> getSelectableIloopContacts() {
 		try {
 			List<ContactListSelectableItem> selectableContacts = new ArrayList<ContactListSelectableItem>();
-			List<ContactDb> mContactsOnApp = mContactsDao.queryBuilder()
+			List<ContactDb> mContactsOnImn = mContactsDao.queryBuilder()
 					.orderBy(ContactDb.FIELD_NAME, true).where()
 					.isNotNull(ContactDb.FIELD_USER_ID).query();
-			for (ContactDb contact : mContactsOnApp) {
+			for (ContactDb contact : mContactsOnImn) {
 				ContactModel contactModel = new ContactModel();
 				ContactListSelectableItem mSelectableContact = new ContactListSelectableItem();
 				contactModel.setName(contact.getName());
@@ -277,7 +277,7 @@ public class ContactDbHelper {
 	public List<ContactDb> getCleanContacts(boolean orderByName) {
 		try {
 			if (orderByName)
-				return mContactsDao.queryBuilder().orderBy(ContactDb.FIELD_NAME, true)
+				return mContactsDao.queryBuilder().orderBy("name", true)
 						.where().eq(ContactDb.FIELD_DELETED, false).query();
 			else
 				return mContactsDao.queryForEq(ContactDb.FIELD_DELETED, false);
