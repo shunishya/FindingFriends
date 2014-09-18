@@ -38,6 +38,7 @@ public class RegisterFragment extends SherlockFragment implements
 	private MainActivity mActivity;
 	private EditText etName;
 	private EditText etPhoneNumber;
+	private EditText etPassword;
 	private Button btnSubmit;
 	private ProgressDialog mDialog;
 	private GPSUtils gpsUtils;
@@ -50,8 +51,9 @@ public class RegisterFragment extends SherlockFragment implements
 		getSherlockActivity().getSupportActionBar().show();
 		etName = (EditText) rootView.findViewById(R.id.etName);
 		etPhoneNumber = (EditText) rootView.findViewById(R.id.etPhoneNumber);
+		etPassword = (EditText) rootView.findViewById(R.id.etPassword);
 		btnSubmit = (Button) rootView.findViewById(R.id.btnSubmit);
-		gpsUtils=new GPSUtils(getSherlockActivity());
+		gpsUtils = new GPSUtils(getSherlockActivity());
 		etPhoneNumber.setOnEditorActionListener(new OnEditorActionListener() {
 
 			@Override
@@ -91,6 +93,7 @@ public class RegisterFragment extends SherlockFragment implements
 		String phone = etPhoneNumber.getText().toString();
 		mDialog = ProgressDialog.show(mActivity, "Processing",
 				"Verifying input");
+		mDialog.setCancelable(false);
 		if (!name.isEmpty() && !phone.isEmpty()) {
 
 			Runnable runnable = new Runnable() {
@@ -174,17 +177,19 @@ public class RegisterFragment extends SherlockFragment implements
 			progressDia = new ProgressDialog(getSherlockActivity());
 			progressDia.setTitle("Processing");
 			progressDia.setMessage("Sending your request....");
+			progressDia.setCancelable(false);
 			progressDia.show();
 		}
 
 		@Override
 		protected Object doInBackground(Void... params) {
-			
+
 			FindingFriendsApi api = new FindingFriendsApi(getSherlockActivity());
 			RegisterRequest req = new RegisterRequest();
 			req.setPhoneNumber(etPhoneNumber.getText().toString());
 			req.setUserName(etName.getText().toString());
-			loc=gpsUtils.getLocationFromProvider();
+			req.setPassword(etPassword.getText().toString());
+			loc = gpsUtils.getLocationFromProvider();
 			req.setGps_lat(loc.getLatitude());
 			req.setGps_long(loc.getLongitude());
 			request = JsonUtil.writeValue(req);
@@ -207,7 +212,9 @@ public class RegisterFragment extends SherlockFragment implements
 					mPrefs.setUserID(response.getUser_id());
 					Toast.makeText(getSherlockActivity(), "Register Success",
 							Toast.LENGTH_SHORT).show();
-					getSherlockActivity().startService(new Intent(getSherlockActivity(), AddressSyncService.class));
+					getSherlockActivity().startService(
+							new Intent(getSherlockActivity(),
+									AddressSyncService.class));
 					mActivity.gotoMainScreen();
 				} else {
 					Toast.makeText(getSherlockActivity(), "Error",

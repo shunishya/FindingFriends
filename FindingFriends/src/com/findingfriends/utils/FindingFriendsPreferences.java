@@ -41,8 +41,8 @@ public class FindingFriendsPreferences {
 		if (getUserID() != null)
 			return true;
 		else
-		//	return false;
-		return true;
+		return false;
+		//return true;
 	}
 
 }

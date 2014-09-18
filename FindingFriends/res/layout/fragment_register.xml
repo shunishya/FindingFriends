@@ -2,36 +2,51 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center" 
-    android:background="@color/light_theme_color">
-     <EditText 
+    android:background="@color/light_theme_color"
+    android:gravity="center" >
+
+    <EditText
         android:id="@+id/etName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/edit_text_bg"
         android:hint="@string/enter_your_name"
         android:imeOptions="actionNext"
-        android:layout_margin="10dp"
-        android:padding="10dp"
-        android:background="@drawable/edit_text_bg"
-        android:inputType="textCapSentences"/>
-    <EditText 
+        android:inputType="textCapSentences"
+        android:padding="10dp" />
+
+    <EditText
         android:id="@+id/etPhoneNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/enter_your_phone_number"
-        android:inputType="phone"
-        android:padding="10dp"
+        android:layout_below="@+id/etName"
         android:layout_margin="10dp"
+        android:background="@drawable/edit_text_bg"
+        android:hint="@string/enter_your_phone_number"
+        android:imeOptions="actionNext"
+        android:inputType="phone"
+        android:padding="10dp" />
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etPhoneNumber"
+        android:layout_margin="10dp"
+        android:background="@drawable/edit_text_bg"
+        android:hint="Password"
         android:imeOptions="actionDone"
-         android:background="@drawable/edit_text_bg"
-        android:layout_below="@+id/etName"/>
-    <Button 
+        android:inputType="textPassword"
+        android:padding="10dp" />
+
+    <Button
         android:id="@+id/btnSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/etPassword"
+        android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
-        android:text="@string/submit"
-        android:layout_below="@+id/etPhoneNumber"
-        android:layout_centerHorizontal="true"/>
+        android:text="@string/submit" />
 
 </RelativeLayout>

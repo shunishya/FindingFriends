@@ -4,9 +4,17 @@ public class RegisterRequest {
 	String userName;
 	String phoneNumber;
 	double gps_lat;
-    double gps_long;
-    
-	
+	double gps_long;
+	String password;
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public double getGps_lat() {
 		return gps_lat;
 	}

@@ -252,7 +252,7 @@ public class ContactDbHelper {
 		}
 	}
 
-	public List<ContactListSelectableItem> getSelectableIloopContacts() {
+	public List<ContactListSelectableItem> getSelectableContacts() {
 		try {
 			List<ContactListSelectableItem> selectableContacts = new ArrayList<ContactListSelectableItem>();
 			List<ContactDb> mContactsOnImn = mContactsDao.queryBuilder()
