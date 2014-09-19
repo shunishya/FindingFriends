@@ -105,7 +105,7 @@ public class GPSUtils {
 
 		@Override
 		public void onLocationChanged(Location location) {
-			
+
 		}
 
 		@Override
@@ -240,10 +240,13 @@ public class GPSUtils {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			String text = (addresses != null) ? "City : "
-					+ addresses.get(0).getSubLocality() + "\n Country : "
-					+ addresses.get(0).getCountryName() : "Unknown Location";
-			return text;
+			if (addresses.size() > 0) {
+				String text = (addresses != null) ? "City : "
+						+ addresses.get(0).getSubLocality() + "\n Country : "
+						+ addresses.get(0).getCountryName()
+						: "Unknown Location";
+				return text;
+			}
 		}
 		return null;
 

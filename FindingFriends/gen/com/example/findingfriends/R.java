@@ -1212,8 +1212,8 @@ containing a value of this type.
         public static final int left=0x7f070015;
         public static final int listMode=0x7f070006;
         public static final int llButtons=0x7f07004a;
-        public static final int llMap=0x7f070048;
-        public static final int lvNearestPeople=0x7f070047;
+        public static final int llMap=0x7f070047;
+        public static final int lvNearestPeople=0x7f070048;
         public static final int lvSearchContacts=0x7f07005f;
         public static final int main_activity=0x7f070039;
         public static final int map=0x7f070046;

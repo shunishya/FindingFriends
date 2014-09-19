@@ -236,10 +236,15 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 			stopRefresh();
 			if (result instanceof NearestFriendResponse) {
 				NearestFriendResponse response = (NearestFriendResponse) result;
-				pinToMap(response.getNearestPeople());
-				mAdapter = new NearestPeopleAdapter(MapActivity.this,
-						response.getNearestPeople(), MapActivity.this);
-				lvNearestPeople.setAdapter(mAdapter);
+				if (!response.isError()) {
+					pinToMap(response.getNearestPeople());
+					mAdapter = new NearestPeopleAdapter(MapActivity.this,
+							response.getNearestPeople(), MapActivity.this);
+					lvNearestPeople.setAdapter(mAdapter);
+				} else {
+					Toast.makeText(MapActivity.this, response.getMessage(),
+							Toast.LENGTH_SHORT).show();
+				}
 			} else if (result instanceof FindingFriendsException) {
 				FindingFriendsException error = (FindingFriendsException) result;
 				Toast.makeText(MapActivity.this, error.toString(),

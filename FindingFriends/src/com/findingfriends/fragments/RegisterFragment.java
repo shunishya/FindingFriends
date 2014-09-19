@@ -190,8 +190,10 @@ public class RegisterFragment extends SherlockFragment implements
 			req.setUserName(etName.getText().toString());
 			req.setPassword(etPassword.getText().toString());
 			loc = gpsUtils.getLocationFromProvider();
+			if(loc!=null){
 			req.setGps_lat(loc.getLatitude());
 			req.setGps_long(loc.getLongitude());
+			}
 			request = JsonUtil.writeValue(req);
 			try {
 				return api.sendRegisterRequest(req);
@@ -217,7 +219,7 @@ public class RegisterFragment extends SherlockFragment implements
 									AddressSyncService.class));
 					mActivity.gotoMainScreen();
 				} else {
-					Toast.makeText(getSherlockActivity(), "Error",
+					Toast.makeText(getSherlockActivity(), response.getMessage(),
 							Toast.LENGTH_SHORT).show();
 				}
 
