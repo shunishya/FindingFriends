@@ -1,11 +1,5 @@
 package com.findingfriends.services;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import android.app.Service;
 import android.content.Intent;
 import android.database.Cursor;
@@ -24,6 +18,12 @@ import com.findingfriends.helpers.PhoneNumberHelper;
 import com.findingfriends.models.ContactModel;
 import com.findingfriends.utils.DeviceUtils;
 import com.findingfriends.utils.FindingFriendsPreferences;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class AddressSyncService extends Service {
 	private ContactDbHelper mDbDigger;

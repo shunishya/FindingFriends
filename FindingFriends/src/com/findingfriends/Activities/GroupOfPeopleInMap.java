@@ -1,12 +1,9 @@
 package com.findingfriends.activities;
 
-import java.util.ArrayList;
-
-import org.w3c.dom.Document;
-
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+
 import app.akexorcist.gdaplibrary.GoogleDirection;
 import app.akexorcist.gdaplibrary.GoogleDirection.OnDirectionResponseListener;
 
@@ -24,6 +21,10 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.w3c.dom.Document;
+
+import java.util.ArrayList;
 
 public class GroupOfPeopleInMap extends SherlockActivity {
 

@@ -1,9 +1,5 @@
 package com.findingfriends.utils;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,6 +18,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class GPSUtils {
 	static Context mContext;

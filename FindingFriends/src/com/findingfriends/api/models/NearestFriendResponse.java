@@ -6,9 +6,9 @@
 
 package com.findingfriends.api.models;
 
-import java.util.ArrayList;
-
 import com.findingfriends.models.UserWithDistance;
+
+import java.util.ArrayList;
 
 /**
  * 

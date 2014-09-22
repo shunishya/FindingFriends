@@ -1,9 +1,5 @@
 package com.findingfriends.activities;
 
-import im.dino.dbinspector.activities.DbInspectorActivity;
-
-import java.util.ArrayList;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.location.Location;
@@ -42,6 +38,10 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import im.dino.dbinspector.activities.DbInspectorActivity;
+
+import java.util.ArrayList;
 
 public class MapActivity extends SherlockActivity implements OnClickListener,
 		AdapterToActivity {
@@ -103,7 +103,7 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 
 		CameraPosition cameraPosition = new CameraPosition.Builder()
 				.target(new LatLng(myLocation.getLatitude(), myLocation
-						.getLongitude())).zoom(17).bearing(90).tilt(0).build();
+						.getLongitude())).zoom(13).bearing(90).tilt(0).build();
 		map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
 		gpsUtils.turnGPSOff();
@@ -112,6 +112,7 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 	@Override
 	protected void onResume() {
 		super.onResume();
+		new GetMyLocation().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
 
 	@Override

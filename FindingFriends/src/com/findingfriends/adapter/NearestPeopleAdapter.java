@@ -1,7 +1,5 @@
 package com.findingfriends.adapter;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.location.Location;
 import android.view.LayoutInflater;
@@ -17,6 +15,8 @@ import com.findingfriends.interfaces.AdapterToActivity;
 import com.findingfriends.models.UserWithDistance;
 import com.findingfriends.utils.GPSUtils;
 
+import java.util.ArrayList;
+
 public class NearestPeopleAdapter extends ArrayAdapter<UserWithDistance>
 		implements OnClickListener {
 	private Context mContext;
@@ -29,7 +29,7 @@ public class NearestPeopleAdapter extends ArrayAdapter<UserWithDistance>
 			ArrayList<UserWithDistance> objects, AdapterToActivity mActivity) {
 		super(context, R.layout.nearest_people_row, R.id.tvPeople, objects);
 		this.mContext = context;
-		this.mInflater = LayoutInflater.from(context);
+		this.mInflater = LayoutInflater.from(mContext);
 		this.mAdapterToActivity = mActivity;
 		contactList.addAll(objects);
 	}
@@ -76,15 +76,15 @@ public class NearestPeopleAdapter extends ArrayAdapter<UserWithDistance>
 		location.setLatitude(contact.getUser().getGps_lat());
 		location.setLongitude(contact.getUser().getGps_long());
 		long diff = System.currentTimeMillis() - contact.getUser().getTime();
-		if (diff / 1000 < 60) {
-			holder.tvAddress.setText("At" + GPSUtils.getAddress(location)
-					+ " " + "(" + diff + "seconds ago)");
-		} else if (diff / 60000 < 60) {
-			double min=diff/60000;
-			holder.tvAddress.setText("At" + GPSUtils.getAddress(location)
-					+ " " + "(" + min + "minutes ago)");
+		if ((diff / 1000) < 60) {
+			holder.tvAddress.setText("At" + GPSUtils.getAddress(location) + " "
+					+ "(" + (diff / 1000) + "seconds ago)");
+		} else if ((diff / 60000) < 60) {
+			double min = diff / 60000;
+			holder.tvAddress.setText("At" + GPSUtils.getAddress(location) + " "
+					+ "(" + min + "minutes ago)");
 		} else {
-			double hrs=diff/(1000*60*60);
+			double hrs = diff / (1000 * 60 * 60);
 			holder.tvAddress.setText("At " + GPSUtils.getAddress(location)
 					+ " " + "(" + hrs + "hours ago)");
 		}

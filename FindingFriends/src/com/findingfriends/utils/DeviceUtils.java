@@ -1,9 +1,9 @@
 package com.findingfriends.utils;
 
-import java.util.Locale;
-
 import android.content.Context;
 import android.telephony.TelephonyManager;
+
+import java.util.Locale;
 
 /**
  * Utility class for accessing various device features such as device id,

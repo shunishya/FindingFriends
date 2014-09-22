@@ -1,9 +1,5 @@
 package com.findingfriends.dbhelpers;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 
 import com.findingfriends.db.model.ContactDb;
@@ -11,6 +7,10 @@ import com.findingfriends.models.ContactModel;
 import com.findingfriends.utils.ContactListSelectableItem;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactDbHelper {
 	private Dao<ContactDb, Integer> mContactsDao;

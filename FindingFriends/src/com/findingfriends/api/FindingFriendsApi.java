@@ -1,7 +1,5 @@
 package com.findingfriends.api;
 
-import java.io.InputStream;
-
 import android.content.Context;
 
 import com.findingfriends.api.models.ContactSyncRequest;
@@ -15,6 +13,8 @@ import com.findingfriends.api.models.SyncContactResponse;
 import com.findingfriends.api.models.UpdateLocation;
 import com.findingfriends.api.models.UpdateLocationResponse;
 import com.findingfriends.utils.JsonUtil;
+
+import java.io.InputStream;
 
 public class FindingFriendsApi extends FindingFriendsBaseApi {
 	Context mContext;

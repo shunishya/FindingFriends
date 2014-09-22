@@ -1,9 +1,5 @@
 package com.findingfriends.activities;
 
-import java.text.DecimalFormat;
-
-import org.w3c.dom.Document;
-
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -12,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+
 import app.akexorcist.gdaplibrary.GoogleDirection;
 import app.akexorcist.gdaplibrary.GoogleDirection.OnAnimateListener;
 import app.akexorcist.gdaplibrary.GoogleDirection.OnDirectionResponseListener;
@@ -29,6 +26,10 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.w3c.dom.Document;
+
+import java.text.DecimalFormat;
 
 public class NavigateActivity extends SherlockActivity implements
 		OnClickListener {
@@ -54,8 +55,8 @@ public class NavigateActivity extends SherlockActivity implements
 				R.id.Navigationmap)).getMap();
 
 		String userInfo = getIntent().getStringExtra(USER_INFO);
-		
-		Log.e("User info::>>>>>",userInfo);
+
+		Log.e("User info::>>>>>", userInfo);
 		friend = (UserWithDistance) JsonUtil.readJsonString(userInfo,
 				UserWithDistance.class);
 
@@ -99,7 +100,8 @@ public class NavigateActivity extends SherlockActivity implements
 					.newCameraPosition(cameraPosition));
 		} else {
 			DecimalFormat df = new DecimalFormat("#.##");
-			tvDistance.setText(tvDistance.getText()+" "+df.format(friend.getDist()) + " m");
+			tvDistance.setText(tvDistance.getText() + " "
+					+ df.format(friend.getDist()) + " m");
 			myFriend = new Location("Friend");
 			myFriend.setLatitude(friend.getUser().getGps_lat());
 			myFriend.setLongitude(friend.getUser().getGps_long());
@@ -120,21 +122,25 @@ public class NavigateActivity extends SherlockActivity implements
 		case R.id.btnWalk:
 			map.clear();
 			btnWalk.setTextColor(getResources().getColor(R.color.red));
-			btnDrive.setTextColor(getResources().getColor(android.R.color.black));
-			btnCycle.setTextColor(getResources().getColor(android.R.color.black));
+			btnDrive.setTextColor(getResources()
+					.getColor(android.R.color.black));
+			btnCycle.setTextColor(getResources()
+					.getColor(android.R.color.black));
 			navigate(GoogleDirection.MODE_WALKING);
 			break;
 		case R.id.btnDrive:
 			map.clear();
 			btnWalk.setTextColor(getResources().getColor(android.R.color.black));
 			btnDrive.setTextColor(getResources().getColor(R.color.red));
-			btnCycle.setTextColor(getResources().getColor(android.R.color.black));
+			btnCycle.setTextColor(getResources()
+					.getColor(android.R.color.black));
 			navigate(GoogleDirection.MODE_DRIVING);
 			break;
 		case R.id.btnCycle:
 			map.clear();
 			btnWalk.setTextColor(getResources().getColor(android.R.color.black));
-			btnDrive.setTextColor(getResources().getColor(android.R.color.black));
+			btnDrive.setTextColor(getResources()
+					.getColor(android.R.color.black));
 			btnCycle.setTextColor(getResources().getColor(R.color.red));
 			navigate(GoogleDirection.MODE_BICYCLING);
 			break;
@@ -159,8 +165,11 @@ public class NavigateActivity extends SherlockActivity implements
 				myLocation.getLongitude());
 		final LatLng end = new LatLng(myFriend.getLatitude(),
 				myFriend.getLongitude());
-
-		map.animateCamera(CameraUpdateFactory.newLatLngZoom(start, 15));
+		if (friend.getDist() > 1000) {
+			map.animateCamera(CameraUpdateFactory.newLatLngZoom(start, 13));
+		} else {
+			map.animateCamera(CameraUpdateFactory.newLatLngZoom(start, 15));
+		}
 
 		gd = new GoogleDirection(this);
 		gd.setLogging(true);

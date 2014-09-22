@@ -1,7 +1,5 @@
 package com.findingfriends.adapter;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +13,8 @@ import com.example.findingfriends.R;
 import com.findingfriends.interfaces.AdapterToActivity;
 import com.findingfriends.models.ContactModel;
 
+import java.util.ArrayList;
+
 public class DummyAdapter extends ArrayAdapter<ContactModel>
 implements OnClickListener {
 private Context mContext;
@@ -27,7 +27,7 @@ public DummyAdapter(Context context,
 	ArrayList<ContactModel> objects, AdapterToActivity mActivity) {
 super(context, R.layout.nearest_people_row, R.id.tvPeople, objects);
 this.mContext = context;
-this.mInflater = LayoutInflater.from(context);
+this.mInflater = LayoutInflater.from(mContext);
 this.mAdapterToActivity = mActivity;
 contactList.addAll(objects);
 }

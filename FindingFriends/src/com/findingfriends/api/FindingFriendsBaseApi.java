@@ -1,7 +1,6 @@
 package com.findingfriends.api;
 
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import com.findingfriends.utils.JsonUtil;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -11,7 +10,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import com.findingfriends.utils.JsonUtil;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 
 public class FindingFriendsBaseApi {
 	HttpClient client = new DefaultHttpClient();

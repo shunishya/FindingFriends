@@ -1,7 +1,5 @@
 package com.findingfriends.activities;
 
-import java.util.Calendar;
-
 import android.app.AlarmManager;
 import android.app.Application;
 import android.app.PendingIntent;
@@ -10,6 +8,8 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.findingfriends.services.GPSTracker;
+
+import java.util.Calendar;
 
 public class FindingFriends extends Application {
 
