@@ -1199,7 +1199,7 @@ containing a value of this type.
         public static final int dbinspector_table_layout=0x7f070041;
         public static final int dbinspector_text_current_page=0x7f07003d;
         public static final int disableHome=0x7f07000d;
-        public static final int done=0x7f070062;
+        public static final int done=0x7f070063;
         public static final int edit_query=0x7f07002d;
         public static final int etName=0x7f070042;
         public static final int etPassword=0x7f070044;
@@ -1222,10 +1222,11 @@ containing a value of this type.
         public static final int none=0x7f070000;
         public static final int normal=0x7f070001;
         public static final int rdSelect=0x7f07005b;
+        public static final int refresh=0x7f070061;
         public static final int right=0x7f070016;
         public static final int satellite=0x7f070002;
         public static final int showCustom=0x7f07000c;
-        public static final int showDb=0x7f070061;
+        public static final int showDb=0x7f070062;
         public static final int showHome=0x7f070009;
         public static final int showTitle=0x7f07000b;
         public static final int tabMode=0x7f070007;

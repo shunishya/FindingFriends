@@ -98,8 +98,7 @@ public class GroupOfPeopleInMap extends SherlockActivity {
 				myLocation.getLongitude());
 		final LatLng end = new LatLng(myFriend.getLatitude(),
 				myFriend.getLongitude());
-
-		map.animateCamera(CameraUpdateFactory.newLatLngZoom(start, 15));
+		map.animateCamera(CameraUpdateFactory.newLatLngZoom(start, 13));
 
 		gd = new GoogleDirection(this);
 		gd.setLogging(true);

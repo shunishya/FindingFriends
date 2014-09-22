@@ -379,7 +379,7 @@ int id dbinspector_scrollview_table 0x7f070040
 int id dbinspector_table_layout 0x7f070041
 int id dbinspector_text_current_page 0x7f07003d
 int id disableHome 0x7f07000d
-int id done 0x7f070062
+int id done 0x7f070063
 int id edit_query 0x7f07002d
 int id etName 0x7f070042
 int id etPassword 0x7f070044
@@ -402,10 +402,11 @@ int id middle 0x7f070014
 int id none 0x7f070000
 int id normal 0x7f070001
 int id rdSelect 0x7f07005b
+int id refresh 0x7f070061
 int id right 0x7f070016
 int id satellite 0x7f070002
 int id showCustom 0x7f07000c
-int id showDb 0x7f070061
+int id showDb 0x7f070062
 int id showHome 0x7f070009
 int id showTitle 0x7f07000b
 int id tabMode 0x7f070007

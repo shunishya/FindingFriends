@@ -112,7 +112,7 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 	@Override
 	protected void onResume() {
 		super.onResume();
-		new GetMyLocation().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
 	}
 
 	@Override
@@ -149,9 +149,6 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater menuInflater = getSupportMenuInflater();
 		menuInflater.inflate(R.menu.main, menu);
-		menu.add(Menu.NONE, 1, Menu.NONE, "Refresh data")
-				.setIcon(R.drawable.navigation_refresh)
-				.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		setRefreshItem(menu.findItem(1));
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -169,6 +166,9 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 		case R.id.showDb:
 			startActivity(new Intent(MapActivity.this,
 					DbInspectorActivity.class));
+			break;
+		case R.id.refresh:
+			setRefreshItem(item);
 			break;
 		default:
 			break;
