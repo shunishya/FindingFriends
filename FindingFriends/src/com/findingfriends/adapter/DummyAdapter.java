@@ -9,9 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.findingfriends.R;
 import com.findingfriends.interfaces.AdapterToActivity;
 import com.findingfriends.models.ContactModel;
+import com.findings.findingfriends.R;
 
 import java.util.ArrayList;
 

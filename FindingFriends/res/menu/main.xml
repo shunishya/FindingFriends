@@ -8,11 +8,5 @@
         android:showAsAction="always"
         android:title="Refresh">
     </item>
-    <item
-        android:id="@+id/showDb"
-        android:orderInCategory="6"
-        android:showAsAction="never"
-        android:title="Show Db">
-    </item>
 
 </menu>

@@ -10,10 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.actionbarsherlock.app.SherlockFragment;
-import com.example.findingfriends.R;
 import com.findingfriends.activities.MainActivity;
 import com.findingfriends.services.AddressSyncService;
 import com.findingfriends.utils.GPSUtils;
+import com.findings.findingfriends.R;
 
 public class SplashFragment extends SherlockFragment {
 	private MainActivity mActivity;

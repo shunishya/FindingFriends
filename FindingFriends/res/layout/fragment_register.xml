@@ -5,10 +5,20 @@
     android:background="@color/light_theme_color"
     android:gravity="center" >
 
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="If you have already registered then use your own password and name, if not then choose your own."
+        android:textColor="@color/abs__bright_foreground_disabled_holo_dark"
+        android:textSize="20sp" />
+
     <EditText
         android:id="@+id/etName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/info"
         android:layout_margin="10dp"
         android:background="@drawable/edit_text_bg"
         android:hint="@string/enter_your_name"

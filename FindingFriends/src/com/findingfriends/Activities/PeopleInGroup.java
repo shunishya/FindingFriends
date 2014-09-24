@@ -1,8 +1,5 @@
 package com.findingfriends.activities;
 
-import java.util.ArrayList;
-import java.util.Locale;
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,7 +16,6 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.example.findingfriends.R;
 import com.findingfriends.adapter.SearchContactsAdapter;
 import com.findingfriends.api.FindingFriendsApi;
 import com.findingfriends.api.FindingFriendsException;
@@ -32,6 +28,10 @@ import com.findingfriends.ui.RecipientView;
 import com.findingfriends.utils.ContactListSelectableItem;
 import com.findingfriends.utils.FindingFriendsPreferences;
 import com.findingfriends.utils.JsonUtil;
+import com.findings.findingfriends.R;
+
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class PeopleInGroup extends SherlockActivity implements
 		ContactAttachDetachListner, TextWatcher {
@@ -39,48 +39,48 @@ public class PeopleInGroup extends SherlockActivity implements
 	public static String LATITUDE = "my_latitude";
 	public static String LONGITUDE = "logitude";
 
-	private EditText etSearchContacts;
-	private ListView lvSearchContacts;
+	private EditText mEtSearchContacts;
+	private ListView mLvSearchContacts;
 	private RecipientView mEtWithSelection;
 	private SearchContactsAdapter mSearchContactAdapter;
-	private ArrayList<ContactListSelectableItem> contactsArray;
-	private ArrayList<ContactListSelectableItem> secondaryContactsArray;
+	private ArrayList<ContactListSelectableItem> mContactsArray;
+	private ArrayList<ContactListSelectableItem> mSecondaryContactsArray;
 	private FindingFriendsPreferences mPrefs;
 
-	private double lat, longitude;
+	private double mLat, mLongitude;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.select_people_layout);
 
-		lat = getIntent().getDoubleExtra(LATITUDE, 0.00000);
-		longitude = getIntent().getDoubleExtra(LONGITUDE, 0.000000);
+		mLat = getIntent().getDoubleExtra(LATITUDE, 0.00000);
+		mLongitude = getIntent().getDoubleExtra(LONGITUDE, 0.000000);
 
 		mEtWithSelection = (RecipientView) findViewById(R.id.etWithSelections);
-		etSearchContacts = (EditText) findViewById(R.id.etSearchContacts);
-		contactsArray = new ArrayList<ContactListSelectableItem>();
-		secondaryContactsArray = new ArrayList<ContactListSelectableItem>();
+		mEtSearchContacts = (EditText) findViewById(R.id.etSearchContacts);
+		mContactsArray = new ArrayList<ContactListSelectableItem>();
+		mSecondaryContactsArray = new ArrayList<ContactListSelectableItem>();
 
 		ContactDbHelper contactDbHelper = new ContactDbHelper(this);
 		mPrefs = new FindingFriendsPreferences(this);
 
-		lvSearchContacts = (ListView) findViewById(R.id.lvSearchContacts);
-		contactsArray.addAll(contactDbHelper.getSelectableContacts());
-		secondaryContactsArray.addAll(contactsArray);
-		mSearchContactAdapter = new SearchContactsAdapter(this, contactsArray,
+		mLvSearchContacts = (ListView) findViewById(R.id.lvSearchContacts);
+		mContactsArray.addAll(contactDbHelper.getSelectableContacts());
+		mSecondaryContactsArray.addAll(mContactsArray);
+		mSearchContactAdapter = new SearchContactsAdapter(this, mContactsArray,
 				this);
-		lvSearchContacts.setAdapter(mSearchContactAdapter);
-		mEtWithSelection.setEditText(etSearchContacts);
+		mLvSearchContacts.setAdapter(mSearchContactAdapter);
+		mEtWithSelection.setEditText(mEtSearchContacts);
 		mEtWithSelection.setTextWatcher(this);
 		mEtWithSelection.addRemovedListner(this);
 
-		lvSearchContacts.setOnItemClickListener(new OnItemClickListener() {
+		mLvSearchContacts.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
-				mSearchContactAdapter.setCheck(contactsArray.get(position));
+				mSearchContactAdapter.setCheck(mContactsArray.get(position));
 				mSearchContactAdapter.notifyDataSetChanged();
 			}
 		});
@@ -115,8 +115,8 @@ public class PeopleInGroup extends SherlockActivity implements
 			GroupOfFriendRequest request = new GroupOfFriendRequest();
 			request.setListOfFriends(mEtWithSelection.getSelectedContactIds());
 			request.setUser_id(mPrefs.getUserID());
-			request.setGps_lat(lat);
-			request.setGps_long(longitude);
+			request.setGps_lat(mLat);
+			request.setGps_long(mLongitude);
 			new GetGroupInfo().execute(request);
 			break;
 		default:
@@ -146,7 +146,7 @@ public class PeopleInGroup extends SherlockActivity implements
 
 	@Override
 	public void clickedUser(ContactListSelectableItem contact) {
-		for (ContactListSelectableItem contact_on_list : contactsArray) {
+		for (ContactListSelectableItem contact_on_list : mContactsArray) {
 			if (contact.getContact().getUser_id()
 					.equals(contact_on_list.getContact().getUser_id())) {
 				contact_on_list.setSelected(contact.isSelected());
@@ -164,7 +164,7 @@ public class PeopleInGroup extends SherlockActivity implements
 
 	@Override
 	public void contactRemoved(ContactModel mContact) {
-		for (ContactListSelectableItem contact_on_list : contactsArray) {
+		for (ContactListSelectableItem contact_on_list : mContactsArray) {
 			if (mContact.getUser_id().equals(
 					contact_on_list.getContact().getUser_id())) {
 				contact_on_list.setSelected(false);
@@ -187,17 +187,17 @@ public class PeopleInGroup extends SherlockActivity implements
 	 * 
 	 * */
 	private void filterSelectedContacts(String textToFilter) {
-		contactsArray.clear();
+		mContactsArray.clear();
 		textToFilter = textToFilter.toLowerCase(Locale.getDefault());
 		if (textToFilter.length() == 0) {
-			contactsArray.addAll(secondaryContactsArray);
+			mContactsArray.addAll(mSecondaryContactsArray);
 		} else {
-			for (ContactListSelectableItem contact : secondaryContactsArray) {
+			for (ContactListSelectableItem contact : mSecondaryContactsArray) {
 				if (!contact.isSelected()) {
 					String contactName = contact.getContact().getName()
 							.toLowerCase(Locale.getDefault());
 					if (contactName.contains(textToFilter))
-						contactsArray.add(contact);
+						mContactsArray.add(contact);
 				}
 			}
 		}

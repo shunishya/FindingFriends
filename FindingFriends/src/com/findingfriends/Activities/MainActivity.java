@@ -1,16 +1,16 @@
 package com.findingfriends.activities;
 
-import java.lang.reflect.Field;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ViewConfiguration;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.example.findingfriends.R;
 import com.findingfriends.fragments.RegisterFragment;
 import com.findingfriends.fragments.SplashFragment;
 import com.findingfriends.utils.FindingFriendsPreferences;
+import com.findings.findingfriends.R;
+
+import java.lang.reflect.Field;
 
 public class MainActivity extends SherlockFragmentActivity {
 	private RegisterFragment mRegisterFragment;
