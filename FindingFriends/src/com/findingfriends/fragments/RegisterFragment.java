@@ -20,7 +20,6 @@ import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
-import com.example.findingfriends.R;
 import com.findingfriends.activities.MainActivity;
 import com.findingfriends.api.FindingFriendsApi;
 import com.findingfriends.api.FindingFriendsException;
@@ -32,16 +31,17 @@ import com.findingfriends.utils.DeviceUtils;
 import com.findingfriends.utils.FindingFriendsPreferences;
 import com.findingfriends.utils.GPSUtils;
 import com.findingfriends.utils.JsonUtil;
+import com.findings.findingfriends.R;
 
 public class RegisterFragment extends SherlockFragment implements
 		OnClickListener {
 	private MainActivity mActivity;
-	private EditText etName;
-	private EditText etPhoneNumber;
-	private EditText etPassword;
-	private Button btnSubmit;
+	private EditText mEtName;
+	private EditText mEtPhoneNumber;
+	private EditText mEtPassword;
+	private Button mBtnSubmit;
 	private ProgressDialog mDialog;
-	private GPSUtils gpsUtils;
+	private GPSUtils mGpsUtils;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,12 +49,12 @@ public class RegisterFragment extends SherlockFragment implements
 		View rootView = inflater.inflate(R.layout.fragment_register, container,
 				false);
 		getSherlockActivity().getSupportActionBar().show();
-		etName = (EditText) rootView.findViewById(R.id.etName);
-		etPhoneNumber = (EditText) rootView.findViewById(R.id.etPhoneNumber);
-		etPassword = (EditText) rootView.findViewById(R.id.etPassword);
-		btnSubmit = (Button) rootView.findViewById(R.id.btnSubmit);
-		gpsUtils = new GPSUtils(getSherlockActivity());
-		etPhoneNumber.setOnEditorActionListener(new OnEditorActionListener() {
+		mEtName = (EditText) rootView.findViewById(R.id.etName);
+		mEtPhoneNumber = (EditText) rootView.findViewById(R.id.etPhoneNumber);
+		mEtPassword = (EditText) rootView.findViewById(R.id.etPassword);
+		mBtnSubmit = (Button) rootView.findViewById(R.id.btnSubmit);
+		mGpsUtils = new GPSUtils(getSherlockActivity());
+		mEtPhoneNumber.setOnEditorActionListener(new OnEditorActionListener() {
 
 			@Override
 			public boolean onEditorAction(TextView v, int actionId,
@@ -66,7 +66,7 @@ public class RegisterFragment extends SherlockFragment implements
 				return false;
 			}
 		});
-		btnSubmit.setOnClickListener(this);
+		mBtnSubmit.setOnClickListener(this);
 		return rootView;
 	}
 
@@ -89,8 +89,8 @@ public class RegisterFragment extends SherlockFragment implements
 	}
 
 	public void onSubmit() {
-		String name = etName.getText().toString();
-		String phone = etPhoneNumber.getText().toString();
+		String name = mEtName.getText().toString();
+		String phone = mEtPhoneNumber.getText().toString();
 		mDialog = ProgressDialog.show(mActivity, "Processing",
 				"Verifying input");
 		mDialog.setCancelable(false);
@@ -99,7 +99,7 @@ public class RegisterFragment extends SherlockFragment implements
 			Runnable runnable = new Runnable() {
 				@Override
 				public void run() {
-					String inputNumber = etPhoneNumber.getText().toString();
+					String inputNumber = mEtPhoneNumber.getText().toString();
 					if (!inputNumber.isEmpty()) {
 						PhoneNumberHelper pnHelper = new PhoneNumberHelper();
 						final String phoneNumber = pnHelper
@@ -110,7 +110,7 @@ public class RegisterFragment extends SherlockFragment implements
 							mActivity.runOnUiThread(new Runnable() {
 								@Override
 								public void run() {
-									etPhoneNumber.setText(phoneNumber);
+									mEtPhoneNumber.setText(phoneNumber);
 									mDialog.dismiss();
 									// TODO call async class for submit activity
 									new RegisterUser()
@@ -186,10 +186,10 @@ public class RegisterFragment extends SherlockFragment implements
 
 			FindingFriendsApi api = new FindingFriendsApi(getSherlockActivity());
 			RegisterRequest req = new RegisterRequest();
-			req.setPhoneNumber(etPhoneNumber.getText().toString());
-			req.setUserName(etName.getText().toString());
-			req.setPassword(etPassword.getText().toString());
-			loc = gpsUtils.getLocationFromProvider();
+			req.setPhoneNumber(mEtPhoneNumber.getText().toString());
+			req.setUserName(mEtName.getText().toString());
+			req.setPassword(mEtPassword.getText().toString());
+			loc = mGpsUtils.getLocationFromProvider();
 			if(loc!=null){
 			req.setGps_lat(loc.getLatitude());
 			req.setGps_long(loc.getLongitude());

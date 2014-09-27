@@ -16,9 +16,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RemoteViews;
 
-import com.example.findingfriends.R;
 import com.findingfriends.interfaces.ContactAttachDetachListner;
 import com.findingfriends.models.ContactModel;
+import com.findings.findingfriends.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

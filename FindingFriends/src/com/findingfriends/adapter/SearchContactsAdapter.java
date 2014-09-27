@@ -9,9 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.example.findingfriends.R;
 import com.findingfriends.interfaces.ContactAttachDetachListner;
 import com.findingfriends.utils.ContactListSelectableItem;
+import com.findings.findingfriends.R;
 
 import java.util.List;
 
