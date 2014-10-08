@@ -240,7 +240,7 @@ public class GPSUtils {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if (addresses.size() > 0) {
+			if (addresses!=null&&addresses.size() > 0) {
 				String text = (addresses != null) ? "City : "
 						+ addresses.get(0).getSubLocality() + "\n Country : "
 						+ addresses.get(0).getCountryName()

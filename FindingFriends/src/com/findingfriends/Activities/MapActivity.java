@@ -104,7 +104,7 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 						.getLongitude())).zoom(13).bearing(90).tilt(0).build();
 		mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-		mGpsUtils.turnGPSOff();
+		//mGpsUtils.turnGPSOff();
 	}
 
 	@Override
