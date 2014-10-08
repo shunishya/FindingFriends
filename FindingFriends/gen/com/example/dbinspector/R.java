@@ -16,10 +16,10 @@ public final class R {
 	}
 	public static final class drawable {
 		public static final int ic_action_dbinspector_settings = 0x7f02008e;
-		public static final int ic_launcher_dbinspector = 0x7f020090;
+		public static final int ic_launcher_dbinspector = 0x7f020091;
 	}
 	public static final class id {
-		public static final int dbinspector_action_settings = 0x7f09006e;
+		public static final int dbinspector_action_settings = 0x7f09006f;
 		public static final int dbinspector_button_next = 0x7f09004c;
 		public static final int dbinspector_button_previous = 0x7f09004a;
 		public static final int dbinspector_container = 0x7f090048;

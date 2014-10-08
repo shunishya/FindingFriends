@@ -40,8 +40,8 @@ public class DeviceUtils {
 				return country.toUpperCase(Locale.getDefault());
 			else {
 				country = Locale.getDefault().getCountry();
-				// return country;
-				return "NP"; // Need to comment out and uncomment the above line
+				 return country;
+				//return "NP"; // Need to comment out and uncomment the above line
 								// of code
 			}
 		}
