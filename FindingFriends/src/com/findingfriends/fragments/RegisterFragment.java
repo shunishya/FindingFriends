@@ -190,9 +190,9 @@ public class RegisterFragment extends SherlockFragment implements
 			req.setUserName(mEtName.getText().toString());
 			req.setPassword(mEtPassword.getText().toString());
 			loc = mGpsUtils.getLocationFromProvider();
-			if(loc!=null){
-			req.setGps_lat(loc.getLatitude());
-			req.setGps_long(loc.getLongitude());
+			if (loc != null) {
+				req.setGps_lat(loc.getLatitude());
+				req.setGps_long(loc.getLongitude());
 			}
 			request = JsonUtil.writeValue(req);
 			try {
@@ -219,12 +219,13 @@ public class RegisterFragment extends SherlockFragment implements
 									AddressSyncService.class));
 					mActivity.gotoMainScreen();
 				} else {
-					Toast.makeText(getSherlockActivity(), response.getMessage(),
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(getSherlockActivity(),
+							response.getMessage(), Toast.LENGTH_SHORT).show();
 				}
 
 			} else if (result instanceof FindingFriendsException) {
-				Toast.makeText(getSherlockActivity(), "Exception",
+				FindingFriendsException exception = (FindingFriendsException) result;
+				Toast.makeText(getSherlockActivity(), exception.toString(),
 						Toast.LENGTH_SHORT).show();
 			}
 

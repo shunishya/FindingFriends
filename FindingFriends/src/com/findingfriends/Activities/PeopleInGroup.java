@@ -26,6 +26,7 @@ import com.findingfriends.interfaces.ContactAttachDetachListner;
 import com.findingfriends.models.ContactModel;
 import com.findingfriends.ui.RecipientView;
 import com.findingfriends.utils.ContactListSelectableItem;
+import com.findingfriends.utils.DeviceUtils;
 import com.findingfriends.utils.FindingFriendsPreferences;
 import com.findingfriends.utils.JsonUtil;
 import com.findings.findingfriends.R;
@@ -117,6 +118,7 @@ public class PeopleInGroup extends SherlockActivity implements
 			request.setUser_id(mPrefs.getUserID());
 			request.setGps_lat(mLat);
 			request.setGps_long(mLongitude);
+			request.setDevice_id(DeviceUtils.getUniqueDeviceID(this));
 			new GetGroupInfo().execute(request);
 			break;
 		default:

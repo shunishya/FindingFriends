@@ -1,12 +1,15 @@
 package com.findingfriends.activities;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.provider.Telephony;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,6 +29,9 @@ import com.findingfriends.api.models.NearestFriendRequest;
 import com.findingfriends.api.models.NearestFriendResponse;
 import com.findingfriends.interfaces.AdapterToActivity;
 import com.findingfriends.models.UserWithDistance;
+import com.findingfriends.services.AddressSyncService;
+import com.findingfriends.services.AddressSyncService.LocalBinder;
+import com.findingfriends.utils.DeviceUtils;
 import com.findingfriends.utils.FindingFriendsPreferences;
 import com.findingfriends.utils.GPSUtils;
 import com.findingfriends.utils.JsonUtil;
@@ -55,6 +61,9 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 	private FindingFriendsPreferences mPrefs;
 	public MenuItem mRefreshItem = null;
 	private Location mMyLocation;
+
+	private boolean mBounded;
+	private AddressSyncService mService;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -102,15 +111,28 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 		CameraPosition cameraPosition = new CameraPosition.Builder()
 				.target(new LatLng(mMyLocation.getLatitude(), mMyLocation
 						.getLongitude())).zoom(13).bearing(90).tilt(0).build();
-		mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+		mMap.animateCamera(CameraUpdateFactory
+				.newCameraPosition(cameraPosition));
 
-		mGpsUtils.turnGPSOff();
+		// mGpsUtils.turnGPSOff();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		if (mBounded) {
+			if (mService != null)
+				mService.setMapActivity(null);
+			unbindService(mConnection);
+			mBounded = false;
+		}
 	}
 
 	@Override
@@ -185,6 +207,10 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 		}
 	}
 
+	public void getFriends() {
+		invalidateOptionsMenu();
+	}
+
 	protected void setRefreshItem(MenuItem item) {
 		mRefreshItem = item;
 
@@ -193,6 +219,7 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 			mRequest.setLat(mMyLocation.getLatitude());
 			mRequest.setLog(mMyLocation.getLongitude());
 			mRequest.setUser_id(mPrefs.getUserID());
+			mRequest.setDevice_id(DeviceUtils.getUniqueDeviceID(this));
 			new GetNearestFriends().executeOnExecutor(
 					AsyncTask.THREAD_POOL_EXECUTOR, mRequest);
 		}
@@ -269,6 +296,23 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 		callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(callIntent);
 	}
+
+	ServiceConnection mConnection = new ServiceConnection() {
+
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			mBounded = false;
+			mService = null;
+		}
+
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			mBounded = true;
+			@SuppressWarnings("unchecked")
+			LocalBinder<AddressSyncService> mLocalBinder = (LocalBinder<AddressSyncService>) service;
+			mService = (AddressSyncService) mLocalBinder.getService();
+		}
+	};
 
 	@SuppressLint("NewApi")
 	@Override

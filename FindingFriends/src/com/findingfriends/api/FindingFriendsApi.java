@@ -33,8 +33,7 @@ public class FindingFriendsApi extends FindingFriendsBaseApi {
 			response = (RegisterResponse) JsonUtil.readJson(res,
 					RegisterResponse.class);
 			if (response.isError()) {
-				throw new FindingFriendsException("ILoopException:"
-						+ response.getMessage());
+				throw new FindingFriendsException(response.getMessage());
 			}
 		} else {
 			response.setError(true);
@@ -52,8 +51,7 @@ public class FindingFriendsApi extends FindingFriendsBaseApi {
 					SyncContactResponse.class);
 			return contactSyncResponse;
 		} else {
-			throw new FindingFriendsException(
-					"ILoopException: Failed to get response");
+			throw new FindingFriendsException("Failed to get response");
 		}
 
 	}
@@ -68,8 +66,7 @@ public class FindingFriendsApi extends FindingFriendsBaseApi {
 					res, NearestFriendResponse.class);
 			return nearestFriendResponse;
 		} else {
-			throw new FindingFriendsException(
-					"ILoopException: Failed to get response");
+			throw new FindingFriendsException("Failed to get response");
 		}
 
 	}
@@ -84,8 +81,7 @@ public class FindingFriendsApi extends FindingFriendsBaseApi {
 					.readJson(res, GroupOfFriendsResponse.class);
 			return findGroupOFFriendResponse;
 		} else {
-			throw new FindingFriendsException(
-					"ILoopException: Failed to get response");
+			throw new FindingFriendsException("Failed to get response");
 		}
 
 	}
@@ -100,8 +96,7 @@ public class FindingFriendsApi extends FindingFriendsBaseApi {
 					res, UpdateLocationResponse.class);
 			return updateRequestResponse;
 		} else {
-			throw new FindingFriendsException(
-					"ILoopException: Failed to get response");
+			throw new FindingFriendsException("Failed to get response");
 		}
 
 	}

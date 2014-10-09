@@ -1,6 +1,7 @@
 package com.findingfriends.api;
 
-import com.findingfriends.utils.JsonUtil;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -10,17 +11,14 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-
 public class FindingFriendsBaseApi {
 	HttpClient client = new DefaultHttpClient();
 	// public static String BASE_URL =
 	// "http://10.0.2.14:8080/Finding_Friends_Server/webresources/";
 
+	public static String BASE_URL = "http://192.168.1.104:8080/Finding_Friends_Server/webresources/";
 	// public static String BASE_URL =
-	// "http://192.168.1.107:8080/Finding_Friends_Server/webresources/";
-	public static String BASE_URL = "http://finding-friendsandfamily.rhcloud.com/webresources/";
+	// "http://finding-friendsandfamily.rhcloud.com/webresources/";
 	public static String REGISTER_URL = BASE_URL + "register";
 	public static String SYNC_CONTACT_URL = BASE_URL + "synccontact";
 	public static String NEAREST_FRIEND_REQUEST_URL = BASE_URL
@@ -29,14 +27,14 @@ public class FindingFriendsBaseApi {
 			+ "nearestfriends/findgroupoffriends";
 	public static String UPDATE_INFO = BASE_URL + "update";
 
-	public String getData() throws FindingFriendsException {
+	public InputStream getData() throws FindingFriendsException {
 		// Prepare a request object
 		HttpGet httpget = new HttpGet(REGISTER_URL);
 		InputStream instream;
 
 		// Execute the request
 		HttpResponse response;
-		String result = null;
+
 		try {
 			response = client.execute(httpget);
 
@@ -48,10 +46,7 @@ public class FindingFriendsBaseApi {
 				// If the response does not enclose an entity, there is no need
 				// to worry about connection release
 				instream = entity.getContent();
-				result = JsonUtil.writeInputStreamAsString(instream);
-				// now you have the string representation of the HTML request
-				instream.close();
-				return result;
+				return instream;
 			case 400:
 				throw new FindingFriendsException("Bad Request 400");
 			case 401:

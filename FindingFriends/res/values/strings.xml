@@ -4,7 +4,7 @@
     <string name="app_name">FindingFriends</string>
     <string name="hello_world">Hello world!</string>
     <string name="enter_your_name">Enter your name</string>
-    <string name="enter_your_phone_number">Enter your phone number</string>
+    <string name="enter_your_phone_number">Enter your phone number with country code</string>
     <string name="submit">Submit</string>
     <string name="search_contacts">Search Contacts</string>
     <string name="people">people</string>

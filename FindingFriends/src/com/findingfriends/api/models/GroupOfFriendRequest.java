@@ -17,6 +17,7 @@ public class GroupOfFriendRequest {
     private List<String> listOfFriends;
     private double my_gps_lat;
     private double my_gps_lng;
+    private String device_id;
 
     public double getGps_lat() {
         return my_gps_lat;
@@ -49,5 +50,19 @@ public class GroupOfFriendRequest {
     public void setListOfFriends(List<String> listOfFriends) {
         this.listOfFriends = listOfFriends;
     }
+
+	/**
+	 * @return the device_id
+	 */
+	public String getDevice_id() {
+		return device_id;
+	}
+
+	/**
+	 * @param device_id the device_id to set
+	 */
+	public void setDevice_id(String device_id) {
+		this.device_id = device_id;
+	}
 
 }

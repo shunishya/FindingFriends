@@ -1,13 +1,23 @@
 package com.findingfriends.services;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.os.Binder;
 import android.os.IBinder;
 import android.provider.ContactsContract;
 import android.widget.Toast;
 
+import com.findingfriends.activities.MapActivity;
 import com.findingfriends.api.FindingFriendsApi;
 import com.findingfriends.api.FindingFriendsException;
 import com.findingfriends.api.models.ContactSyncRequest;
@@ -18,20 +28,19 @@ import com.findingfriends.helpers.PhoneNumberHelper;
 import com.findingfriends.models.ContactModel;
 import com.findingfriends.utils.DeviceUtils;
 import com.findingfriends.utils.FindingFriendsPreferences;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import com.findingfriends.utils.JsonUtil;
+import com.google.android.gms.maps.internal.ILocationSourceDelegate;
 
 public class AddressSyncService extends Service {
 	private ContactDbHelper mDbDigger;
 	private String defaultCountryCode;
+	private LocalBinder<AddressSyncService> mBinder;
+	private MapActivity mapActivity;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		mBinder = new LocalBinder<AddressSyncService>(this);
 		if (defaultCountryCode == null)
 			defaultCountryCode = DeviceUtils
 					.getCountryIso(getApplicationContext());
@@ -131,6 +140,10 @@ public class AddressSyncService extends Service {
 		}
 	}
 
+	public void setMapActivity(Activity mapActivity) {
+		this.mapActivity = (MapActivity) mapActivity;
+	}
+
 	/**
 	 * Asynctask for contact sync
 	 * 
@@ -140,15 +153,19 @@ public class AddressSyncService extends Service {
 		FindingFriendsApi api = new FindingFriendsApi(getApplicationContext());
 		FindingFriendsPreferences mPrefs = new FindingFriendsPreferences(
 				getApplicationContext());
+		ContactSyncRequest syncRequest = new ContactSyncRequest();
 
 		@Override
 		protected Object doInBackground(Void... params) {
-			ContactSyncRequest syncRequest = new ContactSyncRequest();
+			
 			List<ContactModel> contactsToBeAdd = mDbDigger.getNonAppUsers();
 			List<String> contactsTobeDelete = mDbDigger.getDeletedContactUId();
 			syncRequest.setContactsTobeAdd(contactsToBeAdd);
 			syncRequest.setContactsToBeDeleted(contactsTobeDelete);
 			syncRequest.setUser_id(mPrefs.getUserID());
+			syncRequest.setDevice_id(DeviceUtils
+					.getUniqueDeviceID(getApplicationContext()));
+			
 			try {
 				return api.contactSync(syncRequest);
 			} catch (FindingFriendsException e) {
@@ -161,6 +178,8 @@ public class AddressSyncService extends Service {
 		@Override
 		protected void onPostExecute(Object result) {
 			super.onPostExecute(result);
+			Toast.makeText(getApplicationContext(),
+					syncRequest.getDevice_id(), Toast.LENGTH_LONG).show();
 			if (result instanceof SyncContactResponse) {
 				SyncContactResponse res = (SyncContactResponse) result;
 				if (res.isError()) {
@@ -169,12 +188,15 @@ public class AddressSyncService extends Service {
 				} else {
 					int count = mDbDigger.updateDbFromWebService(res
 							.getAppUsers());
+					if (mapActivity != null)
+						mapActivity.getFriends();
 					Toast.makeText(getApplicationContext(),
 							"Updates Contacts: " + count, Toast.LENGTH_SHORT)
 							.show();
 				}
 			} else if (result instanceof FindingFriendsException) {
-				Toast.makeText(getApplicationContext(), "Error",
+				FindingFriendsException error = (FindingFriendsException) result;
+				Toast.makeText(getApplicationContext(), error.toString(),
 						Toast.LENGTH_SHORT).show();
 			}
 			stopSelf();
@@ -184,7 +206,23 @@ public class AddressSyncService extends Service {
 
 	@Override
 	public IBinder onBind(Intent intent) {
-		return null;
+		return mBinder;
+	}
+
+	public class LocalBinder<S> extends Binder {
+		private WeakReference<S> mService;
+
+		public LocalBinder(S service) {
+			mService = new WeakReference<S>(service);
+		}
+
+		public S getService() {
+			return mService.get();
+		}
+
+		public void close() {
+			mService = null;
+		}
 	}
 
 }

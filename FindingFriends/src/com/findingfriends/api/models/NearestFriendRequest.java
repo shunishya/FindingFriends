@@ -14,6 +14,7 @@ public class NearestFriendRequest {
     private String user_id;
     private double lat;
     private double log;
+    private String device_id;
 
     public String getUser_id() {
         return user_id;
@@ -38,5 +39,19 @@ public class NearestFriendRequest {
     public void setLog(double log) {
         this.log = log;
     }
+
+	/**
+	 * @return the device_id
+	 */
+	public String getDevice_id() {
+		return device_id;
+	}
+
+	/**
+	 * @param device_id the device_id to set
+	 */
+	public void setDevice_id(String device_id) {
+		this.device_id = device_id;
+	}
 
 }
