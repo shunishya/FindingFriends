@@ -1,7 +1,5 @@
 package com.findingfriends.dbhelpers;
 
-import java.sql.SQLException;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -11,6 +9,8 @@ import com.findingfriends.db.model.DbConstants;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+
+import java.sql.SQLException;
 
 public class DbHelper extends OrmLiteSqliteOpenHelper {
 	public DbHelper(Context context) {

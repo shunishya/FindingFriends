@@ -1,11 +1,11 @@
 package com.findingfriends.dummyvalue;
 
+import com.findingfriends.models.ContactModel;
+import com.findingfriends.utils.ContactListSelectableItem;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
-import com.findingfriends.models.ContactModel;
-import com.findingfriends.utils.ContactListSelectableItem;
 
 public class DummyContacts {
 	private static String[] contactName = { "Amit", "Ram", "Shyam", "Gita",

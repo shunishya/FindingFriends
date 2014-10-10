@@ -1,9 +1,5 @@
 package com.findingfriends.activities;
 
-import im.dino.dbinspector.activities.DbInspectorActivity;
-
-import java.util.ArrayList;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.location.Location;
@@ -23,7 +19,6 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.example.findingfriends.R;
 import com.findingfriends.adapter.NearestPeopleAdapter;
 import com.findingfriends.api.FindingFriendsApi;
 import com.findingfriends.api.FindingFriendsException;
@@ -34,6 +29,7 @@ import com.findingfriends.models.UserWithDistance;
 import com.findingfriends.utils.FindingFriendsPreferences;
 import com.findingfriends.utils.GPSUtils;
 import com.findingfriends.utils.JsonUtil;
+import com.findings.findingfriends.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -43,49 +39,60 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
 public class MapActivity extends SherlockActivity implements OnClickListener,
 		AdapterToActivity {
-	private GoogleMap map;
-	private ListView lvNearestPeople;
-	private Button btnAway;
-	private Button btnFullMap;
+	private GoogleMap mMap;
+	private ListView mLvNearestPeople;
+	private Button mBtnAway;
+	private Button mBtnFullMap;
 	private NearestPeopleAdapter mAdapter;
 
-	private GPSUtils gpsUtils;
-	private TextView tvInfo;
-	private NearestFriendRequest request;
+	private GPSUtils mGpsUtils;
+	private TextView mTvInfo;
+	private NearestFriendRequest mRequest;
 	private FindingFriendsPreferences mPrefs;
-	public MenuItem refreshItem = null;
-	private Location myLocation;
+	public MenuItem mRefreshItem = null;
+	private Location mMyLocation;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_map_activity);
-		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
+		mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
 				.getMap();
-		lvNearestPeople = (ListView) findViewById(R.id.lvNearestPeople);
-		tvInfo = (TextView) findViewById(R.id.tvInfo);
-		btnAway = (Button) findViewById(R.id.btnAway);
-		btnFullMap = (Button) findViewById(R.id.btnViewFullMap);
-		btnAway.setOnClickListener(this);
-		btnFullMap.setOnClickListener(this);
+		mLvNearestPeople = (ListView) findViewById(R.id.lvNearestPeople);
+		mTvInfo = (TextView) findViewById(R.id.tvInfo);
+		mBtnAway = (Button) findViewById(R.id.btnAway);
+		mBtnFullMap = (Button) findViewById(R.id.btnViewFullMap);
+		mBtnAway.setOnClickListener(this);
+		mBtnFullMap.setOnClickListener(this);
 		mPrefs = new FindingFriendsPreferences(this);
 
-		gpsUtils = new GPSUtils(this);
+		mGpsUtils = new GPSUtils(this);
 
-		myLocation = gpsUtils.getLocationFromProvider();
+		mMyLocation = mGpsUtils.getLocationFromProvider();
 
-		map.setMyLocationEnabled(true);
-		map.getUiSettings().setZoomControlsEnabled(true);
-		map.getUiSettings().setCompassEnabled(false);
-		map.getUiSettings().setRotateGesturesEnabled(false);
-		map.getUiSettings().setTiltGesturesEnabled(false);
-		map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+		mMap.setMyLocationEnabled(true);
+		mMap.getUiSettings().setZoomControlsEnabled(true);
+		mMap.getUiSettings().setCompassEnabled(false);
+		mMap.getUiSettings().setRotateGesturesEnabled(false);
+		mMap.getUiSettings().setTiltGesturesEnabled(false);
+		mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+		if (mMyLocation != null) {
+			pointMylocation();
+		} else {
+			new GetMyLocation()
+					.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		}
 
-		LatLng KIEL = new LatLng(myLocation.getLatitude(),
-				myLocation.getLongitude());
-		Marker kiel = map.addMarker(new MarkerOptions()
+	}
+
+	public void pointMylocation() {
+		LatLng KIEL = new LatLng(mMyLocation.getLatitude(),
+				mMyLocation.getLongitude());
+		Marker kiel = mMap.addMarker(new MarkerOptions()
 				.position(KIEL)
 				.title("You")
 				.snippet("Your Location")
@@ -93,40 +100,40 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 						.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
 
 		CameraPosition cameraPosition = new CameraPosition.Builder()
-				.target(new LatLng(myLocation.getLatitude(), myLocation
-						.getLongitude())).zoom(17).bearing(90).tilt(0).build();
-		map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+				.target(new LatLng(mMyLocation.getLatitude(), mMyLocation
+						.getLongitude())).zoom(13).bearing(90).tilt(0).build();
+		mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-		gpsUtils.turnGPSOff();
-
+		//mGpsUtils.turnGPSOff();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+
 	}
 
 	@Override
 	public void onClick(View view) {
 		switch (view.getId()) {
 		case R.id.btnViewFullMap:
-			if (tvInfo.getVisibility() == View.VISIBLE) {
-				tvInfo.setVisibility(View.GONE);
-				lvNearestPeople.setVisibility(View.GONE);
-				btnFullMap.setText("View List");
+			if (mTvInfo.getVisibility() == View.VISIBLE) {
+				mTvInfo.setVisibility(View.GONE);
+				mLvNearestPeople.setVisibility(View.GONE);
+				mBtnFullMap.setText("View List");
 			} else {
-				tvInfo.setVisibility(View.VISIBLE);
-				lvNearestPeople.setVisibility(View.VISIBLE);
-				btnFullMap.setText("Full map");
+				mTvInfo.setVisibility(View.VISIBLE);
+				mLvNearestPeople.setVisibility(View.VISIBLE);
+				mBtnFullMap.setText("Full map");
 			}
 			break;
 		case R.id.btnAway:
 			Intent findGroupOfPeopleIntent = new Intent(MapActivity.this,
 					PeopleInGroup.class);
 			findGroupOfPeopleIntent.putExtra(PeopleInGroup.LATITUDE,
-					myLocation.getLatitude());
+					mMyLocation.getLatitude());
 			findGroupOfPeopleIntent.putExtra(PeopleInGroup.LONGITUDE,
-					myLocation.getLongitude());
+					mMyLocation.getLongitude());
 
 			startActivity(findGroupOfPeopleIntent);
 			break;
@@ -140,9 +147,6 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater menuInflater = getSupportMenuInflater();
 		menuInflater.inflate(R.menu.main, menu);
-		menu.add(Menu.NONE, 1, Menu.NONE, "Refresh data")
-				.setIcon(R.drawable.navigation_refresh)
-				.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		setRefreshItem(menu.findItem(1));
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -157,9 +161,8 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.showDb:
-			startActivity(new Intent(MapActivity.this,
-					DbInspectorActivity.class));
+		case R.id.refresh:
+			setRefreshItem(item);
 			break;
 		default:
 			break;
@@ -171,7 +174,7 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 		for (UserWithDistance nearestUser : users) {
 			LatLng FRIEND = new LatLng(nearestUser.getUser().getGps_lat(),
 					nearestUser.getUser().getGps_long());
-			Marker friends = map.addMarker(new MarkerOptions()
+			Marker friends = mMap.addMarker(new MarkerOptions()
 					.position(FRIEND)
 					.title(nearestUser.getUser().getUserName())
 					.snippet(
@@ -183,24 +186,27 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 	}
 
 	protected void setRefreshItem(MenuItem item) {
-		refreshItem = item;
-		request = new NearestFriendRequest();
-		request.setLat(myLocation.getLatitude());
-		request.setLog(myLocation.getLongitude());
-		request.setUser_id(mPrefs.getUserID());
-		new GetNearestFriends().executeOnExecutor(
-				AsyncTask.THREAD_POOL_EXECUTOR, request);
+		mRefreshItem = item;
+
+		if (mMyLocation != null) {
+			mRequest = new NearestFriendRequest();
+			mRequest.setLat(mMyLocation.getLatitude());
+			mRequest.setLog(mMyLocation.getLongitude());
+			mRequest.setUser_id(mPrefs.getUserID());
+			new GetNearestFriends().executeOnExecutor(
+					AsyncTask.THREAD_POOL_EXECUTOR, mRequest);
+		}
 	}
 
 	protected void stopRefresh() {
-		if (refreshItem != null) {
-			refreshItem.setActionView(null);
+		if (mRefreshItem != null) {
+			mRefreshItem.setActionView(null);
 		}
 	}
 
 	protected void runRefresh() {
-		if (refreshItem != null) {
-			refreshItem
+		if (mRefreshItem != null) {
+			mRefreshItem
 					.setActionView(R.layout.actionbar_indeterminate_progress);
 		}
 	}
@@ -225,10 +231,15 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 			stopRefresh();
 			if (result instanceof NearestFriendResponse) {
 				NearestFriendResponse response = (NearestFriendResponse) result;
-				pinToMap(response.getNearestPeople());
-				mAdapter = new NearestPeopleAdapter(MapActivity.this,
-						response.getNearestPeople(), MapActivity.this);
-				lvNearestPeople.setAdapter(mAdapter);
+				if (!response.isError()) {
+					pinToMap(response.getNearestPeople());
+					mAdapter = new NearestPeopleAdapter(MapActivity.this,
+							response.getNearestPeople(), MapActivity.this);
+					mLvNearestPeople.setAdapter(mAdapter);
+				} else {
+					Toast.makeText(MapActivity.this, response.getMessage(),
+							Toast.LENGTH_SHORT).show();
+				}
 			} else if (result instanceof FindingFriendsException) {
 				FindingFriendsException error = (FindingFriendsException) result;
 				Toast.makeText(MapActivity.this, error.toString(),
@@ -253,10 +264,14 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 
 	@Override
 	public void makeACall(String phoneNumber) {
-
+		Intent callIntent = new Intent(Intent.ACTION_DIAL);
+		callIntent.setData(Uri.parse("tel:" + Uri.encode(phoneNumber)));
+		callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(callIntent);
 	}
 
-	@SuppressLint("NewApi") @Override
+	@SuppressLint("NewApi")
+	@Override
 	public void sendMsg(String phoneNumber) {
 		Intent intent;
 		String text = "Im here";
@@ -285,6 +300,36 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 			intent.putExtra("address", phoneNumber);
 			intent.putExtra("sms_body", "Im here.");
 			startActivity(intent);
+		}
+
+	}
+
+	public class GetMyLocation extends AsyncTask<Void, Void, Object> {
+
+		@Override
+		protected Object doInBackground(Void... arg0) {
+
+			return mGpsUtils.getLocationFromProvider();
+		}
+
+		@Override
+		protected void onPostExecute(Object result) {
+			super.onPostExecute(result);
+			if (result instanceof Location) {
+				mMyLocation = (Location) result;
+				if (mMyLocation == null) {
+					new GetMyLocation()
+							.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+				} else {
+					pointMylocation();
+					mRequest = new NearestFriendRequest();
+					mRequest.setLat(mMyLocation.getLatitude());
+					mRequest.setLog(mMyLocation.getLongitude());
+					mRequest.setUser_id(mPrefs.getUserID());
+					new GetNearestFriends().executeOnExecutor(
+							AsyncTask.THREAD_POOL_EXECUTOR, mRequest);
+				}
+			}
 		}
 
 	}

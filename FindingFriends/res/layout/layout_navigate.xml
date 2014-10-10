@@ -16,8 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:button="@drawable/navigate_button_bg"
-            android:text="Walk" />
+            android:text="@string/walk" />
 
         <TextView
             android:layout_width="1dp"
@@ -30,8 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:button="@drawable/navigate_button_bg"
-            android:text="Drive" />
+            android:text="@string/drive" />
 
         <TextView
             android:layout_width="1dp"
@@ -44,8 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:button="@drawable/navigate_button_bg"
-            android:text="Cycle" />
+            android:text="@string/cycle" />
     </LinearLayout>
 
     <RelativeLayout
@@ -63,9 +60,12 @@
             android:id="@+id/tvDistance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="10dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:text="Distance:" />
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="@string/distance_" />
 
         <Button
             android:id="@+id/btnAnimate"
@@ -74,7 +74,7 @@
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@+id/tvDistance"
             android:background="@android:color/transparent"
-            android:text="Animate" />
+            android:text="@string/animate" />
 
         <TextView
             android:id="@+id/textProgress"
@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:text="0 / 0" />
+            android:text="@string/_0_0" />
     </RelativeLayout>
 
 </LinearLayout>

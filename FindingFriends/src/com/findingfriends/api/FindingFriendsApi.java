@@ -1,7 +1,5 @@
 package com.findingfriends.api;
 
-import java.io.InputStream;
-
 import android.content.Context;
 
 import com.findingfriends.api.models.ContactSyncRequest;
@@ -12,7 +10,11 @@ import com.findingfriends.api.models.NearestFriendResponse;
 import com.findingfriends.api.models.RegisterRequest;
 import com.findingfriends.api.models.RegisterResponse;
 import com.findingfriends.api.models.SyncContactResponse;
+import com.findingfriends.api.models.UpdateLocation;
+import com.findingfriends.api.models.UpdateLocationResponse;
 import com.findingfriends.utils.JsonUtil;
+
+import java.io.InputStream;
 
 public class FindingFriendsApi extends FindingFriendsBaseApi {
 	Context mContext;
@@ -25,7 +27,7 @@ public class FindingFriendsApi extends FindingFriendsBaseApi {
 	public RegisterResponse sendRegisterRequest(RegisterRequest request)
 			throws FindingFriendsException {
 		RegisterResponse response = new RegisterResponse();
-		String data=JsonUtil.writeValue(request);
+		String data = JsonUtil.writeValue(request);
 		InputStream res = postData(data, REGISTER_URL);
 		if (res != null) {
 			response = (RegisterResponse) JsonUtil.readJson(res,
@@ -59,9 +61,8 @@ public class FindingFriendsApi extends FindingFriendsBaseApi {
 	public NearestFriendResponse getNearestFriends(NearestFriendRequest request)
 			throws FindingFriendsException {
 		NearestFriendResponse nearestFriendResponse = new NearestFriendResponse();
-		String data=JsonUtil.writeValue(request);
-		InputStream res = postData(data,
-				NEAREST_FRIEND_REQUEST_URL);
+		String data = JsonUtil.writeValue(request);
+		InputStream res = postData(data, NEAREST_FRIEND_REQUEST_URL);
 		if (res != null) {
 			nearestFriendResponse = (NearestFriendResponse) JsonUtil.readJson(
 					res, NearestFriendResponse.class);
@@ -76,13 +77,28 @@ public class FindingFriendsApi extends FindingFriendsBaseApi {
 	public GroupOfFriendsResponse findGroupOFFriends(
 			GroupOfFriendRequest request) throws FindingFriendsException {
 		GroupOfFriendsResponse findGroupOFFriendResponse = new GroupOfFriendsResponse();
-	String data=JsonUtil.writeValue(request);
-		InputStream res = postData(data,
-				FIND_GROUP_OF_FRIEND_REQUEST_URL);
+		String data = JsonUtil.writeValue(request);
+		InputStream res = postData(data, FIND_GROUP_OF_FRIEND_REQUEST_URL);
 		if (res != null) {
 			findGroupOFFriendResponse = (GroupOfFriendsResponse) JsonUtil
 					.readJson(res, GroupOfFriendsResponse.class);
 			return findGroupOFFriendResponse;
+		} else {
+			throw new FindingFriendsException(
+					"ILoopException: Failed to get response");
+		}
+
+	}
+
+	public UpdateLocationResponse updateLocation(UpdateLocation request)
+			throws FindingFriendsException {
+		UpdateLocationResponse updateRequestResponse = new UpdateLocationResponse();
+		String data = JsonUtil.writeValue(request);
+		InputStream res = postData(data, UPDATE_INFO);
+		if (res != null) {
+			updateRequestResponse = (UpdateLocationResponse) JsonUtil.readJson(
+					res, UpdateLocationResponse.class);
+			return updateRequestResponse;
 		} else {
 			throw new FindingFriendsException(
 					"ILoopException: Failed to get response");

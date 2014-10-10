@@ -1,9 +1,5 @@
 package com.findingfriends.utils;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,6 +18,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class GPSUtils {
 	static Context mContext;
@@ -105,29 +105,7 @@ public class GPSUtils {
 
 		@Override
 		public void onLocationChanged(Location location) {
-			Geocoder gcd = new Geocoder(mContext.getApplicationContext(),
-					Locale.getDefault());
-			if (location != null) {
-				try {
-					addresses = gcd.getFromLocation(location.getLatitude(),
-							location.getLongitude(), 1);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				if (!addresses.isEmpty()) {
-					String text = (addresses != null) ? "City : "
-							+ addresses.get(0).getSubLocality()
-							+ "\n Country : "
-							+ addresses.get(0).getCountryName()
-							: "Unknown Location";
 
-					String locationValue = "My current location is: " + text;
-					POS_LAT_LNG = new LatLng(location.getLatitude(),
-							location.getLongitude());
-				}
-
-			}
 		}
 
 		@Override
@@ -262,10 +240,13 @@ public class GPSUtils {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			String text = (addresses != null) ? "City : "
-					+ addresses.get(0).getSubLocality() + "\n Country : "
-					+ addresses.get(0).getCountryName() : "Unknown Location";
-			return text;
+			if (addresses!=null&&addresses.size() > 0) {
+				String text = (addresses != null) ? "City : "
+						+ addresses.get(0).getSubLocality() + "\n Country : "
+						+ addresses.get(0).getCountryName()
+						: "Unknown Location";
+				return text;
+			}
 		}
 		return null;
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.findingfriends"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    package="com.findings.findingfriends"
+    android:versionCode="3"
+    android:versionName="1.1" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -12,18 +12,22 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.WRITE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
 
     <uses-sdk
-        android:minSdkVersion="11"
+        android:minSdkVersion="14"
         android:targetSdkVersion="19" />
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/icon"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Holo.Light" >
         <meta-data
@@ -31,7 +35,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBSpooJWPX5tev4GUxhv0SrLw5i0xRTJ9s" />
+            android:value="AIzaSyALS464QOT87sDs-MRbP00FxgNFRVEJ1G4" />
 
         <service android:name="com.findingfriends.services.AddressSyncService" >
         </service>
@@ -60,16 +64,19 @@
         <activity
             android:name="com.findingfriends.activities.NavigateActivity"
             android:label="@string/app_name"
+            android:parentActivityName="com.findingfriends.activities.MapActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.findingfriends.activities.PeopleInGroup"
             android:label="@string/app_name"
+            android:parentActivityName="com.findingfriends.activities.MapActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.findingfriends.activities.GroupOfPeopleInMap"
             android:label="@string/app_name"
+            android:parentActivityName="com.findingfriends.activities.MapActivity"
             android:screenOrientation="portrait" >
         </activity>
     </application>

@@ -6,9 +6,9 @@
 
 package com.findingfriends.api.models;
 
-import java.util.ArrayList;
-
 import com.findingfriends.models.UserWithDistance;
+
+import java.util.ArrayList;
 
 /**
  * 
@@ -16,6 +16,8 @@ import com.findingfriends.models.UserWithDistance;
  */
 public class NearestFriendResponse {
 
+	private boolean error;
+	private String message;
 	private int count;
 	private ArrayList<UserWithDistance> nearestPeople;
 
@@ -33,6 +35,22 @@ public class NearestFriendResponse {
 
 	public void setCount(int count) {
 		this.count = count;
+	}
+
+	public boolean isError() {
+		return error;
+	}
+
+	public void setError(boolean error) {
+		this.error = error;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 }

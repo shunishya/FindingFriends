@@ -4,8 +4,19 @@
     <string name="app_name">FindingFriends</string>
     <string name="hello_world">Hello world!</string>
     <string name="enter_your_name">Enter your name</string>
-    <string name="enter_your_phone_number">Enter your phone number</string>
+    <string name="enter_your_phone_number">Enter your phone number with country code</string>
     <string name="submit">Submit</string>
     <string name="search_contacts">Search Contacts</string>
+    <string name="people">people</string>
+    <string name="distance_">Distance:</string>
+    <string name="animate">Animate</string>
+    <string name="_0_0">0 / 0</string>
+    <string name="cycle">Cycle</string>
+    <string name="drive">Drive</string>
+    <string name="walk">Walk</string>
+    <string name="view_full_map">View Full Map</string>
+    <string name="away_from_group_">Away from group?</string>
+    <string name="your_nearest_friends_are_">Your nearest friends are:</string>
+    <string name="here_lies_map_view">Here lies map view</string>
 
 </resources>

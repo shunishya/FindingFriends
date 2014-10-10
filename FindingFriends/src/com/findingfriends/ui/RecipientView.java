@@ -3,12 +3,6 @@
  */
 package com.findingfriends.ui;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -22,9 +16,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RemoteViews;
 
-import com.example.findingfriends.R;
 import com.findingfriends.interfaces.ContactAttachDetachListner;
 import com.findingfriends.models.ContactModel;
+import com.findings.findingfriends.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 
@@ -35,7 +35,6 @@ import com.findingfriends.models.ContactModel;
  * parent container width ,inserts to new row otherwise
  * </p>
  * 
- * @author TekTak Mob
  */
 @RemoteViews.RemoteView
 public class RecipientView extends ViewGroup {

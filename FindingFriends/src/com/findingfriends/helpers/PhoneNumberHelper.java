@@ -1,12 +1,12 @@
 package com.findingfriends.helpers;
 
-import java.util.Locale;
-
 import com.findingfriends.models.ContactModel;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
+
+import java.util.Locale;
 
 public class PhoneNumberHelper {
 

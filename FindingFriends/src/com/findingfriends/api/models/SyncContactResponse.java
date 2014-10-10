@@ -5,9 +5,9 @@
  */
 package com.findingfriends.api.models;
 
-import java.util.List;
-
 import com.findingfriends.models.ContactModel;
+
+import java.util.List;
 
 /**
  * 

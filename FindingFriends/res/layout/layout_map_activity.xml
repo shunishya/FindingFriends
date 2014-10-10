@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Here lies map view" />
+            android:text="" />
     </LinearLayout>
 
     <TextView
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/llMap"
         android:background="@color/light_theme_color"
-        android:text="Your nearest friends are:" />
+        android:text="@string/your_nearest_friends_are_" />
 
     <ListView
         android:id="@+id/lvNearestPeople"
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:text="Full Map" />
+            android:text="@string/view_full_map" />
 
         <TextView
             android:layout_width="1dp"
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:text="Away from group?" />
+            android:text="@string/away_from_group_" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -1,25 +1,25 @@
 package com.findingfriends.activities;
 
-import java.text.DecimalFormat;
-
-import org.w3c.dom.Document;
-
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+
 import app.akexorcist.gdaplibrary.GoogleDirection;
 import app.akexorcist.gdaplibrary.GoogleDirection.OnAnimateListener;
 import app.akexorcist.gdaplibrary.GoogleDirection.OnDirectionResponseListener;
 
 import com.actionbarsherlock.app.SherlockActivity;
-import com.example.findingfriends.R;
 import com.findingfriends.models.UserWithDistance;
+import com.findingfriends.utils.GMapV2Direction;
 import com.findingfriends.utils.GPSUtils;
 import com.findingfriends.utils.JsonUtil;
+import com.findingfriends.utils.Network;
+import com.findings.findingfriends.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -28,59 +28,67 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
+
+import org.w3c.dom.Document;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class NavigateActivity extends SherlockActivity implements
 		OnClickListener {
 
 	public static String USER_INFO = "user_info";
 
-	private GoogleMap map;
-	private Button btnWalk, btnDrive, btnCycle;
-	private TextView tvDistance, textProgress;
-	private Button btnAnimate;
-	private GPSUtils gpsUtils;
-	private UserWithDistance friend;
-	private Location myLocation;
-	private Location myFriend;
-	private GoogleDirection gd;
+	private GoogleMap mMap;
+	private Button mBtnWalk, mBtnDrive, mBtnCycle;
+	private TextView mTvDistance, mTextProgress;
+	private Button mBtnAnimate;
+	private GPSUtils mGpsUtils;
+	private UserWithDistance mFriend;
+	private Location mMyLocation;
+	private Location mMyFriend;
+	private GoogleDirection mGd;
 	private Document mDoc;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_navigate);
-		map = ((MapFragment) getFragmentManager().findFragmentById(
+		mMap = ((MapFragment) getFragmentManager().findFragmentById(
 				R.id.Navigationmap)).getMap();
 
 		String userInfo = getIntent().getStringExtra(USER_INFO);
-		friend = (UserWithDistance) JsonUtil.readJsonString(userInfo,
+
+		Log.e("User info::>>>>>", userInfo);
+		mFriend = (UserWithDistance) JsonUtil.readJsonString(userInfo,
 				UserWithDistance.class);
 
-		btnWalk = (Button) findViewById(R.id.btnWalk);
-		btnDrive = (Button) findViewById(R.id.btnDrive);
-		btnCycle = (Button) findViewById(R.id.btnCycle);
-		btnAnimate = (Button) findViewById(R.id.btnAnimate);
-		tvDistance = (TextView) findViewById(R.id.tvDistance);
-		textProgress = (TextView) findViewById(R.id.textProgress);
-		btnWalk.setOnClickListener(this);
-		btnCycle.setOnClickListener(this);
-		btnDrive.setOnClickListener(this);
-		btnAnimate.setOnClickListener(this);
+		mBtnWalk = (Button) findViewById(R.id.btnWalk);
+		mBtnDrive = (Button) findViewById(R.id.btnDrive);
+		mBtnCycle = (Button) findViewById(R.id.btnCycle);
+		mBtnAnimate = (Button) findViewById(R.id.btnAnimate);
+		mTvDistance = (TextView) findViewById(R.id.tvDistance);
+		mTextProgress = (TextView) findViewById(R.id.textProgress);
+		mBtnWalk.setOnClickListener(this);
+		mBtnCycle.setOnClickListener(this);
+		mBtnDrive.setOnClickListener(this);
+		mBtnAnimate.setOnClickListener(this);
 
-		map.setMyLocationEnabled(true);
-		map.getUiSettings().setZoomControlsEnabled(true);
-		map.getUiSettings().setCompassEnabled(false);
-		map.getUiSettings().setRotateGesturesEnabled(false);
-		map.getUiSettings().setTiltGesturesEnabled(false);
-		map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+		mMap.setMyLocationEnabled(true);
+		mMap.getUiSettings().setZoomControlsEnabled(true);
+		mMap.getUiSettings().setCompassEnabled(false);
+		mMap.getUiSettings().setRotateGesturesEnabled(false);
+		mMap.getUiSettings().setTiltGesturesEnabled(false);
+		mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-		gpsUtils = new GPSUtils(this);
+		mGpsUtils = new GPSUtils(this);
 
-		myLocation = gpsUtils.getLocationFromProvider();
-		if (friend == null) {
-			LatLng MYLOCATION = new LatLng(myLocation.getLatitude(),
-					myLocation.getLongitude());
-			Marker kiel = map
+		mMyLocation = mGpsUtils.getLocationFromProvider();
+		if (mFriend == null) {
+			LatLng MYLOCATION = new LatLng(mMyLocation.getLatitude(),
+					mMyLocation.getLongitude());
+			Marker kiel = mMap
 					.addMarker(new MarkerOptions()
 							.position(MYLOCATION)
 							.title("You")
@@ -89,46 +97,90 @@ public class NavigateActivity extends SherlockActivity implements
 									.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
 
 			CameraPosition cameraPosition = new CameraPosition.Builder()
-					.target(new LatLng(myLocation.getLatitude(), myLocation
+					.target(new LatLng(mMyLocation.getLatitude(), mMyLocation
 							.getLongitude())).zoom(17).bearing(90).tilt(0)
 					.build();
-			map.animateCamera(CameraUpdateFactory
+			mMap.animateCamera(CameraUpdateFactory
 					.newCameraPosition(cameraPosition));
 		} else {
 			DecimalFormat df = new DecimalFormat("#.##");
-			tvDistance.setText(" "+df.format(friend.getDist()) + " m");
-			myFriend = new Location("Friend");
-			myFriend.setLatitude(friend.getUser().getGps_lat());
-			myFriend.setLongitude(friend.getUser().getGps_long());
-			navigate(GoogleDirection.MODE_DRIVING);
+			mTvDistance.setText(mTvDistance.getText() + " "
+					+ df.format(mFriend.getDist()) + " m");
+			mMyFriend = new Location("Friend");
+			mMyFriend.setLatitude(mFriend.getUser().getGps_lat());
+			mMyFriend.setLongitude(mFriend.getUser().getGps_long());
+			mBtnDrive.setTextColor(getResources().getColor(R.color.red));
+			if (Network.isConnected(this)) {
+				if (Network.whichNetworkIsConnected(this) == Network.WIFI) {
+					navigate(GoogleDirection.MODE_DRIVING);
+				} else {
+					navigateUsingMobileData();
+				}
+			}
 		}
+	}
+
+	private void navigateUsingMobileData() {
+		LatLng fromPosition = new LatLng(mMyLocation.getLatitude(),
+				mMyLocation.getLongitude());
+		LatLng toPosition = new LatLng(mMyFriend.getLatitude(),
+				mMyFriend.getLongitude());
+
+		GMapV2Direction md = new GMapV2Direction();
+
+		Document doc = md.getDocument(fromPosition, toPosition,
+				GMapV2Direction.MODE_DRIVING);
+		ArrayList<LatLng> directionPoint = md.getDirection(doc);
+		PolylineOptions rectLine = new PolylineOptions().width(3).color(
+				Color.RED);
+
+		for (int i = 0; i < directionPoint.size(); i++) {
+			rectLine.add(directionPoint.get(i));
+		}
+
+		mMap.addPolyline(rectLine);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		gd.cancelAnimated();
+		mGd.cancelAnimated();
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.btnWalk:
-			map.clear();
+			mMap.clear();
+			mBtnWalk.setTextColor(getResources().getColor(R.color.red));
+			mBtnDrive.setTextColor(getResources().getColor(
+					android.R.color.black));
+			mBtnCycle.setTextColor(getResources().getColor(
+					android.R.color.black));
 			navigate(GoogleDirection.MODE_WALKING);
 			break;
 		case R.id.btnDrive:
-			map.clear();
+			mMap.clear();
+			mBtnWalk.setTextColor(getResources()
+					.getColor(android.R.color.black));
+			mBtnDrive.setTextColor(getResources().getColor(R.color.red));
+			mBtnCycle.setTextColor(getResources().getColor(
+					android.R.color.black));
 			navigate(GoogleDirection.MODE_DRIVING);
 			break;
 		case R.id.btnCycle:
-			map.clear();
+			mMap.clear();
+			mBtnWalk.setTextColor(getResources()
+					.getColor(android.R.color.black));
+			mBtnDrive.setTextColor(getResources().getColor(
+					android.R.color.black));
+			mBtnCycle.setTextColor(getResources().getColor(R.color.red));
 			navigate(GoogleDirection.MODE_BICYCLING);
 			break;
 
 		case R.id.btnAnimate:
 			v.setVisibility(View.GONE);
-			gd.animateDirection(map, gd.getDirection(mDoc),
+			mGd.animateDirection(mMap, mGd.getDirection(mDoc),
 					GoogleDirection.SPEED_VERY_SLOW, true, false, true, true,
 					new MarkerOptions().icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.car)), true, false, null);
@@ -142,47 +194,52 @@ public class NavigateActivity extends SherlockActivity implements
 	}
 
 	public void navigate(String mode) {
-		final LatLng start = new LatLng(myLocation.getLatitude(),
-				myLocation.getLongitude());
-		final LatLng end = new LatLng(myFriend.getLatitude(),
-				myFriend.getLongitude());
+		final LatLng start = new LatLng(mMyLocation.getLatitude(),
+				mMyLocation.getLongitude());
+		final LatLng end = new LatLng(mMyFriend.getLatitude(),
+				mMyFriend.getLongitude());
+		if (mFriend.getDist() > 1000) {
+			mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(start, 13));
+		} else {
+			mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(start, 15));
+		}
 
-		map.animateCamera(CameraUpdateFactory.newLatLngZoom(start, 15));
-
-		gd = new GoogleDirection(this);
-		gd.setLogging(true);
-		gd.request(start, end, mode);
-		gd.setOnDirectionResponseListener(new OnDirectionResponseListener() {
+		mGd = new GoogleDirection(this);
+		mGd.setLogging(true);
+		mGd.request(start, end, mode);
+		mGd.setOnDirectionResponseListener(new OnDirectionResponseListener() {
 			public void onResponse(String status, Document doc,
 					GoogleDirection gd) {
 				mDoc = doc;
-				map.addPolyline(gd.getPolyline(doc, 3, Color.RED));
-				map.addMarker(new MarkerOptions()
+				mMap.addPolyline(gd.getPolyline(doc, 3, Color.RED));
+				mMap.addMarker(new MarkerOptions()
 						.position(start)
+						.title("You")
 						.icon(BitmapDescriptorFactory
 								.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
 
-				map.addMarker(new MarkerOptions()
+				mMap.addMarker(new MarkerOptions()
 						.position(end)
+						.title(mFriend.getUser().getUserName())
 						.icon(BitmapDescriptorFactory
 								.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
-				btnAnimate.setVisibility(View.VISIBLE);
+				mBtnAnimate.setVisibility(View.VISIBLE);
 			}
 		});
 
-		gd.setOnAnimateListener(new OnAnimateListener() {
+		mGd.setOnAnimateListener(new OnAnimateListener() {
 			public void onStart() {
-				textProgress.setVisibility(View.VISIBLE);
+				mTextProgress.setVisibility(View.VISIBLE);
 			}
 
 			public void onProgress(int progress, int total) {
-				textProgress.setText(progress + " / " + total);
+				mTextProgress.setText(progress + " / " + total);
 			}
 
 			public void onFinish() {
-				btnAnimate.setVisibility(View.VISIBLE);
-				textProgress.setVisibility(View.GONE);
+				mBtnAnimate.setVisibility(View.VISIBLE);
+				mTextProgress.setVisibility(View.GONE);
 			}
 		});
 

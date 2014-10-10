@@ -1,20 +1,19 @@
 package com.findingfriends.adapter;
 
-import java.util.List;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.example.findingfriends.R;
 import com.findingfriends.interfaces.ContactAttachDetachListner;
 import com.findingfriends.utils.ContactListSelectableItem;
+import com.findings.findingfriends.R;
+
+import java.util.List;
 
 public class SearchContactsAdapter extends
 		ArrayAdapter<ContactListSelectableItem> {

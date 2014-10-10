@@ -1,8 +1,8 @@
 package com.findingfriends.api.models;
 
-import java.util.List;
-
 import com.findingfriends.models.ContactModel;
+
+import java.util.List;
 
 public class ContactSyncRequest {
 	private String user_id;
