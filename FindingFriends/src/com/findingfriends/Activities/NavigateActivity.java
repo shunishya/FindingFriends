@@ -15,8 +15,10 @@ import app.akexorcist.gdaplibrary.GoogleDirection.OnDirectionResponseListener;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.findingfriends.models.UserWithDistance;
+import com.findingfriends.utils.GMapV2Direction;
 import com.findingfriends.utils.GPSUtils;
 import com.findingfriends.utils.JsonUtil;
+import com.findingfriends.utils.Network;
 import com.findings.findingfriends.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,10 +28,12 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.w3c.dom.Document;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class NavigateActivity extends SherlockActivity implements
 		OnClickListener {
@@ -106,8 +110,35 @@ public class NavigateActivity extends SherlockActivity implements
 			mMyFriend.setLatitude(mFriend.getUser().getGps_lat());
 			mMyFriend.setLongitude(mFriend.getUser().getGps_long());
 			mBtnDrive.setTextColor(getResources().getColor(R.color.red));
-			navigate(GoogleDirection.MODE_DRIVING);
+			if (Network.isConnected(this)) {
+				if (Network.whichNetworkIsConnected(this) == Network.WIFI) {
+					navigate(GoogleDirection.MODE_DRIVING);
+				} else {
+					navigateUsingMobileData();
+				}
+			}
 		}
+	}
+
+	private void navigateUsingMobileData() {
+		LatLng fromPosition = new LatLng(mMyLocation.getLatitude(),
+				mMyLocation.getLongitude());
+		LatLng toPosition = new LatLng(mMyFriend.getLatitude(),
+				mMyFriend.getLongitude());
+
+		GMapV2Direction md = new GMapV2Direction();
+
+		Document doc = md.getDocument(fromPosition, toPosition,
+				GMapV2Direction.MODE_DRIVING);
+		ArrayList<LatLng> directionPoint = md.getDirection(doc);
+		PolylineOptions rectLine = new PolylineOptions().width(3).color(
+				Color.RED);
+
+		for (int i = 0; i < directionPoint.size(); i++) {
+			rectLine.add(directionPoint.get(i));
+		}
+
+		mMap.addPolyline(rectLine);
 	}
 
 	@Override
@@ -122,25 +153,27 @@ public class NavigateActivity extends SherlockActivity implements
 		case R.id.btnWalk:
 			mMap.clear();
 			mBtnWalk.setTextColor(getResources().getColor(R.color.red));
-			mBtnDrive.setTextColor(getResources()
-					.getColor(android.R.color.black));
-			mBtnCycle.setTextColor(getResources()
-					.getColor(android.R.color.black));
+			mBtnDrive.setTextColor(getResources().getColor(
+					android.R.color.black));
+			mBtnCycle.setTextColor(getResources().getColor(
+					android.R.color.black));
 			navigate(GoogleDirection.MODE_WALKING);
 			break;
 		case R.id.btnDrive:
 			mMap.clear();
-			mBtnWalk.setTextColor(getResources().getColor(android.R.color.black));
-			mBtnDrive.setTextColor(getResources().getColor(R.color.red));
-			mBtnCycle.setTextColor(getResources()
+			mBtnWalk.setTextColor(getResources()
 					.getColor(android.R.color.black));
+			mBtnDrive.setTextColor(getResources().getColor(R.color.red));
+			mBtnCycle.setTextColor(getResources().getColor(
+					android.R.color.black));
 			navigate(GoogleDirection.MODE_DRIVING);
 			break;
 		case R.id.btnCycle:
 			mMap.clear();
-			mBtnWalk.setTextColor(getResources().getColor(android.R.color.black));
-			mBtnDrive.setTextColor(getResources()
+			mBtnWalk.setTextColor(getResources()
 					.getColor(android.R.color.black));
+			mBtnDrive.setTextColor(getResources().getColor(
+					android.R.color.black));
 			mBtnCycle.setTextColor(getResources().getColor(R.color.red));
 			navigate(GoogleDirection.MODE_BICYCLING);
 			break;
