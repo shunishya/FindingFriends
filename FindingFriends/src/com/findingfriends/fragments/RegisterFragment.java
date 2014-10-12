@@ -212,8 +212,7 @@ public class RegisterFragment extends SherlockFragment implements
 				RegisterResponse response = (RegisterResponse) result;
 				if (!response.isError()) {
 					mPrefs.setUserID(response.getUser_id());
-					Toast.makeText(getSherlockActivity(), "Register Success",
-							Toast.LENGTH_SHORT).show();
+					
 					getSherlockActivity().startService(
 							new Intent(getSherlockActivity(),
 									AddressSyncService.class));

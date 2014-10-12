@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import app.akexorcist.gdaplibrary.GoogleDirection;
 import app.akexorcist.gdaplibrary.GoogleDirection.OnAnimateListener;
@@ -130,21 +131,47 @@ public class NavigateActivity extends SherlockActivity implements
 
 		Document doc = md.getDocument(fromPosition, toPosition,
 				GMapV2Direction.MODE_DRIVING);
-		ArrayList<LatLng> directionPoint = md.getDirection(doc);
-		PolylineOptions rectLine = new PolylineOptions().width(3).color(
-				Color.RED);
+		if (doc != null) {
+			ArrayList<LatLng> directionPoint = md.getDirection(doc);
+			PolylineOptions rectLine = new PolylineOptions().width(3).color(
+					Color.RED);
 
-		for (int i = 0; i < directionPoint.size(); i++) {
-			rectLine.add(directionPoint.get(i));
+			for (int i = 0; i < directionPoint.size(); i++) {
+				rectLine.add(directionPoint.get(i));
+			}
+
+			mMap.addPolyline(rectLine);
+		} else {
+			mMap.addMarker(new MarkerOptions()
+					.position(fromPosition)
+					.title("You")
+					.icon(BitmapDescriptorFactory
+							.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+
+			mMap.addMarker(new MarkerOptions()
+					.position(toPosition)
+					.title(mFriend.getUser().getUserName())
+					.icon(BitmapDescriptorFactory
+							.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+
+			if (mFriend.getDist() > 1000) {
+				mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+						fromPosition, 13));
+			} else {
+				mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+						fromPosition, 15));
+			}
+			mTextProgress
+					.setText("Please connect to wifi to get proper navigation.");
+			mBtnAnimate.setVisibility(View.INVISIBLE);
 		}
-
-		mMap.addPolyline(rectLine);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		mGd.cancelAnimated();
+		if (mGd != null)
+			mGd.cancelAnimated();
 	}
 
 	@Override
@@ -157,7 +184,14 @@ public class NavigateActivity extends SherlockActivity implements
 					android.R.color.black));
 			mBtnCycle.setTextColor(getResources().getColor(
 					android.R.color.black));
-			navigate(GoogleDirection.MODE_WALKING);
+			if (Network.isConnected(this)) {
+				if (Network.whichNetworkIsConnected(this) == Network.WIFI) {
+
+					navigate(GoogleDirection.MODE_WALKING);
+				} else {
+					navigateUsingMobileData();
+				}
+			}
 			break;
 		case R.id.btnDrive:
 			mMap.clear();
@@ -166,7 +200,14 @@ public class NavigateActivity extends SherlockActivity implements
 			mBtnDrive.setTextColor(getResources().getColor(R.color.red));
 			mBtnCycle.setTextColor(getResources().getColor(
 					android.R.color.black));
-			navigate(GoogleDirection.MODE_DRIVING);
+			if (Network.isConnected(this)) {
+				if (Network.whichNetworkIsConnected(this) == Network.WIFI) {
+
+					navigate(GoogleDirection.MODE_DRIVING);
+				} else {
+					navigateUsingMobileData();
+				}
+			}
 			break;
 		case R.id.btnCycle:
 			mMap.clear();
@@ -175,7 +216,14 @@ public class NavigateActivity extends SherlockActivity implements
 			mBtnDrive.setTextColor(getResources().getColor(
 					android.R.color.black));
 			mBtnCycle.setTextColor(getResources().getColor(R.color.red));
-			navigate(GoogleDirection.MODE_BICYCLING);
+			if (Network.isConnected(this)) {
+				if (Network.whichNetworkIsConnected(this) == Network.WIFI) {
+
+					navigate(GoogleDirection.MODE_BICYCLING);
+				} else {
+					navigateUsingMobileData();
+				}
+			}
 			break;
 
 		case R.id.btnAnimate:

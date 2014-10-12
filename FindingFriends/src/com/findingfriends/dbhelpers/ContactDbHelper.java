@@ -255,10 +255,10 @@ public class ContactDbHelper {
 	public List<ContactListSelectableItem> getSelectableContacts() {
 		try {
 			List<ContactListSelectableItem> selectableContacts = new ArrayList<ContactListSelectableItem>();
-			List<ContactDb> mContactsOnImn = mContactsDao.queryBuilder()
+			List<ContactDb> mContactsOnApp = mContactsDao.queryBuilder()
 					.orderBy(ContactDb.FIELD_NAME, true).where()
 					.isNotNull(ContactDb.FIELD_USER_ID).query();
-			for (ContactDb contact : mContactsOnImn) {
+			for (ContactDb contact : mContactsOnApp) {
 				ContactModel contactModel = new ContactModel();
 				ContactListSelectableItem mSelectableContact = new ContactListSelectableItem();
 				contactModel.setName(contact.getName());

@@ -28,8 +28,6 @@ import com.findingfriends.helpers.PhoneNumberHelper;
 import com.findingfriends.models.ContactModel;
 import com.findingfriends.utils.DeviceUtils;
 import com.findingfriends.utils.FindingFriendsPreferences;
-import com.findingfriends.utils.JsonUtil;
-import com.google.android.gms.maps.internal.ILocationSourceDelegate;
 
 public class AddressSyncService extends Service {
 	private ContactDbHelper mDbDigger;
@@ -157,7 +155,7 @@ public class AddressSyncService extends Service {
 
 		@Override
 		protected Object doInBackground(Void... params) {
-			
+
 			List<ContactModel> contactsToBeAdd = mDbDigger.getNonAppUsers();
 			List<String> contactsTobeDelete = mDbDigger.getDeletedContactUId();
 			syncRequest.setContactsTobeAdd(contactsToBeAdd);
@@ -165,7 +163,7 @@ public class AddressSyncService extends Service {
 			syncRequest.setUser_id(mPrefs.getUserID());
 			syncRequest.setDevice_id(DeviceUtils
 					.getUniqueDeviceID(getApplicationContext()));
-			
+
 			try {
 				return api.contactSync(syncRequest);
 			} catch (FindingFriendsException e) {
@@ -178,8 +176,7 @@ public class AddressSyncService extends Service {
 		@Override
 		protected void onPostExecute(Object result) {
 			super.onPostExecute(result);
-			Toast.makeText(getApplicationContext(),
-					syncRequest.getDevice_id(), Toast.LENGTH_LONG).show();
+
 			if (result instanceof SyncContactResponse) {
 				SyncContactResponse res = (SyncContactResponse) result;
 				if (res.isError()) {
@@ -188,11 +185,10 @@ public class AddressSyncService extends Service {
 				} else {
 					int count = mDbDigger.updateDbFromWebService(res
 							.getAppUsers());
-					if (mapActivity != null)
-						mapActivity.getFriends();
-					Toast.makeText(getApplicationContext(),
-							"Updates Contacts: " + count, Toast.LENGTH_SHORT)
-							.show();
+					if (count > 0) {
+						if (mapActivity != null)
+							mapActivity.getFriends();
+					}
 				}
 			} else if (result instanceof FindingFriendsException) {
 				FindingFriendsException error = (FindingFriendsException) result;

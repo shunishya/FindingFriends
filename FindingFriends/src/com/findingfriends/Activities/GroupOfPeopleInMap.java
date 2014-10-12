@@ -1,17 +1,23 @@
 package com.findingfriends.activities;
 
+import java.util.ArrayList;
+
+import org.w3c.dom.Document;
+
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
-
+import android.widget.Toast;
 import app.akexorcist.gdaplibrary.GoogleDirection;
 import app.akexorcist.gdaplibrary.GoogleDirection.OnDirectionResponseListener;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.findingfriends.api.models.GroupOfFriendsResponse;
 import com.findingfriends.models.UserWithDistance;
+import com.findingfriends.utils.GMapV2Direction;
 import com.findingfriends.utils.GPSUtils;
 import com.findingfriends.utils.JsonUtil;
+import com.findingfriends.utils.Network;
 import com.findings.findingfriends.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,10 +27,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import org.w3c.dom.Document;
-
-import java.util.ArrayList;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 public class GroupOfPeopleInMap extends SherlockActivity {
 
@@ -68,8 +71,9 @@ public class GroupOfPeopleInMap extends SherlockActivity {
 
 		CameraPosition cameraPosition = new CameraPosition.Builder()
 				.target(new LatLng(mMyLocation.getLatitude(), mMyLocation
-						.getLongitude())).zoom(17).bearing(90).tilt(0).build();
-		mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+						.getLongitude())).zoom(13).bearing(90).tilt(0).build();
+		mMap.animateCamera(CameraUpdateFactory
+				.newCameraPosition(cameraPosition));
 		pinToMap(mGroupInfo.getGroupOfPeople());
 
 	}
@@ -89,7 +93,42 @@ public class GroupOfPeopleInMap extends SherlockActivity {
 									+ "Location")
 					.icon(BitmapDescriptorFactory
 							.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-			navigate(f);
+			if (Network.isConnected(this)) {
+				if (Network.whichNetworkIsConnected(this) == Network.WIFI) {
+
+					navigate(f);
+				} else {
+					navigateUsingMobileData(f);
+				}
+			}
+		}
+	}
+
+	private void navigateUsingMobileData(Location mMyFriend) {
+		LatLng fromPosition = new LatLng(mMyLocation.getLatitude(),
+				mMyLocation.getLongitude());
+		LatLng toPosition = new LatLng(mMyFriend.getLatitude(),
+				mMyFriend.getLongitude());
+
+		GMapV2Direction md = new GMapV2Direction();
+
+		Document doc = md.getDocument(fromPosition, toPosition,
+				GMapV2Direction.MODE_DRIVING);
+		if (doc != null) {
+			ArrayList<LatLng> directionPoint = md.getDirection(doc);
+			PolylineOptions rectLine = new PolylineOptions().width(3).color(
+					Color.RED);
+
+			for (int i = 0; i < directionPoint.size(); i++) {
+				rectLine.add(directionPoint.get(i));
+			}
+
+			mMap.addPolyline(rectLine);
+		} else {
+			Toast.makeText(GroupOfPeopleInMap.this,
+					"Please connect to WIFI for proper navigation.",
+					Toast.LENGTH_SHORT).show();
+
 		}
 	}
 
