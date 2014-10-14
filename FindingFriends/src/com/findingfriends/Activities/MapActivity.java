@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Telephony;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -220,6 +221,7 @@ public class MapActivity extends SherlockActivity implements OnClickListener,
 			mRequest.setLog(mMyLocation.getLongitude());
 			mRequest.setUser_id(mPrefs.getUserID());
 			mRequest.setDevice_id(DeviceUtils.getUniqueDeviceID(this));
+			Log.e("Nearest Friend::", JsonUtil.writeValue(mRequest));
 			new GetNearestFriends().executeOnExecutor(
 					AsyncTask.THREAD_POOL_EXECUTOR, mRequest);
 		}

@@ -1,12 +1,5 @@
 package com.findingfriends.services;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
@@ -28,6 +21,13 @@ import com.findingfriends.helpers.PhoneNumberHelper;
 import com.findingfriends.models.ContactModel;
 import com.findingfriends.utils.DeviceUtils;
 import com.findingfriends.utils.FindingFriendsPreferences;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class AddressSyncService extends Service {
 	private ContactDbHelper mDbDigger;
@@ -163,7 +163,6 @@ public class AddressSyncService extends Service {
 			syncRequest.setUser_id(mPrefs.getUserID());
 			syncRequest.setDevice_id(DeviceUtils
 					.getUniqueDeviceID(getApplicationContext()));
-
 			try {
 				return api.contactSync(syncRequest);
 			} catch (FindingFriendsException e) {
