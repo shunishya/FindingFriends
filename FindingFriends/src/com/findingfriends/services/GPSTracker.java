@@ -96,7 +96,6 @@ public class GPSTracker extends Service {
 				Toast.makeText(getApplicationContext(), error.toString(),
 						Toast.LENGTH_SHORT).show();
 			}
-			stopSelf();
 		}
 
 	}

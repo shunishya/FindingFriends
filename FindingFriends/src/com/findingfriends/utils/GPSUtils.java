@@ -61,45 +61,6 @@ public class GPSUtils {
 		// turnGPSOff();
 	}
 
-	@SuppressWarnings("deprecation")
-	public void turnGPSOn() {
-
-		provider = Settings.Secure.getString(mContext.getContentResolver(),
-				Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-		if (!provider.contains("gps")) {
-			// if gps is disabled
-			final Intent poke = new Intent();
-			poke.setClassName("com.android.settings",
-					"com.android.settings.widget.SettingsAppWidgetProvider");
-			poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
-			poke.setData(Uri.parse("3"));
-			mContext.sendBroadcast(poke);
-		}
-
-	}
-
-	@SuppressWarnings("deprecation")
-	public void turnGPSOff() {
-		if (android.os.Build.VERSION.SDK_INT > 11) {
-			final Intent intent = new Intent(
-					"android.location.GPS_ENABLED_CHANGE");
-			intent.putExtra("enabled", false);
-			mContext.sendBroadcast(intent);
-		} else {
-			String provider = Settings.Secure.getString(
-					mContext.getContentResolver(),
-					Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-			if (provider.contains("gps")) { // if gps is enabled
-				final Intent poke = new Intent();
-				poke.setClassName("com.android.settings",
-						"com.android.settings.widget.SettingsAppWidgetProvider");
-				poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
-				poke.setData(Uri.parse("3"));
-				mContext.sendBroadcast(poke);
-			}
-		}
-	}
-
 	/* Class My Location Listener */
 	public class MyLocationListener implements LocationListener {
 

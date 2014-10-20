@@ -3,23 +3,23 @@ package com.findingfriends.api;
 
 public class FindingFriendsException extends Exception {
 	private static final long serialVersionUID = 1L;
-	private String exeption;
+	private String exception;
 
 	FindingFriendsException(String s) {
-		exeption = s;
+		exception = s;
 	}
 
 	public FindingFriendsException(String prefix, int errorCode) {
-		exeption = prefix;
+		exception = prefix;
 		switch (errorCode) {
 		case 406:
-			exeption += " already exists.";
+			exception += " already exists.";
 			break;
 		}
 	}
 
 	public String toString() {
-		return ("ILoopException: " + exeption);
+		return ("Exception " + exception);
 	}
 
 }
